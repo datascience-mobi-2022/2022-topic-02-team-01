@@ -167,3 +167,57 @@ list_biotypes <- ensembldb::select(EnsDb.Hsapiens.v79, keys= genes_ensembl, keyt
 
 
 
+This chunk makes copies of the datasets so ı dont fuck the original ones
+
+```{r copy datasets, echo=FALSE}
+CancerGeneExpressionsRemix = tcga_exp
+CancerGeneExpressionsRemixAnnots = tcga_annot
+TumorSpesificGenexpDatalist = tcga_tumor_norm
+CancerHallmarkGenesetsList = genesets
+```
+
+
+This chunk Quantifies how many NA there is in the Big CancerGenexpRemx data
+
+```{r Check NAs, echo=FALSE}
+NAsPerRow = apply(CancerGeneExpressionsRemix,1,function(x){sum(is.na(x))})
+sum(NAsPerRow)
+
+```
+
+
+This chunk makes a histogramm
+
+```{r idk bro, echo=FALSE}
+hist(CancerGeneExpressionsRemix[,1], xlab = "Expressions of Patient 1", main ="Patient 1 all rows", breaks = 100, col = "blue")
+qqnorm(CancerGeneExpressionsRemix[,1])
+
+hist(CancerGeneExpressionsRemix[,2], xlab = "Expressions of Patient 2", main ="Patient 2 all rows", breaks = 100, col = "red")
+
+q.patient1 = quantile(CancerGeneExpressionsRemix[,1],probs=seq(0,1,by=0.05),na.rm=TRUE)
+q.patient2 = quantile(CancerGeneExpressionsRemix[,2],probs=seq(0,1,by=0.05),na.rm=TRUE)
+plot(q.patient1,q.patient2,pch=20)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
