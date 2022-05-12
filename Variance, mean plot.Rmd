@@ -1,0 +1,48 @@
+---
+title: "Variance"
+author: "Yoana Onishtenko"
+date: '2022-05-12'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+````{r}
+tcga_exp = readRDS("C:/Users/joana/Documents/tcga_tumor_log2TPM.RDS")
+mean_tcga_exp<- sapply(tcga_exp, mean)
+variance_tcga_exp<- sapply(tcga_exp, var)
+scaled_variance <- scale(variance_tcga_exp)
+````
+
+````{r}
+scaled_mean <- scale(mean_tcga_exp)
+scaled_variance <- scale(variance_tcga_exp)
+plot(exp(mean_tcga_exp), exp(variance_tcga_exp), main = "Scatter Plot mean and variance", pch = 21,
+     bg = "red",   
+     col = "black", 
+     cex = 1,      
+     lwd = 1, xlim = c(0, 0.02))
+````
+
