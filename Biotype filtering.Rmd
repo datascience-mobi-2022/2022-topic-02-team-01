@@ -1,0 +1,26 @@
+---
+title: "BiotypeFiltering"
+author: "Ekin Ören"
+date: '2022-05-12'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+GİRLİES REMEMBER. YOU NEED TO HAVE ALL THE DATABASES AND THE COPİES AS WELL AS ALL THE LİBRARİES FROM "DataLoadAndRead" FOR THİS CODE TO WORK FOR YOU. SO GO RUN THAT AND MAKE SURE THOSE MF's BE FLOATİNG İN YOUR ENVİROMENT! LOVE YOUU!
+
+Errinnerung: we are working on the copies of the datasets, defined by the code below from last time.
+
+CancerGeneExpressionsRemix = tcga_exp
+CancerGeneExpressionsRemixAnnots = tcga_annot
+TumorSpesificGenexpDatalist = tcga_tumor_norm
+CancerHallmarkGenesetsList = genesets
+
+```{r copy datasets, echo=FALSE}
+
+```
+
+
