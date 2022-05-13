@@ -1,7 +1,7 @@
 ---
-title: "Variance"
+title: "probe"
 author: "Yoana Onishtenko"
-date: '2022-05-12'
+date: '2022-05-13'
 output: html_document
 ---
 
@@ -29,39 +29,31 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
-````{r}
+#Loading the data
+```{r}
 tcga_exp = readRDS("C:/Users/joana/Documents/tcga_tumor_log2TPM.RDS")
-mean_tcga_exp<- sapply(tcga_exp, 1, mean)
-variance_tcga_exp<- sapply(tcga_exp, 1, var)
+sapply.variance<-sapply(tcga_exp, var)
+sapply.mean<-sapply(tcga_exp, mean)
 ````
 
-#This is wrong but for now safe, it might be useful
-````{r}
-scaled_mean <- scale(mean_tcga_exp)
-scaled_variance <- scale(variance_tcga_exp)
-plot(exp(mean_tcga_exp), exp(variance_tcga_exp), main = "Scatter Plot mean and variance", pch = 21,
-     bg = "red",   
-     col = "black", 
-     cex = 1,      
-     lwd = 1, xlim = c(0, 0.02))
-````
+
 #Using ggplot
 in order to use ggpots you might need rtools for version 4.2 _ https://cran.r-project.org/bin/windows/Rtools/
-Then install  tidyverse package
-
+Then install  tidyverse package and then ggplot
 ```{r}
 install.packages("Rcmdr", dependencies = TRUE)
 install.packages("tidyverse")
+library(ggplot2)
 ````
 
-````{r}
-ncol(mean_tcga_exp)
-nrow(variance_tcga_exp)
-```
-
+#Plotting
 ```{r}
-library(ggplot2)
-variance.and.mean <- merge(mean_tcga_exp, variance_tcga_exp)
-variance.and.mean
-ggplot(data=variance.and.mean,aes(x=mean_tcga_exp, y=variance_tcga_exp))
-```
+Mean<-(sapply.mean)
+Variance<-exp(sapply.variance)
+mean.and.variance.sapply <- data.frame(Variance , Mean)
+myplot<-ggplot(data=mean.and.variance.sapply,aes(x= Mean, y=Variance, geom))+ geom_point()+
+  geom_point(data =mean.and.variance.sapply, colour = 'red', size = 2)
+print(myplot)
+print(myplot, newpage = is.null(mean.and.variance.sapply),mean.and.variance.sapply = NULL)
+myplot + xlim(-7, -3)
+````
