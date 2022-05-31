@@ -11,6 +11,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
 
 ```{r load skinny boi}
 tcga_exp = readRDS("path/to/your/directory/tcga_tumor_log2TPM.RDS")
@@ -21,96 +39,146 @@ tcga_exp = readRDS("path/to/your/directory/tcga_tumor_log2TPM.RDS")
 
 ```{r pull gene expression value}
 
+################################################## geneensemble for Skinny Boy
 
-###### creating a vector of ensemble ID from big boi 
-
-GeneNames <- rownames(tcga_exp)
-
-
-gene_identifier <- strsplit(GeneNames, split = "|", fixed = TRUE)
+GeneNamesSB <- rownames(SkinnyBoy)
 
 
-genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
-  ens = gene_identifier[1]
+gene_identifierSB <- strsplit(GeneNamesSB, split = "|", fixed = TRUE)
+
+length (genes_ensembl_SB)
+genes_ens_SB<- sapply(gene_identifierSB, FUN = function(gene_identifierSB){
+  ens = gene_identifierSB[1]
   return(ens)
 })
 
-genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
-  ens = gene_identifier[2]
+genes_symbol_SB<- sapply(gene_identifierSB, FUN = function(gene_identifierSB){
+  ens = gene_identifierSB[2]
   return(ens)
 })
 
 
 # remove version number
 
-genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
-genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
-  ens = genes_ens_vn[1]
+genes_ens_vn_SB <- strsplit(genes_ens_SB, split = ".", fixed = TRUE)
+genes_ensembl_SB <- sapply(genes_ens_vn_SB, FUN = function(genes_ens_vn_SB){
+  ens = genes_ens_vn_SB[1]
   return(ens)
 })
 
 ######
 
-genes_ensembl
+saveRDS (genes_ensembl_SB, file = "C:/Users/trinh/Documents/GitHub/2022-topic-02-team-01/Breast cancer/Datas/genes_ensembl.RDS")
 
-## creating list of GE for the 1st patient (for 46 pathways)
+############################################################################# HERE I TRY STUFFS. NO NEED TO READ
 
-## creating the vector consist of geneexpression in patient 1 that dont appeare in 46 pathways
+banana1 = -match(unlist(x$ID),genes_ensembl_SB)
+length (banana1)
+banana2 <- banana1[!is.na(banana1)]
+non_pathway_geneexp_patient1_vector_k = SkinnyBoy[banana2,1]
 
-#non_pathway_geneexp_patient1 = c()
-#nrow (SkinnyBoy)
-
-#for (i in 1:nrow (SkinnyBoy) ){
- # non_pathway_geneexp_patient1[i]= tcga_exp[!match(unlist(x$ID[i]),genes_ensembl),1]
-#}
+View (banana2)
 
 
-banana = -match(unlist(x$ID),genes_ensembl)
-banana <- banana[!is.na(banana)]
-non_pathway_geneexp_patient1_vector = SkinnyBoy[banana,1]
+###### try stuffs
+banana3 = match(unlist(x$ID[1]),genes_ensembl_SB)
+length (banana3)
+View(x$ID)
 
-## t-test first patient 
 
-pathway_geneexp_patient1 = list ()
+banana4 = -match(unlist(x$ID[1]),genes_ensembl_SB)
+length (banana4)
+  banana5 <- banana4[!is.na(banana4)]
+non_pathway_geneexp_patient1_vector_SB  = SkinnyBoy[banana5,1]
 
-# i for pathway 
+length (non_pathway_geneexp_patient1_vector_SB)
+
+dim (SkinnyBoy)
+
+# STARTING FROM HERE IS MEANINGFUL CODE 
+#############################################################################
+
+SkinnyHappyTT <- readRDS("C:/Userstrinh/Documents/GitHub/DATATSETS/SkinnyHappyTT.RDS.rds") 
+
+############### 1st patient 1st pathway
+pathway_geneexp_patient_SB = list ()
+pathway_geneexp_patient_SB [[1]]= SkinnyBoy[match(unlist(x$ID[1]), genes_ensembl_SB), 1]
+ banana6= -match(unlist(x$ID[1]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,1]
+t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value
+
+########
+
+
+
+###########  1st patient  all pathway 
+
+df_pathway_patient_SB = data.frame()
 for (i in 1:46){
-  pathway_geneexp_patient1 [[i]]= SkinnyBoy [match(unlist(x$ID[i]), genes_ensembl), 1]
-  bananai = -match(unlist(x$ID[i]),genes_ensembl)
-  bananai <- bananai[!is.na(bananai)]
-  non_pathway_geneexp_patient1_vector = SkinnyBoy[bananai,1]
-  df_pathway_patient[i,1] = t.test(pathway_geneexp_patient1[[i]], non_pathway_geneexp_patient1_vector)$p.value
+  pathway_geneexp_patient_SB [[i]]= SkinnyBoy[match(unlist(x$ID[i]), genes_ensembl_SB), 1]
+  banana6= -match(unlist(x$ID[i]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,1]
+  df_pathway_patient_SB[i,1] = t.test(pathway_geneexp_patient_SB[[i]], non_pathway_geneexp_patient1_vector_SB)$p.value
+}
+  pathway_geneexp_patient_lalalal = list ()
+df_pathway_patient_SB_new = data.frame()
+View (df_pathway_patient_SB)
+
+########## 1st patient (function however a lit bit different)
+
+for (i in 1:46){
+  pathway_geneexp_patient_lalalal = list ()
+new_vector_1 = intersect (unlist(x$ID[i]), genes_ensembl_SB)
+pathway_geneexp_patient_lalalal[[i]]= SkinnyBoy[new_vector_1, 1]
+ banana6= -match(unlist(x$ID[i]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+non_pathway_geneexp_patient1_vector_SB_new= SkinnyBoy[banana7,1]
+df_pathway_patient_SB_new [i,1] =t.test(pathway_geneexp_patient_SB[[i]], non_pathway_geneexp_patient1_vector_SB)$p.value
 }
 
-View (pathway_geneexp_patient1)
-
-View (df_pathway_patient)
+View (df_pathway_patient_SB_new)
 
 
-### doing for all patient 
+
+pathway_geneexp_patient_lalalal = list ()
+new_vector_1 = intersect (unlist(x$ID[1]), genes_ensembl_SB)
+pathway_geneexp_patient_lalalal[[1]]= SkinnyBoy[new_vector_1,1]
+banana6= -match(unlist(x$ID[1]),genes_ensembl_SB)
+banana7 <- banana6[!is.na(banana6)]
+
+non_pathway_geneexp_patient1_vector_SB_new = SkinnyBoy[!new_vector_1,1]
+df_pathway_patient_SB_new [1,1] = t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value
 
 
-pathway_geneexp = list (list(pathway_geneexp_patient))
-
-pathway_geneexp_patient = list ()
-
-
+View (df_pathway_patient_SB_new)
 for (m in 1:9741){
   for (n in 1:46){
-    pathway_geneexp_patient[[n]]= tcga_exp[match(unlist(x$ID[i]),genes_ensembl),m]
-  banana = -match(unlist(x$ID),genes_ensembl)
-  banana <- banana[!is.na(banana)]
-  non_pathway_geneexp_patient_vector = tcga_exp [banana,m]
-    df_pathway_patient[n,m] = t.test(pathway_geneexp_patient[[n]], x = non_pathway_geneexp_patient_vector)$p.value
-
+      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
+     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
   }
-  
 }
 
-View (df_pathway_patient)
+
+################### ALL PATIENT ALL PATHWAYS (FIXED)
+for (m in 1:9741){
+  for (n in 1:46){
+      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
+     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
+  }
+}
 
 
-#################################### do it for Skninny boy
+
+
+#################################### do it for all patients in Skninny boy
 
 # from here
 
@@ -149,9 +217,11 @@ SkinnyBoy = readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnyBoy.RDS")
 
 
 
+SkinnyHappyTT = readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnyHappyTT.RDS.RDS")
 
+View (SkinnySadTT)
 
-
+SkinnySadTT =  readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnySadTT.RDS.RDS")
 
 ```
 
