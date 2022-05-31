@@ -1,4 +1,6 @@
 # custom gıtıgnore
+.Rproj.user
+2022-topic-02-team-01.Rproj
 Breast_cancer.Rproj
 data
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,r
