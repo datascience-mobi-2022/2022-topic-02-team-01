@@ -1,0 +1,26 @@
+how many metabolic pathways: as much as we can. 40-50 (so we have in total 100 pathways)
+from which database: use msigdbr!!!!
+
+try to solve challenge. because you can use scoring function in challenge for geneset scoring.
+Challenge: main problem in the big dataset: only have tumour patients only have normal tissues. we cannot compare to normal tissue to find significance.
+the challenge is to slice the dataframe into tumourtypes. then enter the dataframes into function. it takeso ne sample and it looks which genes are in my corresponding geneset. returns a p value for the spesific pathway and sample.
+repeat for all genesets and all tumour types. you get p value matrix and we get our gene score by getting neg 10 algorithmus? 
+
+inspiration by jackb's code? 
+prize ---> food
+
+we have annotation vector. set rownames as sampleID. select rows in the order of sample names and have corresponding tumour type vector. as.factor() gg plot will select color? 
+
+17.30 tuesday in person tutorium. bioquant, lazy cafe etc.
+
+we have technical and biological variation. lil bump in the bottom in var/mean plot phase transition from technical effect to biological effect?
+
+clean TT datasets too
+
+-> check which varience is used for var cleaning qq 25
+
+-> var treshold can be different between bboy and tts
+
+-> make a df of very differing genes and visualize it. myb boxplot. contribution to descriptive analisis. (just have a look)
+
+do challenge.get foods. :)

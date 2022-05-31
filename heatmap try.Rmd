@@ -1,0 +1,89 @@
+---
+title: "heatmaps"
+author: "Junona Sachov"
+date: "5/15/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#making copy of org, so tehy dont get fucked 
+```{r}
+CGenExp.remix = tcga_exp
+CGenExpAnnot.remix = tcga_annot
+TumorSpesificGenexpDatalist = tcga_tumor_norm
+CancerHallmarkGenesetsList = genesets
+```
+
+#install packages 
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DESeq2")
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("org.Hs.eg.db") #Hs -> human data 
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("ComplexHeatmap")
+```
+
+
+#load libraries 
+```{r}
+library(DESeq2)
+library(ggplot2)
+library(ComplexHeatmap)
+library("org.Hs.eg.db") #to map a new column of symbols
+```
+
+
+#convert list to df
+```{r}
+CGenExp.remix.df = as.data.frame(CGenExp.remix)
+```
+
+#Filter
+```{r}
+CGenExp.remix.df = CGenExp.remix.df [(CGenExp.remix.df$baseMean > 150) & (abs(CGenExp.remix.df$log2FoldChange) > 1.7),]
+#if to much filter more
+```
+
+
+
+#map ensembl ids to gen symbols 
+```{r}
+CGenExp.remix.df$symbol = mapIds(org.Hs.eg.db, keys = rownames(CGenExp.remix), keytype = "ENSEMBL", column = "SYMBOL")
+
+#rownames as keys
+```
+
+#convert list to matrix 
+```{r}
+#matrix is needed for further stepy 
+mat.CGenExp.remix = matrix(unlist(CGenExp.remix), ncol=9741, byrow=TRUE)
+```
+
+
+#get z-score
+```{r}
+mat.z.CGenExp.remix = t(apply(mat.CGenExp.remix, 1, scale))
+
+#adjust colnames?
+```
+
+#make heatmap 
+```{r}
+Heatmap(mat.z.CGenExp.remix, cluster_rows = TRUE, cluster_columns = TRUE, column_labels = colnames (mat.z.CGenExp.remix), name = z-score, row_labels = CGenExp.remix.df[rownames(mat.z.CGenExp.remix)]$symbol) 
+
+#group similar patterns together 
+```
+
+

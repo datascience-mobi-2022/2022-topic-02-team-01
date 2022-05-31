@@ -112,7 +112,7 @@ BiocManager::install("ensembldb")
 ```
 
 
-This Chunk Configures Biomart
+This Chunk Configures Biomart and fins biotypes
 
 ```{r ConfigureBiomart, echo=FALSE}
 #-----------------------------------------------------------#
@@ -198,6 +198,17 @@ q.patient1 = quantile(CancerGeneExpressionsRemix[,1],probs=seq(0,1,by=0.05),na.r
 q.patient2 = quantile(CancerGeneExpressionsRemix[,2],probs=seq(0,1,by=0.05),na.rm=TRUE)
 plot(q.patient1,q.patient2,pch=20)
 
+```
+
+This chunk makes locally saved copies of the datasets so we can call them with read functions
+#DOESNT WORK
+
+```{r copy datasets, echo=FALSE}
+save(CancerHallmarkGenesetsList, file = "CancerHallmarkGenesetsList.rds")
+save(TumorSpesificGenexpDatalist, file = "TumorSpesificGenexpDatalist.rds")
+save(CancerGeneExpressionsRemixAnnots, file = "CancerGeneExpressionsRemixAnnots.rds")
+save(CancerGeneExpressionsRemix, file = "CancerGeneExpressionRemix.rds")
+head(CancerGeneExpressionsRemix)
 ```
 
 

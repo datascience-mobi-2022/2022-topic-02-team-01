@@ -19,8 +19,182 @@ CancerGeneExpressionsRemixAnnots = tcga_annot
 TumorSpesificGenexpDatalist = tcga_tumor_norm
 CancerHallmarkGenesetsList = genesets
 
-```{r copy datasets, echo=FALSE}
+
+This Chunk Configures Biomart, and gets the Gene names sepearately out of our data
+
+```{r ConfigureBiomart, echo=FALSE}
+#-----------------------------------------------------------#
+# Load the genes
+#-----------------------------------------------------------#
+
+#directory = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/CancerGeneExpressionRemix.rds"
+#filename = "CancerGeneExpressionRemix"
+#genes <- readRDS(directory)
+#help("readRDS")
+
+tcga_exp = readRDS("C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS")
+directory = "C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS"
+genes <- readRDS(directory)
+GeneNames <- rownames(genes)
+
+#-----------------------------------------------------------#
+# Split ENSG identifier from Gene Symbol
+#-----------------------------------------------------------#
+
+
+gene_identifier <- strsplit(GeneNames, split = "|", fixed = TRUE)
+
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+
+# remove version number
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+View(genes_ensembl)
 
 ```
+now we have a list of ENSEMBL-ID's for our genes under the name genes_ensembl
+
+
+
+This chunk İdentifies the Biotypes of the genes we have
+
+```{r chunky, echo=FALSE}
+library(biomaRt)
+
+
+# Access Database and use homo sapiens dataset
+ensembl = useEnsembl(biomart = "ensembl")   
+searchDatasets(mart = ensembl, pattern = "hsapiens")                              
+ensembl <- useDataset(dataset = "hsapiens_gene_ensembl", mart = ensembl) 
+
+# Search of gene biotypes using Ensemble Gene IDs as identifier
+list_biotype = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id",
+                     values = genes_ensembl, mart = ensembl)                                                                  
+
+# Genes which could not be found in the database
+rest = genes_ensembl[-match(list_biotype$ensembl_gene_id, genes_ensembl)]
+
+```
+list_biotype: The biotypes of the genes from our dataset (bigboi) genes that are found on ensembl database
+rest: the genes from our database that doesnt exist
+
+
+
+This chunk İdentifies the Biotypes found in known Hallmark Genes
+
+```{r chunky, echo=FALSE}
+
+## initiate package
+if(!require(msigdbr))
+  install.packages("msigdbr")
+library(msigdbr)
+library(biomaRt)
+
+## retrieve hallmark datasets from msigdbr database. 
+
+h_gene_sets = msigdbr(species = "Homo sapiens", category = "H")
+
+#View(h_gene_sets)
+
+## create an vector consist of ensemble (gene id) from the h_gene_sets 
+
+hallmark_gen_id = c(h_gene_sets$ensembl_gene)
+
+#View(hallmark_gen_id)
+
+## Access Database and use homo sapiens dataset
+
+ensembl = useEnsembl(biomart = "ensembl")   
+searchDatasets(mart = ensembl, pattern = "hsapiens")                              
+ensembl <- useDataset(dataset = "hsapiens_gene_ensembl", mart = ensembl) 
+
+## Search of gene biotypes using Ensemble Gene IDs as identifier
+
+list_biotype_hallmark = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id", values = hallmark_gen_id, mart = ensembl)                                       
+
+
+View(list_biotype_hallmark)
+
+## See what for biotypes are there in this datasets
+
+cancery_biotypes = unique (list_biotype_hallmark$gene_biotype)
+cancery_biotypes
+#
+
+```
+hallmark_gen_id: ID's of hallmark genes
+list_biotype_hallmark: list of hallmark gen ID's with biotypes
+cancery_biotypes: biotypes found in hallmark genes
+
+
+This Chunk finds the genes with the cancery biotypes.
+
+```{r chunky, echo=FALSE}
+
+protein_coding = list_biotype[which(list_biotype$gene_biotype == "protein_coding"), 1]
+
+polymorphic_pseudogene = list_biotype[which(list_biotype$gene_biotype == "polymorphic_pseudogene"), 1]
+
+lncRNA = list_biotype[which(list_biotype$gene_biotype == "lncRNA"), 1]
+
+
+processed_pseudogene = list_biotype[which(list_biotype$gene_biotype == "processed_pseudogene"), 1]
+
+transcribed_unprocessed_pseudogene = list_biotype[which(list_biotype$gene_biotype == "transcribed_unprocessed_pseudogene"),1]
+
+interesting_ens = c(protein_coding, polymorphic_pseudogene, lncRNA, processed_pseudogene, transcribed_unprocessed_pseudogene)
+
+head(interesting_ens)
+
+```
+interesting_ens: names of all our genes from relevant biotypes
+
+
+This Chunk Pulls only the relevant data and makes a smaller data frame "SkinnyBoy"
+```{r chunky, echo=FALSE}
+
+directory = "C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS"
+BigBoy <- readRDS(directory)
+head(BigBoy)
+
+matching = match(interesting_ens, genes_ensembl)
+matching
+
+SkinnyBoy = BigBoy[matching,]
+dim(BigBoy)
+dim(SkinnyBoy)
+head(SkinnyBoy)
+# Take only the matches.
+#final_genes = interesting_ens[na.omit(matching)]
+#final_genes
+
+
+```
+Skinny: The reduced data frame with only the relevant genes
+
+This Chunk shows the names of the genes that made it to the reduced data frame
+```{r chunky, echo=FALSE}
+
+# Displays names of the final genes.
+final_genes = interesting_ens[na.omit(matching)]
+final_genes
+
+```
+
 
 

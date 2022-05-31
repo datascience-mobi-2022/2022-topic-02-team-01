@@ -1,0 +1,33 @@
+---
+title: "PCA code"
+author: "Ekin Ören"
+date: '2022-05-26'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r pressure, echo=FALSE}
+
+pca=prcomp(SkinnyBoy, retx = TRUE, center = TRUE, scale. = FALSE,
+       tol = NULL, rank. = 14)
+print(pca)
+head(pca)
+`
+
+`{r}
+pca [1:14]
+plot(pca$x[, 1], pca$x[, 2], pch = 19, xlab = "PC1", ylab = "PC2" )
+data.frame = data.frame(pca$x[, 1], pca$x[, 2]) 
+data.frame14 = data.frame(pca$x[, 1], pca$x[, 2],pca$x[, 3],pca$x[, 4],pca$x[, 5],pca$x[, 6],pca$x[, 7], pca$x[, 8],pca$x[, 9],pca$x[, 10],pca$x[, 11],pca$x[, 12],pca$x[, 13],pca$x[, 14])
+
+library(ggplot2)
+ggplot2::ggplot(data = data.frame, mapping = aes(x = pca$x[, 1], y = pca$x[, 2])) + geom_point(alpha = 0.2, color = "pink")
+ggplot2::ggplot(data = data.frame, mapping = aes(x = pca$x[, 1], y = pca$x[, 2])) + geom_point(alpha = 0.2, color = "pink")
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
