@@ -1,0 +1,62 @@
+---
+title: "SaveAndLoad"
+author: "linh"
+date: '2022-06-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r} 
+
+################################ 
+for (m in 1:9741){
+  for (n in 1:46){
+      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
+     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
+  }
+}
+
+for (i in 1:46){
+  pathway_geneexp_patient_SB [[i]]= SkinnyBoy[match(unlist(x$ID[i]), genes_ensembl_SB), 300]
+  banana6= -match(unlist(x$ID[i]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,300]
+  df_pathway_patient_SB[i,2] = t.test(pathway_geneexp_patient_SB[[i]], non_pathway_geneexp_patient1_vector_SB)$p.value
+}
+
+
+
+df_pathway_patient_S_pvalue = data.frame ()
+
+for (n in 1:46){
+    
+ df_pathway_patient_S_pvalue[n,2] = number_pathway[n]*df_pathway_patient_SB[n,2]
+    
+}
+
+View ( df_pathway_patient_S_pvalue)
+
+for (i in 1:46) {
+  number_pathway[i]= length(unlist(x$ID[[i]]))
+}
+
+
+View (number_pathway)
+      
+      df_pathway_patient_S [3,1]
+
+```
+
+
+
+
+
+
+

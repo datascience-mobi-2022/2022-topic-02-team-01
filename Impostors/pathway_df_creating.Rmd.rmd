@@ -126,61 +126,24 @@ for (i in 1:46){
 df_pathway_patient_SB_new = data.frame()
 View (df_pathway_patient_SB)
 
-########## 1st patient (function however a lit bit different)
-
-for (i in 1:46){
-  pathway_geneexp_patient_lalalal = list ()
-new_vector_1 = intersect (unlist(x$ID[i]), genes_ensembl_SB)
-pathway_geneexp_patient_lalalal[[i]]= SkinnyBoy[new_vector_1, 1]
- banana6= -match(unlist(x$ID[i]),genes_ensembl_SB)
-  banana7 <- banana6[!is.na(banana6)]
-non_pathway_geneexp_patient1_vector_SB_new= SkinnyBoy[banana7,1]
-df_pathway_patient_SB_new [i,1] =t.test(pathway_geneexp_patient_SB[[i]], non_pathway_geneexp_patient1_vector_SB)$p.value
-}
-
-View (df_pathway_patient_SB_new)
-
-
-
-pathway_geneexp_patient_lalalal = list ()
-new_vector_1 = intersect (unlist(x$ID[1]), genes_ensembl_SB)
-pathway_geneexp_patient_lalalal[[1]]= SkinnyBoy[new_vector_1,1]
-banana6= -match(unlist(x$ID[1]),genes_ensembl_SB)
-banana7 <- banana6[!is.na(banana6)]
-
-non_pathway_geneexp_patient1_vector_SB_new = SkinnyBoy[!new_vector_1,1]
-df_pathway_patient_SB_new [1,1] = t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value
-
-
-View (df_pathway_patient_SB_new)
-for (m in 1:9741){
-  for (n in 1:46){
-      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl),m]
-     banana = -match(unlist(x$ID[n]),genes_ensembl)
-     banana <- banana[!is.na(banana)]
-     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
-     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
-  }
-}
-
 
 ################### ALL PATIENT ALL PATHWAYS (FIXED)
 for (m in 1:9741){
   for (n in 1:46){
-      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
-     banana = -match(unlist(x$ID[n]),genes_ensembl)
+      pathway_geneexp_patient_SB[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
      banana <- banana[!is.na(banana)]
-     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
-     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
+     non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
+     df_pathway_patient_SB[n,m] = t.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+     
   }
 }
 
 
 
 
-#################################### do it for all patients in Skninny boy
+#################################### do it for all patients in Skinny boy (olt version non fixed)
 
-# from here
 
 banana = -match(unlist(x$ID),genes_ensembl)
 banana <- banana[!is.na(banana)]
