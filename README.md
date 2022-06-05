@@ -1,10 +1,6 @@
 # 2022-topic-02-team-01
-//Hello everyone. I am not sure how to use this so can you please edit this and push it so I can see that you're seeing it. :)
-//I see your comment :)
 
-# 2022-topic-02-team-01
-
-# Data analysis project  Breast Cancer <!-- ![pink-ribbon](<iframe src="https://giphy.com/embed/dd7QLPAjyYZSNgQVNf" width="420" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/pink-ribbon-dd7QLPAjyYZSNgQVNf">via GIPHY</a></p>)  -->
+# Data analysis project  ***Breast Cancer*** <!-- ![pink-ribbon](<iframe src="https://giphy.com/embed/dd7QLPAjyYZSNgQVNf" width="420" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/pink-ribbon-dd7QLPAjyYZSNgQVNf">via GIPHY</a></p>)  -->
 
 ## Table of content :open_book:
 
