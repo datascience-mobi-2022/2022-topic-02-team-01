@@ -70,32 +70,8 @@ genes_ensembl_SB <- sapply(genes_ens_vn_SB, FUN = function(genes_ens_vn_SB){
 
 saveRDS (genes_ensembl_SB, file = "C:/Users/trinh/Documents/GitHub/2022-topic-02-team-01/Breast cancer/Datas/genes_ensembl.RDS")
 
-############################################################################# HERE I TRY STUFFS. NO NEED TO READ
-
-banana1 = -match(unlist(x$ID),genes_ensembl_SB)
-length (banana1)
-banana2 <- banana1[!is.na(banana1)]
-non_pathway_geneexp_patient1_vector_k = SkinnyBoy[banana2,1]
-
-View (banana2)
 
 
-###### try stuffs
-banana3 = match(unlist(x$ID[1]),genes_ensembl_SB)
-length (banana3)
-View(x$ID)
-
-
-banana4 = -match(unlist(x$ID[1]),genes_ensembl_SB)
-length (banana4)
-  banana5 <- banana4[!is.na(banana4)]
-non_pathway_geneexp_patient1_vector_SB  = SkinnyBoy[banana5,1]
-
-length (non_pathway_geneexp_patient1_vector_SB)
-
-dim (SkinnyBoy)
-
-# STARTING FROM HERE IS MEANINGFUL CODE 
 #############################################################################
 
 SkinnyHappyTT <- readRDS("C:/Userstrinh/Documents/GitHub/DATATSETS/SkinnyHappyTT.RDS.rds") 
@@ -109,8 +85,6 @@ pathway_geneexp_patient_SB [[1]]= SkinnyBoy[match(unlist(x$ID[1]), genes_ensembl
 t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value
 
 ########
-
-
 
 ###########  1st patient  all pathway 
 
@@ -138,33 +112,6 @@ for (m in 1:9741){
      
   }
 }
-
-
-
-
-#################################### do it for all patients in Skinny boy (olt version non fixed)
-
-
-banana = -match(unlist(x$ID),genes_ensembl)
-banana <- banana[!is.na(banana)]
- pathway_geneexp_patient_S = list ()
-
-df_pathway_patient_S = data.frame ()
- non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana]
-for (m in 1:9741){
-  for (n in 1:46){
-      pathway_geneexp_patient_S[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl),m]
-     banana = -match(unlist(x$ID[n]),genes_ensembl)
-     banana <- banana[!is.na(banana)]
-     non_pathway_geneexp_patient_vector_S = SkinnyBoy[banana,m]
-     df_pathway_patient_S[n,m] = t.test(pathway_geneexp_patient_S[[n]], non_pathway_geneexp_patient_vector_S)$p.value
-
-  }
-  
-}
-
-
-###########################################
 
 
 
