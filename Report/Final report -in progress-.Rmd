@@ -39,6 +39,6 @@ Group Members: Linh Trinh, Ekin Ören, Yoana Onishtenko, Junona Sachov
 # 2. Methods and Analysis 
 
 
-#3. Discussion
+# 3. Discussion
 
 # References & Bibliography
