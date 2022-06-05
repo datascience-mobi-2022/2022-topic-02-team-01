@@ -1,13 +1,12 @@
-# 2022-topic-02-team-01
+# 2022-topic-02-team-01     ***Data analysis project***
 
-# Data analysis project  ***Breast Cancer*** <!-- ![pink-ribbon](<iframe src="https://giphy.com/embed/dd7QLPAjyYZSNgQVNf" width="420" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/pink-ribbon-dd7QLPAjyYZSNgQVNf">via GIPHY</a></p>)  -->
+# ***Breast Cancer*** <!-- ![pink-ribbon](<iframe src="https://giphy.com/embed/dd7QLPAjyYZSNgQVNf" width="420" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/pink-ribbon-dd7QLPAjyYZSNgQVNf">via GIPHY</a></p>)  -->
 
 ## Table of content :open_book:
 
 - [About our project](#About-our-project)
 - [Folder structure](#Folder-structure)
 - [Methods and Goals](#Methods-and-Goals)
-- [Goals](#Goals)
 - [Literature](#Literature)
 
 
@@ -20,19 +19,58 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
 
 ## Folder structure
 
-- **Impostor:** Files that we are not sure we need but don't know if we should delete. 
-- **Data_Cleaning:** yeeting bad genes
+- **Impostor:** contains files that we are not sure we need but don't know if we should delete. 
+- **Data_Cleaning:** contains the markdown files used to perform the data cleaning as well as biotype filtering on the given data sets
 
-<!-- add more text later  -->
+- **Descriptive_Analysis:** contains the markdown files used for our descriptive analysis 
+
+- **Housekeeping_Files:** contains files that serve as a foundation for our project 
+
+- **Output:** contains all of our plots 
+
+- **Report:** contains the final report markdown (still in progress) and all other files mentioned in th report 
+
 
 ## Methods and Goals
 
-- **1. Descriptive Analysis:** <!-- describe what it is and what we did during our analysis -->
-- **2. Gene set scoring:** <!-- describe what it is and what we did during our analysis -->
-- **3. Correlation analysis:** <!-- describe what it is and what we did during our analysis -->
-- **4. Pan-cancer analysis:** <!-- describe what it is and what we did during our analysis -->
-- **5. Focused cancer analysis:**  <!-- describe what it is and what we did during our analysis -->
-- **6. Regression analysis:** <!-- describe what it is and what we did during our analysis -->
+- **1. Descriptive Analysis:** 
+ - helps describe, show or summarize data points in a constructive way 
+ - one of the most important steps for conducting statistical data analysis
+ - general visualizations of the data and it's behaviour
+ 
+   #### Methods
+  **1. Boxplots**
+  **2. Heatmap**
+  **3. Histogram**
+  **4. PCA:** Technique for reducing the dimensionality of such datasets, increasing interpretability but at the same time minimizing information loss. Each PC explains some part of the total variance of the dataset
+
+
+- **2. Gene set scoring:** <!-- describe what it is and what we did during our analysis --> Identify most differentially expressed pathways and find out how they are linked.
+ 
+   #### Methods
+  
+  
+- **3. Correlation analysis:** <!-- describe what it is and what we did during our analysis --> Answer the question how does metabolic pathways correlate with hallmark pathways in terms of, e.g., gene expression?
+ 
+   #### Methods
+   
+
+- **4. Pan-cancer analysis:** find similarity in gene expression and pathways between tumor types and assessing frequently mutated genes and other genomic abnormalities common to many different cancers, regardless of tumor origin. Further, to compare the cancer types in terms of pathway expression comparison between the cancer types.
+
+   #### Methods
+   
+   
+
+- **5. Focused cancer analysis:**  In general it is a comparison between tumor and normal tissue. Our group will focus on the differences in pathway expression between infiltrating and non infiltrating tumors.
+
+   #### Methods
+
+
+- **6. Regression analysis:** <!-- describe what it is and what we did during our analysis --> To be able to predict whether a breast cancer sample is infiltrating or non infiltrating by looking at gene expression data.
+
+   #### Methods
+
+
 
 ## Literature
 
