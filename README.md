@@ -39,7 +39,7 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
  - general visualizations of the data and it's behaviour
  
    #### Methods
-  - Boxplots, Heatmap, 3. Histogram, 4. PCA
+  - Boxplots, Heatmap, Histogram, PCA
 
 - **2. Gene set scoring:** <!-- describe what it is and what we did during our analysis --> Identify most differentially expressed pathways and find out how they are linked.
  
