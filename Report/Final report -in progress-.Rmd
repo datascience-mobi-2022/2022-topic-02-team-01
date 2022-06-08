@@ -1,0 +1,44 @@
+---
+title: "Final Report"
+author: "Junona Sachov"
+date: "6/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Final Report topic 2 team 1 ***breast cancer***
+Summer Semester 2022 
+B.Sc. molecular Biotechnlogy, University of Heidelberg 
+Superviser: Carl Herrmann
+Tutor: Wanjun Hu
+Group Members: Linh Trinh, Ekin Ören, Yoana Onishtenko, Junona Sachov 
+20.07.2022
+
+
+## Table of content 
+
+- [Intoduction](#Introduction)
+- [Methods](#Methods-and-Analysis)
+- [Discussion](#Discussion)
+- [References & Bibliography](#References-&-Bibliography)
+
+# 1. Introduction
+
+## 1.1. Breast Cancer 
+
+## 1.2. Cancer Hallmarks 
+
+## 1.3. Metabolic pathways 
+
+## 1.4. Project outline
+
+
+# 2. Methods and Analysis 
+
+
+# 3. Discussion
+
+# References & Bibliography

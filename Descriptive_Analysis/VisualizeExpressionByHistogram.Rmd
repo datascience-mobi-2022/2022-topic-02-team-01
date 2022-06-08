@@ -1,0 +1,55 @@
+---
+title: "VisualizeExpressionsHistogram"
+author: "Ekin Ören"
+date: '2022-05-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+WARNİNG: For this code to run, you need to have "BigBoy" dataframe and "tcga_tumor_norm" datalist in your enviroment.if not, go load em.
+
+
+Calculating the means of each row of the big boy, BRCA and norm-tissue BRCA gene expression data.
+in the end we get a vector of the mean expression of each gene in these dataframes. (one vector for each data frame)
+```{r Histogrammy, include=FALSE}
+
+SadBoobExpressions = tcga_tumor_norm$BRCA$tumor
+HappyBoobExpressions = tcga_tumor_norm$BRCA$normal
+
+ExpressionMeansBigBoy = rowMeans(BigBoy)
+ExpressionMeansSadBoob = rowMeans(SadBoobExpressions)
+ExpressionMeansHappyBoob = rowMeans(HappyBoobExpressions)
+
+ExpressionMeansBigBoyLog = log(rowMeans(BigBoy))
+ExpressionMeansSadBoobLog = log(rowMeans(SadBoobExpressions))
+ExpressionMeansHappyBoobLog = log(rowMeans(HappyBoobExpressions))
+
+```
+
+
+Creating the Histogramms of gene expression for the named datasets. There is also histograms of logs of the same vecotrs
+y axis is frequency of expression in this range, and x axis is expression rates.
+```{r Histogrammy, include=FALSE}
+
+hist(ExpressionMeansBigBoy, xlab = "", main="Means of Cancer Gene Expression Data", breaks = 100, col = "purple")
+hist(ExpressionMeansHappyBoob, xlab = "", main="Means of Breast Cancer Patients Healthy Tissue Gene Expression Data", breaks = 100, col = "pink", ylim = c(0,1500))
+hist(ExpressionMeansSadBoob, xlab = "", main="Means of Breast Cancer Tissue Gene Expression Data", breaks = 100, col = "violet", ylim = c(0,1500))
+
+
+hist(ExpressionMeansBigBoyLog, xlab = "", main="Means of Cancer Gene Expression Data Log", breaks = 100, col = "purple")
+hist(ExpressionMeansHappyBoobLog, xlab = "", main="Means of Breast Cancer Patients Healthy Tissue Gene Expression Data Log", breaks = 100, col = "pink", ylim = c(0,1500))
+hist(ExpressionMeansSadBoobLog, xlab = "", main="Means of Breast Cancer Tissue Gene Expression Data Log", breaks = 100, col = "violet", ylim = c(0,1500))
+
+```
+
+
+
+
+
+
+
+
+

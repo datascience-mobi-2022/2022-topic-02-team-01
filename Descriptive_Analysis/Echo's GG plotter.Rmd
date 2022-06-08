@@ -1,0 +1,131 @@
+---
+title: "Yoana's Code"
+author: "Ekin Ören"
+date: '2022-05-19'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+First part, plot for variance again mean in only biotype filtered data
+```{r pressure, echo=FALSE}
+
+#Loading the data
+#LOAD ONLY BIOTYPE CLEANED DATA
+
+sapply.variance<-sapply(BiotypeFilteredBoy, var)
+sapply.mean<-sapply(BiotypeFilteredBoy, mean)
+dim(BiotypeFilteredBoy)
+head(BiotypeFilteredBoy)
+
+```
+
+
+in order to use ggpots you might need rtools for version 4.2 _ https://cran.r-project.org/bin/windows/Rtools/
+Then install  tidyverse package and then ggplot
+
+```{r pressure, echo=FALSE}
+
+#Using ggplot
+install.packages("Rcmdr", dependencies = TRUE)
+install.packages("tidyverse")
+library(ggplot2)
+
+```
+
+
+
+
+First part, plot for variance again mean in bigboy data
+```{r pressure, echo=FALSE}
+
+#Loading the data
+#LOAD ONLY BIOTYPE CLEANED DATA
+
+sapply.variance0<-apply(BigBoy, 1, var)
+sapply.mean0<-apply(BigBoy, 1, mean)
+
+
+SkinnyBoy = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyBoy.RDS")
+
+dim(SkinnyBoy)
+
+```
+
+
+```{r pressure, echo=FALSE}
+
+Mean<-(sapply.mean0)
+Variance<-(sapply.variance0)
+mean.and.variance.sapply <- data.frame(Variance , Mean)
+myplot<-ggplot(data=mean.and.variance.sapply,aes(x= Mean, y=Variance, geom))+ geom_point()+
+  geom_point(data =mean.and.variance.sapply, colour = 'red', size = 2) +ylim(0,50) +xlim(-10, 15)
+print(myplot)
+
+```
+
+
+
+First part, plot for variance again mean in only biotype filtered data
+```{r pressure, echo=FALSE}
+
+#Loading the data
+#LOAD ONLY BIOTYPE CLEANED DATA
+
+
+sapply.variance1<-apply(BiotypeFilteredBoy, 1, var)
+sapply.mean1<-apply(BiotypeFilteredBoy, 1, mean)
+
+```
+
+
+```{r pressure, echo=FALSE}
+
+Mean<-(sapply.mean1)
+Variance<-(sapply.variance1)
+mean.and.variance.sapply <- data.frame(Variance , Mean)
+myplot<-ggplot(data=mean.and.variance.sapply,aes(x= Mean, y=Variance, geom))+ geom_point()+
+  geom_point(data =mean.and.variance.sapply, colour = 'red', size = 2) +ylim(0,50) +xlim(-10, 15)
+print(myplot)
+
+```
+
+_____________________________________________________________________________________________________________________________________
+Doing it All over again for SkinnyBoy
+
+
+
+
+First part, plot for variance again mean in only biotype filtered data
+```{r pressure, echo=FALSE}
+
+#Loading the data
+#LOAD ONLY BIOTYPE CLEANED DATA
+
+sapply.variance2<-apply(SkinnyBoy, 1, var)
+sapply.mean2<-apply(SkinnyBoy, 1, mean)
+
+
+```
+
+
+```{r pressure, echo=FALSE}
+
+Mean<-(sapply.mean2)
+Variance<-(sapply.variance2)
+mean.and.variance.sapply <- data.frame(Variance , Mean)
+myplot<-ggplot(data=mean.and.variance.sapply,aes(x= Mean, y=Variance, geom))+ geom_point()+
+  geom_point(data =mean.and.variance.sapply, colour = 'red', size = 2)  +ylim(0,50) +xlim(-10, 15)
+print(myplot)
+
+
+#saveRDS(SkinnyBoy, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyBoy.RDS")
+#SkinnyBoy
+```
+
+
+
+

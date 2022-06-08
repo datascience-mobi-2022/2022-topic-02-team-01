@@ -1,0 +1,330 @@
+---
+title: "CompareGenesWithBoxplot"
+author: "Ekin Ören"
+date: '2022-05-30'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+This chunk finds very highly expressed genes
+```{r pressure, echo=FALSE}
+
+#load skinny boy
+SkinnyBoy = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyBoy.RDS")
+
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly expressed genes and their expression mean SKİNNYBOY
+A = rowMeans(SkinnyBoy) 
+
+RowMeansSkinnyBoy= c()
+for (i in 1:14674){  RowMeansSkinnyBoy[i] = A[[i]] } #puts the rowmeans in a vector
+
+quantile(RowMeansSkinnyBoy) #We take the treshold value below from the quantiles
+Treshold = 10
+
+Chonk = data.frame()
+for (i in 1:14674) {
+  
+  if(RowMeansSkinnyBoy[i]> Treshold){ 
+    
+    Chonk[i,1] = names(A)[i]
+    Chonk[i,2] = A[[i]]
+    
+    }
+}
+
+FullChonkSB = Chonk[complete.cases(Chonk), ]
+dim(FullChonkSB) # 22 genes in treshold = 10
+#________________________________________________________________________________________________
+
+
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly expressed genes and their expression mean SADTT
+A1 = rowMeans(SkinnySadTT) 
+
+RowMeansSkinnySadTT= c()
+for (i in 1:14674){  RowMeansSkinnySadTT[i] = A[[i]] } #puts the rowmeans in a vector
+
+quantile(RowMeansSkinnySadTT) #We take the treshold value below from the quantiles
+Treshold = 10
+
+Chonk1 = data.frame()
+for (i in 1:14674) {
+  
+  if(RowMeansSkinnySadTT[i]> Treshold){ 
+    
+    Chonk1[i,1] = names(A)[i]
+    Chonk1[i,2] = A[[i]]
+    
+    }
+}
+
+FullChonkSadTT = Chonk1[complete.cases(Chonk1), ]
+dim(FullChonkSadTT) # 22 genes in treshold = 10
+#________________________________________________________________________________________________
+
+
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly expressed genes and their expression mean  HappyTT
+A2 = rowMeans(SkinnyHappyTT) 
+
+RowMeansSkinnyHappyTT= c()
+for (i in 1:14674){  RowMeansSkinnyHappyTT[i] = A[[i]] } #puts the rowmeans in a vector
+
+quantile(RowMeansSkinnyHappyTT) #We take the treshold value below from the quantiles
+Treshold = 10
+
+Chonk2 = data.frame()
+for (i in 1:14674) {
+  
+  if(RowMeansSkinnyBoy[i]> Treshold){ 
+    
+    Chonk2[i,1] = names(A)[i]
+    Chonk2[i,2] = A[[i]]
+    
+    }
+}
+
+FullChonkHappyTT = Chonk2[complete.cases(Chonk2), ]
+dim(FullChonkHappyTT) # 22 genes in treshold = 10
+head(FullChonkSB)
+FullChonkSB[1,]
+#________________________________________________________________________________________________
+
+
+```
+
+Creates a boxplot of the 22 genes that are expressed the highest.
+```{r setup, include=FALSE}
+
+boxplot(FullChonkSB[,2], FullChonkSadTT[,2], FullChonkHappyTT[,2],
+main = "Comparison of most expressed genes",
+at = c(1,2,3),
+names = c("SkinnyBoy", "SadTT", "HappyTT"),
+las = 2,
+col = c("violet","blue", "pink"),
+border = "black",
+horizontal = TRUE,
+notch = TRUE
+)
+
+
+```
+
+
+
+This chunk finds very varient genes for our three datasets
+```{r pressure, echo=FALSE}
+
+#load skinny boy
+SkinnyBoy = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyBoy.RDS")
+
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly Varient genes and their expression mean SKİNNYBOY
+
+varianceA = apply(SkinnyBoy, 1, var)
+VeryVariantSB = SkinnyBoy[varianceA > quantile(varianceA , probs = 0.999), ]
+dim(VeryVariantSB)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly Varient genes and their expression mean SKİNNYSADTT
+
+varianceB = apply(SkinnySadTT, 1, var)
+VeryVariantSkinnySadTT = SkinnySadTT[varianceB > quantile(varianceB , probs = 0.999), ]
+dim(VeryVariantSkinnySadTT)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+#Makes a dataframe of highly Varient genes and their expression mean SKİNNYHAPPYTT
+
+varianceC = apply(SkinnyHappyTT, 1, var)
+VeryVariantSkinnyHappyTT = SkinnyHappyTT[varianceC > quantile(varianceC , probs = 0.999), ]
+dim(VeryVariantSkinnyHappyTT)
+
+#________________________________________________________________________________________________
+
+   
+```
+
+
+
+Generate mean expression vecotrs
+```{r setup, include=FALSE}
+
+Ali1 = rowMeans(VeryVariantSB) 
+RowMeansVVSB= c()
+for (i in 1:15){  RowMeansVVSB[i] = Ali1[[i]] } #puts the rowmeans in a vector
+RowMeansVVSB
+
+Ali2 = rowMeans(VeryVariantSkinnySadTT) 
+RowMeansVVSadTT= c()
+for (i in 1:19){  RowMeansVVSadTT[i] = Ali2[[i]] } #puts the rowmeans in a vector
+RowMeansVVSadTT
+
+Ali3 = rowMeans(VeryVariantSkinnyHappyTT) 
+RowMeansVVHappyTT= c()
+for (i in 1:19){  RowMeansVVHappyTT[i] = Ali3[[i]] } #puts the rowmeans in a vector
+RowMeansVVHappyTT
+
+```
+
+
+
+
+
+
+
+Creates a boxplot of the the genes with the greatest varience. brca tum norm and skinnyboy
+```{r setup, include=FALSE}
+
+
+boxplot(RowMeansVVSB, RowMeansVVSadTT, RowMeansVVHappyTT,
+main = "Comparison of mean expressions of most variant genes",
+at = c(1,2,3),
+names = c("SkinnyBoy", "SadTT", "HappyTT"),
+las = 2,
+col = c("purple","lightblue", "pink"),
+border = "black",
+horizontal = TRUE,
+notch = FALSE
+)
+
+```
+
+
+
+
+This chunk finds very varient genes for all tumour types
+```{r pressure, echo=FALSE}
+
+BRCAraw = tcga_tumor_norm$BRCA$tumor
+KIRCraw = tcga_tumor_norm$KIRC$tumor
+LUADraw = tcga_tumor_norm$LUAD$tumor
+PRADraw = tcga_tumor_norm$PRAD$tumor
+THCAraw = tcga_tumor_norm$THCA$tumor
+
+
+#________________________________________________________________________________________________
+
+var1 = apply(BRCAraw, 1, var)
+VeryVariantBRCA = BRCAraw[var1 > quantile(var1 , probs = 0.999), ]
+dim(VeryVariantBRCA)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+
+var2 = apply(KIRCraw, 1, var)
+VeryVariantKIRC= KIRCraw[var2 > quantile(var2, probs = 0.999), ]
+dim(VeryVariantKIRC)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+
+var3 = apply(LUADraw, 1, var)
+VeryVariantLUAD = LUADraw[var3 > quantile(var3 , probs = 0.999), ]
+dim(VeryVariantLUAD)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+
+var4 = apply(PRADraw, 1, var)
+VeryVariantPRAD = PRADraw[var4 > quantile(var4 , probs = 0.999), ]
+dim(VeryVariantPRAD)
+
+#________________________________________________________________________________________________
+
+#________________________________________________________________________________________________
+
+var5 = apply(THCAraw, 1, var)
+VeryVariantTHCA = THCAraw[var5 > quantile(var5 , probs = 0.999), ]
+dim(VeryVariantTHCA)
+head(VeryVariantTHCA)
+#________________________________________________________________________________________________
+
+   
+```
+
+
+Generate mean expression vecotrs for each
+```{r setup, include=FALSE}
+
+oo1 = rowMeans(VeryVariantBRCA) 
+RowMeans1= c()
+for (i in 1:20){  RowMeans1[i] = oo1[[i]] } #puts the rowmeans in a vector
+RowMeans1
+
+oo2 = rowMeans(VeryVariantKIRC) 
+RowMeans2= c()
+for (i in 1:20){  RowMeans2[i] = oo2[[i]] } #puts the rowmeans in a vector
+RowMeans2
+
+oo3 = rowMeans(VeryVariantLUAD) 
+RowMeans3= c()
+for (i in 1:20){  RowMeans3[i] = oo3[[i]] } #puts the rowmeans in a vector
+RowMeans3
+
+oo4 = rowMeans(VeryVariantPRAD) 
+RowMeans4= c()
+for (i in 1:20){  RowMeans4[i] = oo4[[i]] } #puts the rowmeans in a vector
+RowMeans4
+
+oo5 = rowMeans(VeryVariantTHCA) 
+RowMeans5= c()
+for (i in 1:20){  RowMeans5[i] = oo5[[i]] } #puts the rowmeans in a vector
+RowMeans5
+
+AnnotVector = c("BRCA","KIRC","LUAD","PRAD","THCA")
+
+```
+
+
+
+Creates a boxplot of the the genes with the greatest varience amongst the five cancer types.
+```{r setup, include=FALSE}
+
+boxplot(RowMeans1, RowMeans2, RowMeans3, RowMeans4, RowMeans5,
+main = "mean expressions of most variant genes amongst cancer types",
+at = c(1,2,3,4,5),
+names = AnnotVector,
+las = 2,
+col = c("#7B0D1E", "pink", "violet", "light blue", "#35605A"),
+border = "black",
+horizontal = TRUE,
+notch = FALSE
+)
+
+#Same as atripchart below
+
+x <- as.list(VeryVariantTHCA)
+ZOOT <- list(RowMeans1, RowMeans2, RowMeans3, RowMeans4, RowMeans5)
+
+stripchart(ZOOT,
+main="mean expression of the most varient genes amongst cancer types",
+col = c("#7B0D1E", "pink", "violet", "light blue", "#35605A"),
+group.names = AnnotVector,
+vertical=TRUE,
+pch=16
+)
+
+```
+
+
+
+
+
+
+

@@ -1,0 +1,196 @@
+---
+title: "Pathway_Overlap"
+author: "linh"
+date: '2022-05-18'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r getting gene ID gene symbol to ID}
+
+library("biomaRt")
+
+View (genesets)
+
+ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
+
+x = list ("ID")
+
+for (i in 1:46){
+   x$ID[i] =   getBM(attributes=c("ensembl_gene_id") ,mart=ensembl,
+  filters= "hgnc_symbol" , values = genesets$genesets[i])
+} 
+
+
+
+
+## attributes: what we wanna retrieve from Biomart 
+## value: our datasets -> retrieve ensembl_gene_id from our datasets 
+
+View (x$ID)
+
+## i have here the pathways (all 46 of them) and all the ensemble ID related to the respectively pathway
+
+```
+
+
+```{r heatmap plotting}
+
+
+A = unlist(x$ID[1])
+
+B = unlist(x$ID[2])
+
+length(((intersect(A,B))))
+
+## 35 genes in overlapping genes between pathway A and B 
+
+df_geneID_pathway[i] = df
+
+df_geneID_pathway= data.frame()
+
+
+
+matrix = data.frame()
+
+
+###############################
+
+
+for (m in 1:46){
+  for (n in 1:46){
+  A = unlist(x$ID[m])
+  B = unlist(x$ID[n])
+  matrix [m,n] = length(unlist((intersect(A,B))))
+  }}
+
+
+library (pheatmap)
+
+pheatmap (as.matrix(matrix), angle_col=45, cellwidth = 5,main = "heatmap pathway overlap", width = 15, height = 15, fontsize = 8, fontsize_col = 5, fontsize_row = 5)
+
+#############################################################
+View (matrix)
+
+data.matrix(matrix)
+
+pathway_names = names (genesets$genesets)
+
+rev(pathway_names)
+
+?scale ()
+
+heatmap (data.matrix(matrix), scale ="column", labRow = rev(pathway_names), labCol = pathway_names)
+
+heatmap (as.matrix(matrix), cellwidth =15, cellheight = 15, treeheight_col=0, width =11, height = 10, fontsize =12, fontsize_col=10, fontsize_row=12,labRow = rev(pathway_names),labCol = pathway_names)
+
+
+heatmap.2 (as.matrix(matrix), scale ="column", labRow = rev(pathway_names), labCol = pathway_names)
+
+
+rownames(matrix) = pathway_names
+colnames(matrix) = pathway_names
+
+
+View(pathway_names)
+
+view(pathway_names)
+View(matrix)
+
+# Heatmap 
+
+matrix$Z <- runif(46, 0, 10)
+max (matrix)
+
+p = ggplot(matrix, aes(x, y, fill = Z)) + geom_tile()
+p
+
+
+# Dummy data
+#x <- LETTERS[1:20]
+#y <- paste0("var", seq(1,20))
+#data <- expand.grid(X=x, Y=y)
+#data$Z <- runif(400, 0, 5)
+ 
+# Heatmap 
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile()
+  #+ scale_fill_gradient(low="pink", high="blue")
+  #+ #aes(fill = performance)
+?fill
+#?scale_fill_viridis()
+
+?ggplot
+
+max(matrix)
+  
+  p + theme(axis.text.x = element_text(angle = 90,size = 5)) + theme(axis.text.y = element_text(size = 5)) + scale_fill_gradient(low = "#353436",
+                      high = "#f6f805",
+                      guide = "colorbar")
+
+x <- LETTERS[1:20]
+y <- paste0("var", seq(1,20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+ 
+# Heatmap 
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile()
+
+
+#+ geom_raster(aes(fill = pi0), interpolate=TRUE) +
+ # scale_fill_gradient2(low="navy", mid="white", high="red", 
+  #                     midpoint=0, limits=range(short$pi0))
+
+#scale_fill_distiller(palette = "RdPu")
+
+scale_fill_gradient('performance', limits=c(0, 1), breaks = c(0, 0.25, 0.5, 0.75, 1),  low = "lightblue", high = "darkblue") 
+
+#p + theme(axis.text.y = element_text(size = 10))
+
+ #axis.text.y = element_text(face = "bold", color = "blue", size = 12, angle = 45))
+geom_raster(aes(fill = pi0), interpolate=TRUE) +
+  scale_fill_gradient2(low="navy", mid="white", high="red", 
+                       midpoint=0, limits=range(short$pi0))
+
+
+# Histogram
+
+
+library (pheatmap)
+
+pheatmap (as.matrix(matrix), angle_col=45, cellwidth = 5,main = "heatmap pathway overlap", width = 15, height = 15, fontsize = 8, fontsize_col = 5, fontsize_row = 5)
+
+
+
+install.packages("pheatmap")
+
+```
+
+
+
+
