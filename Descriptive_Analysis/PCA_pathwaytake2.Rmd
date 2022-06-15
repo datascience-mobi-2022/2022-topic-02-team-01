@@ -1,0 +1,78 @@
+---
+title: "PCA_pathwaytake2"
+author: "linh"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "PCAPathwayMatrix"
+author: "linh"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Load datas}
+
+
+CompleatePathwayDF = readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/CompleatePathwayDF.RDS.rds" )
+
+```
+
+
+
+```{r PCA for matrix}
+# example code from Yoana
+#transponseSkinnyBoy=t(SkinnyBoy)
+#TRpca=prcomp(transponseSkinnyBoy, retx = TRUE, center = TRUE, scale. = FALSE,
+       #tol = NULL, rank. = 14)
+
+# install package
+install.packages("ggfortify")
+library(ggfortify) 
+ 
+# PCA
+
+Pathway_PCA = prcomp(CompleatePathwayDF_df, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL, rank. = 2)
+
+CompleatePathwayDF_df = CompleatePathwayDF [1:nrow (CompleatePathwayDF), 1: 9741]
+
+
+# plot the PCA
+library(ggplot2)
+
+ggplot(Pathway_PCA)
+autoplot(Pathway_PCA)
+
+
+## try to transpose it -> each dot is patient
+
+transponsePathwayDF=t(CompleatePathwayDF_df)
+Pathway_PCA_patient = prcomp(transponsePathwayDF, retx = TRUE, center = TRUE, scale. = TRUE, tol = NULL, rank. = 2)
+
+autoplot(Pathway_PCA_patient)
+
+### -log10 from p value
+pathway_df_Scale = -log10(CompleatePathwayDF_df)
+
+transponsePathwayDF_scale = t(pathway_df_Scale)
+
+Pathway_PCA_patient = prcomp(transponsePathwayDF_scale, retx = TRUE, center = TRUE, scale. = TRUE, tol = NULL, rank. = 10)
+
+install.packages("ggfortify")
+library(ggfortify)
+
+autoplot(Pathway_PCA_patient)
+
+library(ggplot2)
+ggplot2::ggplot(data = Pathway_PCA_patient, mapping = aes(x = Pathway_PCA_patient$x[,1], y = Pathway_PCA_patient$x[,2])) + geom_point(alpha = 0.2, color = "black")
+
+

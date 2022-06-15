@@ -1,0 +1,20 @@
+---
+title: "VolcanoPlot_pathway"
+author: "linh"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r coumpute foldchange}
+
+
+ = apply(SkinnyHappyTT, 1, mean)
+cancer_mean_vector = apply(SkinnySadTT, 1, mean)
+
+
+```
+

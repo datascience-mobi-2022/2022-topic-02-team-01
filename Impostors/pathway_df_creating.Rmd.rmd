@@ -68,9 +68,7 @@ genes_ensembl_SB <- sapply(genes_ens_vn_SB, FUN = function(genes_ens_vn_SB){
 
 ######
 
-saveRDS (genes_ensembl_SB, file = "C:/Users/trinh/Documents/GitHub/2022-topic-02-team-01/Breast cancer/Datas/genes_ensembl.RDS")
-
-
+saveRDS (genes_ensembl_SB, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/genes_ensembl_SB.RDS")
 
 #############################################################################
 
@@ -109,7 +107,6 @@ for (m in 1:9741){
      banana <- banana[!is.na(banana)]
      non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
      df_pathway_patient_SB[n,m] = t.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
-     
   }
 }
 

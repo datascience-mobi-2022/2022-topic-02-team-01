@@ -21,7 +21,7 @@ for (i in 1:46) {
 }
 
 
-View (number_pathway)
+#View (number_pathway)
 
 
 ##### multiple the p value by the number of the genes in the pathways
@@ -35,6 +35,7 @@ for (n in 1:46){
 }
 
 
+max (df_pathway_patient_S_pvalue)
 
       
 
@@ -47,16 +48,24 @@ for (n in 1:46){
 
 ### find p value for 50st patients
 
-for (m in 1:50){
+for (m in 1:ncol(SkinnyBoy)){
   for (n in 1:46){
       pathway_geneexp_patient_SB[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
      banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
      banana <- banana[!is.na(banana)]
      non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
-     df_pathway_patient_SB[n,m] = t.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+     df_pathway_patient_SB[n,m] = wilcox.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+  
+  df_pathway_patient_S_pvalue[n,m] = number_pathway[n]*df_pathway_patient_SB[n,m]
   
   }
 }
+saveRDS (df_pathway_patient_S_pvalue, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/df_pathway_patient_S_pvalue.RDS")
+
+View(df_pathway_patient_S_pvalue)
+## df_pathway_patient_S_pvalue is the final 
+
+
 
 View  (df_pathway_patient_SB)
 
@@ -78,8 +87,13 @@ View (df_pathway_patient_S_pvalue)
 ##### putting pvalue of df into a vector
 Vector = (c(t(df_pathway_patient_S_pvalue)))
 
-View (Vector)
+min(df_pathway_patient_S_pvalue)
+
+View (Vector) 
 class (Vector)
+
+min (Vector)
+min (df_pathway_patient_S_pvalue)
 
 ##### trying for the 10st patients. Need to do it smarter
 
@@ -88,9 +102,12 @@ class (Vector)
 
 ##### plot histogram with hist function
 
-hist (Vector)
+hist (Vector, xlim = 5 )
 
-hist (log(Vector))
+  
+max(df_pathway_patient_S_pvalue)
+
+hist (Vector)
 
 library(ggplot2)
 

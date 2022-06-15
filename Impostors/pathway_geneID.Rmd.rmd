@@ -45,13 +45,15 @@ for (i in 1:46){
   filters= "hgnc_symbol" , values = genesets$genesets[i])
 } 
 
-
+saveRDS(x, file = "C:/Users/trinh/Documents/GitHub/2022-topic-02-team-01/x.RDS")
 
 
 ## attributes: what we wanna retrieve from Biomart 
 ## value: our datasets -> retrieve ensembl_gene_id from our datasets 
 
 View (x$ID)
+
+
 
 ## i have here the pathways (all 46 of them) and all the ensemble ID related to the respectively pathway
 

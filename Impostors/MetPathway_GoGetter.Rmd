@@ -27,8 +27,6 @@ ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
 
 MetabolicsEnsembl = list ("ID")
 
-
-
 for (i in 1:46){
   
    MetabolicsEnsembl$ID[i] =   getBM(attributes=c("ensembl_gene_id") ,mart=ensembl,
@@ -41,12 +39,19 @@ View(MetabolicsEnsembl)
 ## value: our datasets -> retrieve ensembl_gene_id from our datasets 
 ## i have here the pathways (all) and all the ensemble ID related to the respectively pathway
 
-
 ```
 
+```{r For june to load genes_ensembl_SB}
+# since biomart no worky 
+readRDS("/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/genes_ensembl_SB.RDS")
+readRDS("/Users/lunona/Desktop/BRCA/GeneNamesMetabolicPatsLit.RDS")
+readRDS("/Users/lunona/Desktop/BRCA/genes_ensembl_SB.RDS")
+readRDS("/Users/lunona/Desktop/BRCA/MetabolicsEnsembl.RDS")#this wrong this empty
+readRDS("/Users/lunona/Desktop/BRCA/MetabolicEnsembl.rds")
+```
 
 Get geneID's from skinnyboy and save them as a vector
-```{r cathatcat, echo=FALSE}
+```{r cathatcat, echo= TRUE}
 
 
 GeneNamesSB <- rownames(SkinnyBoy)
@@ -75,45 +80,54 @@ genes_ensembl_SB <- sapply(genes_ens_vn_SB, FUN = function(genes_ens_vn_SB){
 
 
 genes_ens_SB[1:10]
-saveRDS (genes_ensembl_SB, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/genes_ens_SB.RDS")
+#saveRDS (genes_ensembl_SB, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/genes_ens_SB.RDS")
 
 ```
 
 
 TESTİNG THE CODE FOR 10 PATİENTS FİRST
-```{r cathatcat, echo=FALSE}
-
-for (m in 1:10){
+```{r cathatcat, echo=TRUE}
+MetabolicPathway_geneexp_list = list ()
+df_MetPathwayFixed = data.frame()
+df_MetPathway = data.frame ()
+for (m in 1:ncol(SkinnyBoy)){
   for (n in 1:46){
-      MetabolicPathway_geneexp_list[[n]]= SkinnyBoy[match(unlist(MetabolicsEnsembl$ID[n]),genes_ensembl_SB),m]
-     banana = -match(unlist(MetabolicsEnsembl$ID[n]),genes_ensembl_SB)
+      MetabolicPathway_geneexp_list[[n]]= SkinnyBoy[match(unlist(MetabolicEnsembl$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(MetabolicEnsembl$ID[n]),genes_ensembl_SB)
      banana <- banana[!is.na(banana)]
      non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
-     df_MetPathway[n,m] = t.test(MetabolicPathway_geneexp_list[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
-     
+     df_MetPathway[n,m] = wilcox.test(MetabolicPathway_geneexp_list[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+ df_MetPathwayFixed[n,m] = df_MetPathway[n,m] * number_pathway[n]    
   }
 }
 
-
+View (df_MetPathwayFixed)
 number_pathway = c()
 df_MetPathwayFixed = data.frame()
 
-for (m in 1:10){
-for (n in 1:46) {
-  number_pathway[n]= length(unlist(MetabolicsEnsembl$ID[[n]]))
-  df_MetPathwayFixed[n,m] = df_MetPathway[n,m] * number_pathway[n]
-    
+number_pathway = list ()
+
+for (i in 1:46) {
+  number_pathway[i]= length(unlist(MetabolicEnsembl$ID[[i]]))
+}
+
+for (m in 1:ncol (SkinnyBoy)){
+  for (n in 1:46) {
+  df_MetPathwayFixed[n,m] = unlist(number_pathway[n]) * unlist(df_MetPathway[n,m])
   }
 }
 
+
 View(df_MetPathway)
 View(df_MetPathwayFixed)
+View(number_pathway)
+
 
 ```
 
 
 Create the Final df_MetPathway which is a DF of p values per patient for 46 metabolic pathways
-```{r cathatcat, echo=FALSE}
+```{r cathatcat, echo=TRUE}
 
 
 MetabolicPathway_geneexp_list = list()
@@ -136,7 +150,7 @@ number_pathway = c()
 df_MetPathwayFixed = data.frame()
 
 for (m in 1:9741){
-for (n in 1:46) {
+  for (n in 1:46) {
   number_pathway[n]= length(unlist(MetabolicsEnsembl$ID[[n]]))
   df_MetPathwayFixed[n,m] = df_MetPathway[n,m] * number_pathway[n]
     
@@ -147,7 +161,7 @@ for (n in 1:46) {
 
 
 Views all pathway dataframes, adds them into a big main dataframe views that dataframe
-```{r cathatcat, echo=FALSE}
+```{r cathatcat, echo=TRUE}
 
 MetabolicPathwayDF = data.frame()
 Veccy1 <-rep( "Metabolic" ,times=length(df_MetPathwayFixed[,1]))
@@ -155,16 +169,24 @@ MetabolicPathwayDF = df_MetPathwayFixed
 MetabolicPathwayDF$Type <- Veccy1
 View(MetabolicPathwayDF)
 
+
 HallmarkPathwayDF = data.frame()
-Veccy2 <-rep( "Hallmark" ,times=length(df_pathway_patient_SB[,1]))
-HallmarkPathwayDF = df_pathway_patient_SB
-HallmarkPathwayDF$Type <- Veccy1
+Veccy2 <-rep( "Hallmark" ,times=length(df_pathway_patient_S_pvalue[,1]))
+HallmarkPathwayDF = df_pathway_patient_S_pvalue
+HallmarkPathwayDF$Type <- Veccy2
 View(HallmarkPathwayDF)
 
 CompleatePathwayDF = rbind(HallmarkPathwayDF, MetabolicPathwayDF)
 View(CompleatePathwayDF)
 
 
+```
+
+
+```{r saving the final three DF}
+saveRDS(MetabolicPathwayDF,file = "/Users/lunona/Desktop/BRCA/MetabolicPathwayDF.RDS")
+saveRDS(HallmarkPathwayDF,file = "/Users/lunona/Desktop/BRCA/HallmarkPathwayDF.RDS")
+saveRDS(CompleatePathwayDF,file ="/Users/lunona/Desktop/BRCA/CompleatePathwayDF.RDS")
 ```
 
 THE DATA FRAMES WE GET AT THE END OF THİS MARKDOWN ARE LİSTED BELOW

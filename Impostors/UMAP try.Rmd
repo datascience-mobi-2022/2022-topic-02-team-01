@@ -1,0 +1,76 @@
+---
+title: "UMAP"
+author: "Junona Sachov"
+date: "6/14/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r lit info}
+library(umap)
+# set up UMAP parameters
+custom.config = umap.defaults
+custom.config$n_neighbors = 20       # number of neighbors
+custom.config$min_dist = 0.1         #  find small connected components, clumps and strings in the data, and emphasises these features in the resulting embedding
+custom.config$n_components = 3        #3-dimensional embedding
+custom.config$metric = 'jaccard'        #This controls how distance is computed in the ambient space of the input data. 
+
+##dunnow what those settings are 
+#custom.config$n_epochs = 500         # number of iterations for convergence
+#custom.config$random_state = 1234    # random seed
+
+# calculate UMAP fit object
+umap_fit <- SkinnyHappyTT 
+  select(where(is.numeric))      # retain only numeric columns
+  scale()                         # scale to zero mean and unit variance
+  umap(config = custom.config)        # perform UMAP
+
+# extract data and plot
+umap_fit$layout 
+  as.data.frame() 
+  mutate(patients = SkinnyHappyTT[,]) 
+  ggplot(aes(V1, V2, color = patients)) +
+  geom_point()
+```
+
+```{r try 1}
+# set up UMAP parameters
+custom.config = umap.defaults
+custom.config$n_neighbors = 20       # number of neighbors
+custom.config$min_dist = 0.1         #  find small connected components, clumps and strings in the data, and emphasises these features in the resulting embedding
+custom.config$n_components = 3        #3-dimensional embedding
+custom.config$metric = 'jaccard'        #This controls how distance is computed in the ambient space of the input data. 
+
+
+umap = umap(SkinnySadTT[, -111])
+df = data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                Patients = SkinnySadTT[,111])
+              
+
+ggplot(df, aes(x, y, colour = Patients)) +
+  geom_point()
+
+
+library(umap)
+umap <- umap(dat[!duplicated(dat), -5])
+
+df <- data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                 Species = dat[!duplicated(dat), 5])
+
+ggplot(df, aes(x, y, colour = Species)) +
+  geom_point()
+
+```
+
+
+```{r}
+mapper = umap.UMAP().fit(SkinnySadTT)
+umap.plot.points(mapper, labels=SkinnySadTT, theme='fire')
+```
+
