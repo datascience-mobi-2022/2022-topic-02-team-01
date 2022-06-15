@@ -1,0 +1,91 @@
+---
+title: "PCA_Plots_CancerTypes_Stages"
+author: "Yoana Onishtenko"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Loading Data
+```{r}
+PCA = readRDS("C:/Users/joana/Documents/TRpca.RDS")
+annotations = readRDS ("C:/Users/joana/Documents/tcga_tumor_annotation.RDS")
+View(annotations)
+```
+
+#Creating Data Frame
+````{r}
+CancerTypesPCAPlot = data.frame(PCA$x[, 1], PCA$x[, 2],annotations$ajcc_pathologic_tumor_stage, annotations$cancer_type_abbreviation)
+View(CancerTypesPCAPlot)
+````
+
+#Creating Plot Cancer Types BRCA metastasic
+````{r}
+CancerTypesPCAPlot1 = data.frame(PCA$x[, 1], PCA$x[, 2],annotations$sample_type, annotations$cancer_type_abbreviation)
+
+dfBRCA1 = data.frame() 
+ for (i in 1:nrow(CancerTypesPCAPlot1)){
+    if (CancerTypesPCAPlot[i, 4] == "BRCA") 
+      dfBRCA1 = rbind(CancerTypesPCAPlot1[i,],dfBRCA1)
+ }
+View(dfBRCA1)
+anot<-as.factor(dfBRCA1$annotations.sample_type)
+
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA1, mapping = aes(x = dfBRCA1[, 1], y = dfBRCA1[, 2])) + geom_point(alpha = 0.7) + aes(color=anot) + scale_colour_viridis_d(option = "plasma") + ggtitle("BRCA1") + xlab("PCA1") + ylab("PCA2")
+````
+#Creating Plot Cancer Types BRCA pathalogic stages
+````{r}
+dfBRCA = data.frame() 
+ for (i in 1:nrow(CancerTypesPCAPlot)){
+    if (CancerTypesPCAPlot[i, 4] == "BRCA") 
+      dfBRCA = rbind(CancerTypesPCAPlot[i,],dfBRCA)
+ }
+
+anot <- dfBRCA$annotations.ajcc_pathologic_tumor_stage
+
+
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA, mapping = aes(x = dfBRCA[, 1], y = dfBRCA[, 2])) + geom_point(alpha = 0.7) + aes(color=dfBRCA$annotations.ajcc_pathologic_tumor_stage) + scale_colour_viridis_d(option = "plasma color") + ggtitle("BRCA") + xlab("PCA1") + ylab("PCA2")
+````
+#Creating Plot Cancer Types BRCA clinical stages
+````{r}
+CancerTypesPCAPlot2 = data.frame(PCA$x[, 1], PCA$x[, 2],annotations$clinical_stage, annotations$cancer_type_abbreviation)
+View(CancerTypesPCAPlot2)
+
+dfBRCA2 = data.frame() 
+ for (i in 1:nrow(CancerTypesPCAPlot2)){
+    if (CancerTypesPCAPlot2[i, 4] == "BRCA") 
+      dfBRCA2 = rbind(CancerTypesPCAPlot2[i,],dfBRCA2)
+ }
+
+anot <- dfBRCA2$clinical_stage
+View(dfBRCA2)
+
+
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA2, mapping = aes(x = dfBRCA2[, 1], y = dfBRCA2[, 2])) + geom_point(alpha = 0.7) + aes(color=anot) + scale_colour_viridis_d(option = "plasma color") + ggtitle("BRCA") + xlab("PCA1") + ylab("PCA2")
+````
