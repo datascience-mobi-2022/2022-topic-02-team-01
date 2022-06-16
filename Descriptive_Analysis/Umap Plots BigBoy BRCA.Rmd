@@ -1,0 +1,121 @@
+---
+title: "Umap Plots BigBoy BRCA"
+author: "Yoana Onishtenko"
+date: '2022-06-16'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#Loading Data
+````{r}
+tcga_tumor_annotation <- readRDS ("C:/Users/joana/Documents/tcga_tumor_annotation.RDS")
+umap <- readRDS("C:/Users/joana/Downloads/umap.RDS")
+umap_df <- readRDS("C:/Users/joana/Downloads/df.RDS")
+````
+
+#How to do umap - DONT load if you have June's Data Frames!!!
+```{r}
+library(umap)
+# set up UMAP parameters
+custom.config = umap.defaults
+custom.config$n_neighbors = 20       # number of neighbors
+custom.config$min_dist = 0.1         #  find small connected components, clumps and strings in the data, and emphasises these features in the resulting embedding
+custom.config$n_components = 3        #3-dimensional embedding
+custom.config$metric = 'jaccard'        #This controls how distance is computed in the ambient space of the input data. 
+
+
+udf = t(SkinnyBoy)
+
+umap = umap(udf[, -9741])
+umap_df = data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                Patients = udf[,9741])
+              
+````
+
+#Creating Umap data frame for plotting
+````{r}
+umap_plot = cbind(umap_df, tcga_tumor_annotation$cancer_type_abbreviation, tcga_tumor_annotation$ajcc_pathologic_tumor_stage, tcga_tumor_annotation$clinical_stage, tcga_tumor_annotation$sample_type)
+View(umap_plot)
+````
+
+#Cancer Type all patients
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.7) + aes(color=umap_plot$`tcga_tumor_annotation$cancer_type_abbreviation`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Cancer Type all patients") + xlab("1") + ylab("2")
+````
+
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.5) + aes(color=umap_plot$`tcga_tumor_annotation$clinical_stage`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Clinical Stage all patients") + xlab("1") + ylab("2")
+````
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_plot$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Pathology Stage all patients") + xlab("1") + ylab("2")
+````
+#Creating data frame BRCA
+````{r}
+dfBRCA = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "BRCA")
+dfBRCA = rbind(umap_plot[i,],dfBRCA)
+}
+View(dfBRCA)
+````
+
+#Sample Type BRCA
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA, mapping = aes(x = dfBRCA[, 1], y = dfBRCA[, 2])) + geom_point(alpha = 0.7) + aes(color=dfBRCA$`tcga_tumor_annotation$sample_type`) + scale_colour_viridis_d(option = "plasma") + ggtitle("BRCA Sample Type") + xlab("x") + ylab("y")
+````
+#Clinical stage BRCA
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA, mapping = aes(x = dfBRCA[, 1], y = dfBRCA[, 2])) + geom_point(alpha = 0.7) + aes(color=dfBRCA$`tcga_tumor_annotation$clinical_stage`) + scale_colour_viridis_d(option = "plasma") + ggtitle("BRCA Clinical Stage") + xlab("x") + ylab("y")
+````
+
+#Patholgy  Stage BRCA
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfBRCA, mapping = aes(x = dfBRCA[, 1], y = dfBRCA[, 2])) + geom_point(alpha = 0.7) + aes(color=dfBRCA$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("BRCA Pathology Stage") + xlab("x") + ylab("y")
+````
+#Clustering Test BRCA
+````{r}
+dfBRCA_clusters = cbind(dfBRCA$x, dfBRCA$y)
+wss_BRCA = sapply(1:10, function(k) {
+kmeans(x = dfBRCA_clusters, centers = k)$tot.withinss
+})
+
+plot(1:10, wss_BRCA,  type = "b")
+````
+#Clustering Big boy NEED DEBUG
+````{r}
+umap_clusters = cbind(umap_df$x, umap_df$y)
+wss_umap = sapply(1:9741, function(k) {
+kmeans(x = umap_clusters, centers = k)$tot.withinss
+})
+plot(1:100, umap_clusters,  type = "b")
+````
+
