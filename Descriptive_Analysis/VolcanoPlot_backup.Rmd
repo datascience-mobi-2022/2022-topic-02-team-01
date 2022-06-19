@@ -51,13 +51,13 @@ log2foldchange = log2(foldchange)
 
 ```{r compute p-values for each genes}
 
-#When identifying differentially expressed (DE) genes from high-throughput gene expression measurements, we would like to take both statistical significance (such as P-value) and biological relevance (such as fold change) into consideration 
+#When identifying diferentially expressed (DE) genes from high-throughput gene expression measurements, we would like to take both statistical significance (such as P-value) and biological relevance (such as fold change) into consideration 
 
 # here we calculate p-values for each genes by wilcoxon test
  
- p_value = c()
+p_value = c()
 
- for (i in 1:nrow(SkinnyHappyTT)){
+for (i in 1:nrow(SkinnyHappyTT)){
   p_value[i] = wilcox.test(unlist(SkinnyHappyTT[i,]),unlist(SkinnySadTT[i,]),paired = TRUE )$p.value
  }
 
@@ -83,20 +83,20 @@ corrected_pvalue = p_value*length(SkinnyHappyTT[1,])
 ```{r plot volcano}
 
 
-df_volcanoplot = data.frame (foldchange, p_value)
+df_volcanoplot = data.frame (foldchange, corrected_pvalue)
 
 df_volcanoplot$diffexpressed = "NO"
 
-df_volcanoplot$diffexpressed[df_volcanoplot$foldchange > 0.6  & df_volcanoplot$p_value < 0.05]= "UP"
+df_volcanoplot$diffexpressed[df_volcanoplot$foldchange > 0.6  & df_volcanoplot$corrected_pvalue < 0.05]= "UP"
 
-df_volcanoplot$diffexpressed[df_volcanoplot$foldchange < 0.6 & df_volcanoplot$p_value < 0.05]= "DOWN"
+df_volcanoplot$diffexpressed[df_volcanoplot$foldchange < 0.6 & df_volcanoplot$corrected_pvalue < 0.05]= "DOWN"
 
 View (df_volcanoplot)
 
 #View (df_volcanoplot)
 
 #library (ggplot2)
-ggplot (data = df_volcanoplot, aes (x=foldchange, y=-log10(p_value), col = diffexpressed)) + geom_point() + theme_minimal() + scale_color_manual(values = c ("blue","black", "red"))+ theme (text=element_text(size = 8))
+ggplot (data = df_volcanoplot, aes (x=foldchange, y=-log10(corrected_pvalue), col = diffexpressed)) + geom_point() + theme_minimal() + scale_color_manual(values = c ("blue","black", "red"))+ theme (text=element_text(size = 8))
 
 CompleatePathwayDF_scale = -log10(CompleatePathwayDF_df)
 

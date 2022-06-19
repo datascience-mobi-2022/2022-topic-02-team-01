@@ -50,7 +50,6 @@ log2foldchange = log2(foldchange)
 
 
 
-
 #View (p_value) 
 
 #correcting p value by Benferroni 
