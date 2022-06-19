@@ -16,17 +16,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # compute mean gene expression for each condition (normal and tumor)
 
+SkinnyHappyTT = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnyHappyTT.RDS")
+SkinnySadTT = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnySadTT.RDS")
+
 normal_mean_vector = apply(SkinnyHappyTT, 1, mean)
 cancer_mean_vector = apply(SkinnySadTT, 1, mean)
+#gets means of genes
 
-# compute foldchange  log2(FC) = log2(TPMcondition1) - log2(TPMcondition2) = log2(TPMcondition1/TPMcondition2)
+
+#compute foldchange log2(FC) = log2(TPMcondition1) - log2(TPMcondition2) = log2(TPMcondition1/TPMcondition2)
 
 #e_normal_mean_vector = 2^normal_mean_vector
 #e_cancer_mean_vector = 2^cancer_mean_vector
 
 #foldchange =  e_cancer_mean_vector/e_normal_mean_vector
 
-log2foldchange = log2(foldchange)
 
 foldchange = cancer_mean_vector - normal_mean_vector
 log2foldchange = log2(foldchange)
@@ -51,7 +55,7 @@ log2foldchange = log2(foldchange)
 
 
 
-#View (p_value) 
+View (p_value) 
 
 #correcting p value by Benferroni 
 
@@ -66,7 +70,6 @@ corrected_pvalue = p_value*length(SkinnyHappyTT[1,])
 
 
 ```{r plot volcano}
-
 
 df_volcanoplot = data.frame (foldchange, corrected_pvalue)
 

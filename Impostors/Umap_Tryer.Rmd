@@ -1,0 +1,133 @@
+---
+title: "Umap Tryer"
+author: "Ekin Ören"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+We need the umap of Skinny Boy (Its like PCA but better apparently)
+
+
+WHAT THE GİRLS DİD SOU FAR
+```{r Umap Tryer }
+
+library(umap)
+
+umap <- umap(dat[!duplicated(dat), -5])
+
+df <- data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                 Species = dat[!duplicated(dat), 5])
+
+ggplot(df, aes(x, y, colour = Species)) +
+  geom_point()
+
+
+SkinnyBoy[1:10,1:10]
+
+
+```
+we first use package umap 
+```{r Umap Tryer }
+
+library(umap)
+TRYumap = umap(SkinnyBoy[1:50,1:10])
+View(TRYumap)
+TRYumap$layout
+plot(TRYumap$layout)
+
+
+```
+
+we first use package umap 
+```{r Umap Tryer }
+
+
+library(umap)
+TRYumap1 = umap(SkinnyBoy)
+plot(TRYumap1$layout)
+
+View(TRYumap1$layout)
+
+
+V1 = TRYumap1$layout[,1]
+V2 = TRYumap1$layout[,2]
+df = data.frame(V1,V2)
+View(df)
+
+
+library(ggplot2)
+ggplot2:: ggplot(data = df, mapping = aes(x= df[,1] , y = df[,2])) + aes(color = "red") + geom_point(alpha = 0.5)
+
+
+
+#YOANA's PCA
+TRSkinnyBoyPCA = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/TRSkinnyBoyPCA.RDS.rds")
+View(TRSkinnyBoyPCA)
+pca = data.frame(TRSkinnyBoyPCA$x[, 1], TRSkinnyBoyPCA$x[, 2])
+View(pca)
+
+TRpca = umap(pca)
+TRpca$layout
+plot(TRpca$layout)
+
+V11 = TRpca$layout[,1]
+V22 = TRpca$layout[,2]
+df11 = data.frame(V11,V22)
+
+
+library(ggplot2)
+ggplot2:: ggplot(data = df11, mapping = aes(x= V11 , y = V22)) + aes(color = "pink" ) + geom_point(alpha = 0.5)
+
+
+
+#lets try to paint BRCA ones
+
+BigBoyAnnots = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/tcga_tumor_annotation.RDS.rds")
+View(BigBoyAnnots)
+
+TheGirls = BigBoyAnnots$sample[which(BigBoyAnnots$gender == "FEMALE")] #patient ids of all women in bigboy annots
+TheGirlsRowNO = match(TheGirls ,rownames(pca) )
+
+library(ggplot2)
+ggplot2:: ggplot(data = df11, mapping = aes(x= V11 , y = V22)) + aes(color = "pink" ) + geom_point(alpha = 0.5)
+
+
+
+library(uwot)
+pca = data.frame(TRSkinnyBoyPCA$x[, 1], TRSkinnyBoyPCA$x[, 2])
+UWUmap = umap(pca)
+plot(UWUmap)
+View()
+
+library(ggplot2)
+ggplot2:: ggplot(data = UWUmap, mapping = aes(x= UWUmap[,1] , y = UWUmap[,2])) + aes(color = "pink" ) + geom_point(alpha = 0.5)
+
+
+
+```
+
+
+we first use package umap 
+```{r Umap Tryer }
+
+library(umap)
+TRYumap = umap(SkinnyBoy[1:50,1:10])
+View(TRYumap)
+TRYumap$layout
+plot(TRYumap$layout)
+
+library(umap)
+TRYumap2 = umap(SkinnyBoy[ ,1:10])
+TRYumap$layout
+plot(TRYumap2$layout)
+
+
+```
+
+
