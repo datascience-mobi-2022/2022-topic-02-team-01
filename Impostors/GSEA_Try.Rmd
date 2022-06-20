@@ -1,0 +1,184 @@
+---
+title: "GSEA"
+author: "linh"
+date: '2022-06-17'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(fgsea) 
+
+saveRDS(df_BRCA_pvalue, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/df_BRCA_pvalue.RDS")
+
+```
+
+ 
+```{r}
+
+
+library(data.table)
+library(ggplot2)
+tcga_annot_ACC = SkinnyBoy[which(tcga_annot$cancer_type_abbreviation=="ACC"),]
+tcga_exp_ACC = SkinnyBoy[, names(SkinnyBoy) %in% tcga_annot_ACC$sample] 
+ACC_gsea = as.data.frame(scale(tcga_annot_ACC))
+
+#single test sample (TCGA-OR-A5K3-01)
+probe = c(ACC_gsea[,2])
+
+names(probe) = c(ACC_gsea$ensembl_id)
+probe = probe[order(probe), drop = FALSE]
+results = fgsea(pathways = hallmark_genesets,
+                             stats = probe)
+
+
+```
+
+
+
+```{r Wangjun challenge try}
+
+## making a df with genes name and p value form BRCA
+
+new_gene_identifier <- strsplit(rownames(SkinnySadTT), split = "|", fixed = TRUE)
+
+
+new_ens<- sapply(new_gene_identifier, FUN = function(new_gene_identifier){
+  new_ens = new_gene_identifier[1]
+  return(new_ens)
+})
+
+# remove version number
+
+new_genes_ens_vn <- strsplit(new_ens, split = ".", fixed = TRUE)
+new_genes_ensembl <- sapply(new_genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+# df with all the genes ens and p values
+df_BRCA_pvalue = data.frame (new_genes_ensembl,p_value)
+
+row_number =  list()
+
+
+# row numbers of the genes in each pathway 
+for (i in 1:46){
+  row_number [[i]] = which(df_BRCA_pvalue[,1] %in% x$ID[[i]])
+}
+
+# set the name for the list 
+
+name_46_pathway = names (hallmarks_genesets$genesets)
+
+pvalue_46_pathway_BRCA = list ()
+
+
+# creating the list with pathways with genes in BRCA 
+
+for (i in 1:46){
+ pvalue_46_pathway_BRCA [[i]] =  df_BRCA_pvalue[row_number[[i]],]
+}
+
+names(pvalue_46_pathway_BRCA) <- name_46_pathway 
+#View (pvalue_46_pathway_BRCA)
+
+
+```
+
+
+```{r -log10 transform to get a "score"}
+
+pvalue_46_pathway_BRCA_log = list ()
+for (i in 1:46){
+  pvalue_46_pathway_BRCA_log [[i]] =  -log10(pvalue_46_pathway_BRCA[[i]]$p_value)
+}
+
+#View (pvalue_46_pathway_BRCA_log)
+names(pvalue_46_pathway_BRCA_log) <- name_46_pathway
+
+```
+
+
+```{r compute the mean score for each pathway}
+
+meanscore_pathway = data.frame()
+
+# set the pathway names to dataframe
+for (i in 1:46) {
+  meanscore_pathway [i,1] <- name_46_pathway [i]
+}
+
+# calculate the mean for each pathways
+for (i in 1:46){
+  meanscore_pathway [i,2] = mean(pvalue_46_pathway_BRCA_log[[i]], na.rm = TRUE)
+}
+
+#View (meanscore_pathway)
+
+```
+
+
+```{r rank by mean score and take the top10}
+
+# write the function to get top 10 pathways with highest pvalue
+  get_top10pathways_from_pvalues <- function(get_top10pathways_from_pvalues) {
+  get_top10pathways_from_pvalues <- head(sort(meanscore_pathway[,1],decreasing=TRUE),n=10)
+  return(get_top10pathways_from_pvalues)
+  }
+# write the function get the name of top 10 pathways with highest pvalue
+
+  get_top10pathways_names <- function(get_top10pathways_names) {
+  get_top10pathways_names <- head(sort(meanscore_pathway[,2],decreasing=TRUE),n=10)
+  return(get_top10pathways_names)
+  }
+
+ten_first_pathway = data.frame ()
+ten_first_pathway [1:10,1] = get_top10pathways_from_pvalues(meanscore_pathway[,1])
+
+
+ten_first_pathway [,2] = get_top10pathways_names(meanscore_pathway[,2])
+
+```
+
+```{r make a barplot (x = mean score, y = pathway_n)}
+library(ggplot2)
+
+barplot_BRCA = ggplot(ten_first_pathway, aes(x=ten_first_pathway [,1], y = ten_first_pathway [,2])) + geom_bar(stat="identity") 
+?barplot
+
+
+barplot_BRCA <- barplot_BRCA +scale_fill_brewer(palette="Blues")
+
+
+
+```
+
+
+
+
+
+```{r make a dotplot (x = mean score, y = pathway_n, dotsize = geneset size)}
+
+
+row_number_10th_pathway = which(names(pvalue_46_pathway_BRCA_log) %in% ten_first_pathway [,2])
+
+length_10th_pathway = c()
+for ( i in 1:10) {
+  length_10th_pathway [i] =length (pvalue_46_pathway_BRCA_log [[row_number_10th_pathway[i]]])
+}
+
+dotplot_BRCA = ggplot(ten_first_pathway, aes(x= ten_first_pathway [,1] , y=ten_first_pathway [,2]))  +   geom_dotplot(binaxis='y', stackdir='center',
+               stackratio=1.5, dotsize = length_10th_pathway)
+
+dotplot_BRCA = ggplot(ten_first_pathway)  + geom_point(shape = 1, 
+    size = 4, aes(x =  ten_first_pathway [,1]  , y = ten_first_pathway [,2])) + theme(plot.title = element_text(size = 20)) + labs(title = "ulala", 
+    x = "baba", y = " shcis")
+
+```
+

@@ -11,9 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r coumpute foldchange}
 
+# ?foldchange
+# ?pathway matrix
 
- = apply(SkinnyHappyTT, 1, mean)
-cancer_mean_vector = apply(SkinnySadTT, 1, mean)
+
 
 
 ```
