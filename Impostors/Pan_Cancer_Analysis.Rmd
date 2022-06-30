@@ -33,7 +33,6 @@ PRADnorm = VliveVdieVlivagen5$PRAD$normal
 
 THCAtum = VliveVdieVlivagen5$THCA$tumor
 THCAnorm = VliveVdieVlivagen5$THCA$normal
-
 ```
 
 
@@ -251,6 +250,9 @@ DownersExpression2 = na.omit(DownersExpression2)
 
 
 ```
+
+
+
 
 
 
