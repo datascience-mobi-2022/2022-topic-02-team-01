@@ -262,6 +262,7 @@ UppersExpression1 = na.omit(UppersExpression1)
 
 DownersExpression1 =  SkinnyBoy[(match(rownames(Downers1), rownames(SkinnyBoy))), ]
 DownersExpression1 = na.omit(DownersExpression1)
+View(DownersExpression1)
 
 
 #2. BRCAvsLUAD
@@ -304,6 +305,7 @@ Downers4 <- df_volcanoplotBRCAvsTHCAstrict[ which(df_volcanoplotBRCAvsTHCAstrict
 UppersExpression4 =  SkinnyBoy[(match(rownames(Uppers4), rownames(SkinnyBoy))), ]
 UppersExpression4 = na.omit(UppersExpression4)
 
+View(UppersExpression4)
 DownersExpression4 =  SkinnyBoy[(match(rownames(Downers4), rownames(SkinnyBoy))), ]
 DownersExpression4 = na.omit(DownersExpression4)
 
@@ -313,10 +315,10 @@ DownersExpression4 = na.omit(DownersExpression4)
 library(plyr) #for function rbind.fill
 
 UP.ind1 = cbind(UppersExpression1, "UP")#UP is very last columnUP.ind1.1 = t(UP.ind1)
-#View(UP.ind)
+View(UP.ind1) #181 
+View (DOWN.ind1)#215 
 DOWN.ind1 = cbind(DownersExpression1, "DOWN")
-BRCAvsKIRC.df = rbind.fill(UP.ind1,  DOWN.ind1)
-View(BRCAvsKIRC.df)
+BRCAvsKIRC.df = rbind.fill(UP.ind1,  DOWN.ind1) # here ensbeml names are being omitted maybe bc they donw match betweeen up and down 
 
 
 #2
@@ -334,59 +336,66 @@ UP.ind4 = cbind(UppersExpression4, "UP")
 DOWN.ind4 = cbind(DownersExpression4, "DOWN")
 BRCAvsTHCA.df = rbind.fill(UP.ind4,DOWN.ind4)
 
-
-Pan_cancer_analysis.df = rbind.data.frame(BRCAvsKIRC.df, BRCAvsLUAD.df, BRCAvsPRAD.df, BRCAvsTHCA.df)
-View(Pan_cancer_analysis.df)
-
-saveRDS(Pan_cancer_analysis.df, file ="/Users/lunona/Desktop/BRCA/Pan_cancer_analysis.df.RDS")
 ```
-
-
 
 ```{r saving the dataframes}
-# meged df: expression values, ensembl id, wether g is up or down 
+Pan_cancer_analysis.df = rbind.data.frame(BRCAvsKIRC.df, BRCAvsLUAD.df, BRCAvsPRAD.df, BRCAvsTHCA.df) # to add ensembl back maybe write for loop where in one line the expression values form the genes is matched with skinnboy and add  the ensembl id into acolumn (first one, before everything)
 
-#columns: Expression, ensembl, regulation is (up/down)
-#rows: patients 
-
-
-1. BRCAvsKIRC 
-
-Column1
-UppersExpression1
-DownersExpression1
-UppersExpression2
-DownersExpression2
-UppersExpression3
-DownersExpression3
-UppersExpression4
-DownersExpression4
-
-Column2
-ens_UpExp1 = 
-ens_DownExp1
-ens_UpExp2
-ens_DownExp2
-ens_UpExp3
-ens_DownExp3
-ens_UpExp4
-ens_DownExp4
-
-column3
-UppersExpression1 == "UP"
-DownersExpression1 == "DOWN"
-UppersExpression2 == "UP"
-DownersExpression2 == "DOWN"
-UppersExpression3 == "UP"
-DownersExpression3 == "DOWN"
-UppersExpression4 == "UP"
-DownersExpression4 == "DOWN"
-
- SkinnyBoy[(match(rownames(Uppers1), rownames(SkinnyBoy))), ]
-genes_ens_SB
-
-Pan_cancer_analysis.df = 
 ```
+
+```{r putting names}
+Ensembl_ID = rownames(UP.ind1)
+Ensembl_ID = append(Ensembl_ID,  rownames (DOWN.ind1))
+Ensembl_ID = append(Ensembl_ID,  rownames (UP.ind2))
+Ensembl_ID = append(Ensembl_ID,  rownames (DOWN.ind2))
+Ensembl_ID = append(Ensembl_ID,  rownames (UP.ind3))
+Ensembl_ID = append(Ensembl_ID,  rownames (DOWN.ind3))
+Ensembl_ID = append(Ensembl_ID,  rownames (UP.ind4))
+Ensembl_ID = append(Ensembl_ID,  rownames (DOWN.ind4))
+
+
+Pan_cancer_analysis_wID.df = cbind(Ensembl_ID,Pan_cancer_analysis.df)
+View (Pan_cancer_analysis_wID.df)
+
+saveRDS(Pan_cancer_analysis_wID.df, file ="/Users/lunona/Desktop/BRCA/Pan_cancer_analysis_wID.df.RDS")
+```
+
+```{r saving the 4 data frames separatly}
+#1
+Ensembl_ID_unq1 = rownames(UP.ind1)
+Ensembl_ID_unq1 = append(Ensembl_ID_unq1,  rownames (DOWN.ind1))
+BRCAvsKIRC_wID.df = cbind (Ensembl_ID_unq1,BRCAvsKIRC.df) 
+
+#saveRDS(BRCAvsKIRC_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsKIRC_wID.df.RDS")
+
+#2
+Ensembl_ID_unq2 = rownames(UP.ind2)
+Ensembl_ID_unq2 = append(Ensembl_ID_unq2,  rownames (DOWN.ind2))
+BRCAvsLUAD_wID.df = cbind (Ensembl_ID_unq2,BRCAvsLUAD.df) 
+
+#saveRDS(BRCAvsLUAD_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsLUAD_wID.df.RDS")
+
+#3
+Ensembl_ID_unq3 = rownames(UP.ind3)
+Ensembl_ID_unq3 = append(Ensembl_ID_unq3,  rownames (DOWN.ind3))
+BRCAvsPRAD_wID.df = cbind (Ensembl_ID_unq3,BRCAvsPRAD.df) 
+
+#saveRDS(BRCAvsPRAD_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsPRAD_wID.df.RDS")
+
+#4 
+
+Ensembl_ID_unq4 = rownames(UP.ind4)
+Ensembl_ID_unq4 = append(Ensembl_ID_unq4,  rownames (DOWN.ind4))
+BRCAvsTHCA_wID.df = cbind (Ensembl_ID_unq4, BRCAvsTHCA.df) 
+
+#saveRDS(BRCAvsTHCA_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsTHCA_wID.df.RDS")
+
+```
+
+
+
+
+
 
 
 
