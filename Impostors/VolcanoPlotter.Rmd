@@ -1,0 +1,168 @@
+---
+title: "VolcanoPlotter"
+author: "Ekin Ören"
+date: '2022-06-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Volcano plot is a type of gg plot to be able to use it you need to call a library. 
+
+```{r pressure, echo=FALSE}
+
+#Using ggplot
+install.packages("Rcmdr", dependencies = TRUE)
+install.packages("tidyverse")
+library(ggplot2)
+
+```
+
+
+p <- ggplot(data=de, aes(x=log2FoldChange, y=-log10(pvalue))) + geom_point() + theme_minimal()
+
+```{r my money dont jiggle jiggle it folds, include=FALSE}
+
+
+
+p <- ggplot(data=MetabolicPathwayDF[,1], aes(x=LoggyFoldChange, y=-log10(MetabolicPathwayDF[,1]))) + geom_point() + theme_minimal()
+
+```
+
+
+
+
+```{r my money dont jiggle jiggle it folds, include=FALSE}
+
+library(gtools)
+
+foldchange(A,B)
+Log2FoldChange = log2(foldchange(A,B))
+
+
+
+
+A1  = A + 9.9658 + 0.01
+
+B1 = B + 9.9658 + 0.01
+
+
+
+foldchange(A,B)[1:10]
+foldchange(A1,B1)[1:10]
+
+log2(foldchange(A,B))
+log2(foldchange(A1,B1))
+
+absABfold = abs(foldchange(A,B)[1:10])
+
+log2(absABfold)
+
+
+
+
+```
+
+
+
+Calculate fold change between mean of gene exp of one gene
+```{r my money dont jiggle jiggle it folds, include=FALSE}
+
+A = SkinnyBoy[,1]
+B = SkinnyBoy[,2]
+RawFoldChange = c()
+
+
+for(i in 1:length(SkinnyBoy[,1])){
+  
+  RawFoldChange[i] =  (B[i] - A[i])/A[i]
+  
+}
+
+#Not sure if these are correct
+LoggyFoldChange = log2(RawFoldChange)
+LoggyFoldChangeClean = LoggyFoldChange[!is.nan(LoggyFoldChange)]
+
+
+
+```
+THEORY BEHİND LOG CHANGE:
+
+For quantities A and B, the fold change is given as (B − A)/A, or equivalently B/A − 1. This formulation has appealing properties such as no change being equal to zero, a 100% increase is equal to 1, and a 100% decrease is equal to −1.
+
+Let's say there are 50 read counts in control and 100 read counts in treatment for gene A. This means gene A is expressing twice in treatment as compared to control (100 divided by 50 =2) or fold change is 2. This works well for over expressed genes as the number directly corresponds to how many times a gene is over-expressed. But when it is other way round (i.e, treatment 50, control 100), the value of fold change will be 0.5 (all under expressed genes will have values between 0 to 1, while over expressed genes will have values from 1 to infinity). To make this leveled, we use log2 for expressing the fold change. I.e, log2 of 2 is 1 and log2 of 0.5 is -1.
+
+
+
+
+```{r my money dont jiggle jiggle it folds, include=FALSE}
+
+# Download the data from github (click the "raw" button, save as a text file called "results.txt").
+# https://gist.github.com/stephenturner/806e31fce55a8b7175af
+res <- read.table("results.txt", header=TRUE)
+head(res)
+
+# Make a basic volcano plot
+with(res, plot(log2FoldChange, -log10(pvalue), pch=20, main="Volcano plot", xlim=c(-2.5,2)))
+
+# Add colored points: red if padj<0.05, orange of log2FC>1, green if both)
+with(subset(res, padj<.05 ), points(log2FoldChange, -log10(pvalue), pch=20, col="red"))
+with(subset(res, abs(log2FoldChange)>1), points(log2FoldChange, -log10(pvalue), pch=20, col="orange"))
+with(subset(res, padj<.05 & abs(log2FoldChange)>1), points(log2FoldChange, -log10(pvalue), pch=20, col="green"))
+
+# Label points with the textxy function from the calibrate plot
+library(calibrate)
+with(subset(res, padj<.05 & abs(log2FoldChange)>1), textxy(log2FoldChange, -log10(pvalue), labs=Gene, cex=.8))
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r my money dont jiggle jiggle it folds, include=FALSE}
+
+
+
+```
+
+
+
+
+
+
+

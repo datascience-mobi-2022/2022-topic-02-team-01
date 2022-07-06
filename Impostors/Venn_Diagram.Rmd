@@ -1,0 +1,144 @@
+---
+title: "Venn_Diagramm"
+author: "Ekin Ören"
+date: '2022-07-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Venn Life Gets you down, echo=FALSE}
+
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("gaospecial/ggVennDiagram")
+library("ggVennDiagram")
+
+ggVennDiagram(x)
+
+A = c(1,2,3,4,5)
+B = c(3,4,5,6,7,8)
+
+Octopus = list(A,B)
+
+ggVennDiagram(Octopus)
+
+# lets learn to add some names and nice colors n shit
+
+ggVennDiagram(
+  Octopus, label_alpha = 0,
+  category.names = c("A","B")
+  ) +
+  ggplot2::scale_fill_gradient(low="pink",high = "purple")
+
+
+
+```
+
+
+
+
+```{r Venn Life Gets you down, echo=FALSE}
+
+genes_ens_SB
+
+genes_ens_vn <- strsplit(genes_ens_SB, split = ".", fixed = TRUE)
+SkinnyBoyEnsembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+
+A = c()
+
+for(i in 1:46)
+{
+  A= append(A, MetabolicsEnsembl$ID[[i]])
+}
+
+Metabolic_EnsemblesVector = unique(A)
+
+
+Hallmarks = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/x.RDS")
+
+
+B = c()
+
+for(i in 1:46)
+{
+  B = append(B, Hallmarks$ID[[i]])
+}
+
+Hallmarks_EnsemblesVector = unique(B)
+
+View(Hallmarks_EnsemblesVector)
+View(Metabolic_EnsemblesVector)
+View(genes_ens_SB)
+
+VoVee = list(Hallmarks_EnsemblesVector, Metabolic_EnsemblesVector, SkinnyBoyEnsembl)
+
+
+ggVennDiagram(
+  VoVee, label_alpha = 0,
+  category.names = c("Hallmarks","Metabolics","SkinnyBoy")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+AllPathwayGenesByID = append(Hallmarks_EnsemblesVector,Metabolic_EnsemblesVector)
+VoVoo = list(AllPathwayGenesByID, SkinnyBoyEnsembl)
+
+
+ggVennDiagram(
+  VoVoo, label_alpha = 0,
+  category.names = c("pathways","SkinnyBoy")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+
+C = c()
+
+for(i in 1:6366)
+{
+  C = append(C, CPathways$ID[[i]])
+}
+
+View(C)
+
+CPathways = unique(C)
+
+
+VoVouou = list(Hallmarks_EnsemblesVector, Metabolic_EnsemblesVector, SkinnyBoyEnsembl, CPathways)
+
+
+ggVennDiagram(
+  VoVouou, label_alpha = 0,
+  category.names = c("Hallmarks","Metabolics","SkinnyBoy","CPathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+
+
+AllPathwayGenesByID2 = append(Hallmarks_EnsemblesVector,Metabolic_EnsemblesVector)
+AllPathwayGenesByID3 = append(AllPathwayGenesByID2,CPathways)
+VoVeh = list(AllPathwayGenesByID3, SkinnyBoyEnsembl)
+
+
+ggVennDiagram(
+  VoVeh, label_alpha = 0,
+  category.names = c("pathways","SkinnyBoy")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+
+
+
+```
+
+
+
