@@ -18,7 +18,13 @@ saveRDS(df_BRCA_pvalue, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/df_BRC
 
 ```
 
- 
+```{r data load and save}
+saveRDS
+
+```
+
+
+
 ```{r}
 
 
@@ -86,7 +92,7 @@ for (i in 1:46){
 }
 
 names(pvalue_46_pathway_BRCA) <- name_46_pathway 
-#View (pvalue_46_pathway_BRCA)
+View (pvalue_46_pathway_BRCA)
 
 
 ```

@@ -1,0 +1,54 @@
+---
+title: "QualityControlGenesetScoring"
+author: "linh"
+date: '2022-07-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r UMAP to Quality Control}
+
+
+
+# loading complete pathways
+CompleatePathwayDF = readRDS ("C:/Users/trinh/Documents/GitHub/DATATSETS/CompleatePathwayDF.RDS.rds")
+
+# umap 
+udf_pathways = t(unlist(CompleatePathwayDF))
+
+umap = umap(udf_pathways)
+umap_df = data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                Patients = udf[,9742])
+# try creating the df first 
+New_CompleatePathwayDF = data.frame()
+New_CompleatePathwayDF = CompleatePathwayDF [,-9742]
+
+New_udf_pathways = t(New_CompleatePathwayDF)
+map = umap(New_udf_pathways)
+
+# plot umap 
+
+# example code, dont run 
+umap_plot = cbind(umap_df, tcga_tumor_annotation$cancer_type_abbreviation, tcga_tumor_annotation$ajcc_pathologic_tumor_stage, tcga_tumor_annotation$clinical_stage, tcga_tumor_annotation$sample_type)
+View(umap_plot)
+
+ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.7) + aes(color=umap_plot$`tcga_tumor_annotation$cancer_type_abbreviation`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Cancer Type all patients") + xlab("1") + ylab("2")
+
+# plot umap
+
+library (ggplot2)
+ggplot(data = umap_df, mapping = aes(x = umap_df[, 1], y = umap_df[, 2]))
+
+
+````
+
+
+
+
+```
+

@@ -1,0 +1,65 @@
+---
+title: "AnnotationDescriptive"
+author: "linh"
+date: '2022-07-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r variety of annotation}
+
+# use function unique to find the variety of annotation 
+
+# try first with one column 
+
+variety_cancertype = length (unique (tcga_annot[,3]))
+
+#return 33 -> correct
+
+# do that for all of the columns
+variety_annotation = c ()
+
+names(variety_annotation) = names (tcga_annot [3:ncol(tcga_annot)])
+
+m = 1
+
+for (i in 3: ncol (tcga_annot)){
+  variety_annotation[m] = length(unique (tcga_annot[,i]))
+  m = m+1 
+}
+# vector variety_annotation consists of the length of unique element in each annotation 
+# create df
+data <- data.frame (
+  Annotation = names (variety_annotation),
+  Number_of_Variety = variety_annotation
+)
+
+label  =  "Annotation variety"
+# histogram
+ggplot(data, aes(x=Annotation, y=Number_of_Variety)) + 
+  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=6))+ ggtitle(label)
+```
+
+
+```{r annotation NAs}
+
+NA_number = c(apply(tcga_annot,2, function(x) sum(length(which(is.na(x))))) ) 
+
+data2 <- data.frame (
+  Annotations = names (NA_number),
+  NumberNAs = NA_number
+)
+
+
+ggplot(data2, aes(x=Annotations, y=NumberNAs)) + 
+  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=6))+ ggtitle("Number of NAs in annotation")
+```{r create variety histogram}
+
+
+
+```
+
+

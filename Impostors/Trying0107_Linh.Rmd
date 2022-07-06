@@ -1,0 +1,64 @@
+---
+title: "GSVA_LINH"
+author: "linh"
+date: '2022-07-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("GSVA")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+ install.packages("BiocManager")
+BiocManager::install("BiocParallel")
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+
+# params for multiprocessing
+params <- MulticoreParam(workers = multicoreWorkers())
+#------------------------------------------------------------------------------#
+# Load TCGA tumor data: BRCA and LUAD (thanks to group3)
+#------------------------------------------------------------------------------#
+
+h_gene_sets <- msigdbr(species = "human", category = "C2")
+
+h_pathways <- lapply(as.list(unique(h_gene_sets$gs_name)), FUN = function(pw){
+  genes.indices <- which(h_gene_sets$gs_name == pw)
+  genes <- h_gene_sets[genes.indices, ]$human_gene_symbol
+  return(genes) 
+})
+
+```
+
+```{r}
+genes_ens_vn <- strsplit(genes_ens_SB, split = ".", fixed = TRUE)
+SB_EnsembleID <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+rownames (SkinnyBoy) = SB_EnsembleID
+head (SkinnyBoy)
+```
+
+```{r}
+
+
+
+
+
+
+
+```
+
