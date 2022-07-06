@@ -1,0 +1,343 @@
+---
+title: "Fixing_Pathway_Matrix"
+author: "Ekin Ören"
+date: '2022-07-01'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r hehehe ,}
+
+
+#------------------------------------------------------------------------------#
+# Geneset Variation Analysis (GSVA) Demo [Hänzelmann et al., 2013]
+#-----------------------------------------------------------------------------#
+
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("GSVA")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("BiocParallel")
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+
+# params for multiprocessing
+params <- MulticoreParam(workers = multicoreWorkers())
+#------------------------------------------------------------------------------#
+# Load TCGA tumor data: BRCA and LUAD (thanks to group3)
+#------------------------------------------------------------------------------#
+
+tcga <- readRDS("LUADandBRCA.RDS")
+
+h_gene_sets <- msigdbr(species = "human", category = "C2")
+
+h_pathways <- lapply(as.list(unique(h_gene_sets$gs_name)), FUN = function(pw){
+  genes.indices <- which(h_gene_sets$gs_name == pw)
+  genes <- h_gene_sets[genes.indices, ]$human_gene_symbol
+  return(genes)
+})
+
+
+names(h_pathways) <- unique(h_gene_sets$gs_name)
+
+# lieber mit ensemble id arbeiten!
+
+View(Hallmarks)
+
+qc_pathways <- sapply(h_pathways, 
+                      function(geneset){
+                        len.geneset = length(geneset)
+                        intersection = length(which(geneset %in% SkinnyBoyEnsembl))
+                        return(list("ratio" = intersection/len.geneset, "intersection" = intersection))})
+
+# for one tumortype 
+
+new_tcga <- lapply(SkinnyBoy, as.matrix)
+brca <- new_tcga$BRCA
+brca_luad <- cbind(new_tcga$BRCA, new_tcga$LUAD)
+
+## die gsva funktion erwartet den ganzen dataframe mit allen tumortypes, um das gene ranking zu machen (siehe abbildung Figure1)
+## dasselbe gilt für normal vs tumor (macht einen df und schmeißt den rein)
+
+pw_activity <- gsva(expr = brca_luad,
+                    gset.idx.list = h_pathways,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+
+```
+
+
+Get CPathways and match them to ensembl IDS
+```{r hehehe ,}
+
+
+library("biomaRt")
+
+
+ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
+
+
+
+CPathways = list ("ID")
+
+for (i in 6:6366){
+   CPathways$ID[i] =   getBM(attributes=c("ensembl_gene_id") ,mart=ensembl,
+  filters= "hgnc_symbol" , values = h_pathways[i])
+} 
+
+ 
+View(CPathways)
+
+saveRDS(CPathways, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/CPathways.RDS")
+
+
+## attributes: what we wanna retrieve from Biomart 
+## value: our datasets -> retrieve ensembl_gene_id from our datasets 
+
+```
+
+
+Get expressions and embed p values into the pathway matrix for all pathways EXAMPLE CODE AND EXPLANATİONS
+```{r pea time ,}
+
+SkinnyBoyEnsembl
+View(x)
+
+pathway_geneexp_patient_SB = list ()
+pathway_geneexp_patient_SB [[1]]= SkinnyBoy[match(unlist(x$ID[1]), SkinnyBoyEnsembl), 1] #gets the matching genes
+ banana6= -match(unlist(x$ID[1]),SkinnyBoyEnsembl)
+  banana7 <- banana6[!is.na(banana6)] #banana 7 is the ensembl ıds of our pathway with the NA's removed and minus in front
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,1] #gets all genes BUT the pathway
+t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value 
+
+```
+
+
+
+Get expressions and embed p values into the pathway matrix for Metabolic pathways
+```{r pea time ,}
+
+for (m in 1:9741){
+  for (n in 1:46){
+      pathway_geneexp_patient_SB[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
+     df_pathway_patient_SB[n,m] = t.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+  }
+}
+
+
+
+view(x) #list of hallmark ensembls
+View(HallmarksGenesets) #list of hallmark pathways
+
+View(MetabolicPatEnsembl) #list of metabolic ensembles
+View(MetabolicGenesets) #lisr of metabolic pathways
+
+View(CPathways) #list of CPathway ensembles 
+View(h_pathways) #list of CPathway pathways
+
+
+MetabolicGenesets = readRDS(file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/GeneNamesMetabolicPatsLit.rds")
+
+
+
+
+MetabolicPathway_geneexp_list = list()
+df_MetPathway = data.frame()
+
+for (m in 1:9741){
+  for (n in 1:46){
+      MetabolicPathway_geneexp_list[[n]]= SkinnyBoy[match(unlist(MetabolicsEnsembl$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(MetabolicsEnsembl$ID[n]),genes_ensembl_SB)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
+     df_MetPathway[n,m] = t.test(MetabolicPathway_geneexp_list[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+    
+  }
+}
+
+
+
+#this lil group puts pathway names where they belong
+huoo = c()
+
+  for (n in 1:46){
+    
+    huoo = append(huoo,names(MetabolicGenesets[[n]]))
+
+  }
+
+huoo[which(duplicated(huoo))]= paste(huoo[which(duplicated(huoo))], "duplicate")
+rownames(df_MetPathway) = huoo
+
+
+#now we add patient names
+
+humans = colnames(SkinnyBoy)
+colnames(df_MetPathway) = colnames(SkinnyBoy)
+
+
+View(df_MetPathway)
+
+```
+
+
+
+Get expressions and do GSVA scoring thus making the final pathway matrix for Metabolic pathways
+```{r pea time ,}
+
+#first lets merge these motherfuckers
+
+View(x) #list of hallmark ensembls
+View(HallmarksGenesets) #list of hallmark pathways
+
+View(MetabolicPatEnsembl) #list of metabolic ensembles
+View(MetabolicGenesets) #lisr of metabolic pathways
+
+View(C_PathwaysEns) #list of CPathway ensembles DOESNT WORK MUST REDO
+View(h_pathways) #list of CPathway pathways
+#####################################################################################################
+
+
+
+
+
+###################################MAKES MIX OF ALL PATHWAYS İN ORDER Hall Met C############
+
+ha = x$ID
+huaa = CPathways$ID
+View(huaa)
+
+AllPathwaysEns_List = c(ha, MetabolicPatEnsembl$ID, huaa )
+
+View(AllPathwaysEns_List)
+
+
+AllPathwayNames = c()
+View(AllPathwayNames)
+
+AllPathwayNames = append(AllPathwayNames,names(HallmarksGenesets[[1]]))
+
+
+  for (n in 1:46){
+    
+    AllPathwayNames = append(AllPathwayNames,names(MetabolicGenesets[[n]]))
+
+  }
+
+  for (n in 1:6366){
+    
+    AllPathwayNames = append(AllPathwayNames,names(h_pathways[n]))
+
+  }
+
+AllPathwayNames[which(duplicated(AllPathwayNames))]= paste(AllPathwayNames[which(duplicated(AllPathwayNames))], "_isduplicate")
+################################################################################################
+
+
+
+
+
+
+#NAMES THE PATHWAYS###########################################
+
+AllPathwaysEns_List = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/AllPathwaysEns_List.rds")
+
+View(AllPathwaysEns_List)
+
+names(AllPathwaysEns_List) <- AllPathwayNames
+
+saveRDS(AllPathwaysEns_List, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/AllPathwaysEns_List.rds")
+
+################################################################################################
+
+
+
+
+
+
+
+################################################################################################
+
+#first make sure SB ensembl IDS are fixed
+
+row.names(SkinnyBoy) = SkinnyBoyEnsembl
+View(SkinnyBoy)
+
+saveRDS(SkinnyBoy, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnyBoy.RDS")
+SkinnyBoy = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnyBoy.RDS")
+View(SkinnyBoy)
+
+## die gsva funktion erwartet den ganzen dataframe mit allen tumortypes, um das gene ranking zu machen (siehe abbildung Figure1)
+## dasselbe gilt für normal vs tumor (macht einen df und schmeißt den rein)
+
+AllPathwaysEns_List #a list of pathway ensembl IDS
+SkinnyBoy #a data frame with ENSEMBL ID as rowname and expression data
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+pw_activity <- gsva(expr = as.matrix(SkinnyBoy),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+
+
+saveRDS(pw_activity, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/PathwayMatrixDeluxePremium.rds")
+
+
+
+match(names(AllPathwaysEns_List),rownames(pw_activity))
+
+
+
+
+multicoreWorkers()
+
+
+View(multicoreWorkers())
+
+View(params)
+
+pw_activity[1000,1:5]
+
+rownames(pw_activity[600:700,])
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
