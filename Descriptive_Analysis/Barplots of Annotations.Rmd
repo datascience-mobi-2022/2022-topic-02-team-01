@@ -1,0 +1,577 @@
+---
+title: "Histogram annot"
+author: "Junona Sachov"
+date: "7/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Barplot on number of male and female in annotations}
+#put number of patients male/female group  in vector
+numberof_female = sum (tcga_annot$gender == "FEMALE")
+numberof_male = sum (tcga_annot$gender == "MALE")
+
+Number_genderannot = c (numberof_female, numberof_male )
+View(Number_genderannot)
+
+#make histogram
+
+data_Ngender = data.frame(
+  Gender = c("Female", "Male"),  
+  Number_of_Patients = Number_genderannot
+)
+
+ggplot(data = data_Ngender, mapping = aes(x=Gender, y=Number_of_Patients, fill=Gender)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "Pastel2") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of Male and Female in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_geneder_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of menopause phase annotation}
+#put number of patients in pre/post menopause in vector
+numberof_Pre = sum (tcga_annot$menopause_status == "Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement)")
+
+numberof_Post = sum (tcga_annot$menopause_status == "Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy)")
+
+Number_menopauseannot = c (numberof_Pre, numberof_Post)
+
+#make histogram
+
+data_Nmenopause = data.frame(
+  Status = c("Pre", "Post"), #later colour male female in diff color 
+  Number_of_Patients = Number_menopauseannot
+)
+
+ggplot(data = data_Nmenopause, mapping = aes(x=Status, y=Number_of_Patients, fill=Status)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "PuBuGn") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients in pre or post menopause in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_menopause_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of Cancer types in annotations}
+#put mumber of patients in a cancer type in vector
+numberof_GBM = sum (tcga_annot$cancer_type_abbreviation == "GBM")
+numberof_LGG = sum (tcga_annot$cancer_type_abbreviation == "LGG")
+numberof_CESC = sum (tcga_annot$cancer_type_abbreviation == "CESC")
+numberof_LUAD = sum (tcga_annot$cancer_type_abbreviation == "LUAD")
+numberof_COAD = sum (tcga_annot$cancer_type_abbreviation == "COAD")
+numberof_LAML = sum (tcga_annot$cancer_type_abbreviation == "LAML")
+numberof_BRCA = sum (tcga_annot$cancer_type_abbreviation == "BRCA")
+numberof_ESCA = sum (tcga_annot$cancer_type_abbreviation == "ESCA")
+numberof_SARC = sum (tcga_annot$cancer_type_abbreviation == "SARC")
+numberof_KIRP = sum (tcga_annot$cancer_type_abbreviation == "KIRP")
+numberof_STAD = sum (tcga_annot$cancer_type_abbreviation == "STAD")
+numberof_PRAD = sum (tcga_annot$cancer_type_abbreviation == "PRAD")
+numberof_HNSC = sum (tcga_annot$cancer_type_abbreviation == "HNSC")
+numberof_LUSC = sum (tcga_annot$cancer_type_abbreviation == "LUSC")
+numberof_THCA = sum (tcga_annot$cancer_type_abbreviation == "THCA")
+numberof_MESO = sum (tcga_annot$cancer_type_abbreviation == "MESO")
+numberof_READ = sum (tcga_annot$cancer_type_abbreviation == "READ")
+numberof_SKCM = sum (tcga_annot$cancer_type_abbreviation == "SKCM")
+numberof_PAAD = sum (tcga_annot$cancer_type_abbreviation == "PAAD")
+numberof_OV = sum (tcga_annot$cancer_type_abbreviation == "OV")
+numberof_TGCT = sum (tcga_annot$cancer_type_abbreviation == "TGCT")
+numberof_LIHC = sum (tcga_annot$cancer_type_abbreviation == "LIHC")
+numberof_UCEC = sum (tcga_annot$cancer_type_abbreviation == "UCEC")
+numberof_PCPG = sum (tcga_annot$cancer_type_abbreviation == "PCPG")
+numberof_UVM = sum (tcga_annot$cancer_type_abbreviation == "UVM")
+numberof_UCS = sum (tcga_annot$cancer_type_abbreviation == "UCS")
+numberof_READ = sum (tcga_annot$cancer_type_abbreviation == "READ")
+numberof_BLCA = sum (tcga_annot$cancer_type_abbreviation == "BLCA")
+numberof_LAML = sum (tcga_annot$cancer_type_abbreviation == "LAML")
+numberof_KICH = sum (tcga_annot$cancer_type_abbreviation == "KICH")
+numberof_CHOL = sum (tcga_annot$cancer_type_abbreviation == "CHOL")
+numberof_CESC = sum (tcga_annot$cancer_type_abbreviation == "CESC")
+numberof_ACC = sum (tcga_annot$cancer_type_abbreviation == "ACC")
+numberof_DLBC = sum (tcga_annot$cancer_type_abbreviation == "DLBC")
+
+Number_Cancer_Types = c (numberof_GBM, numberof_LGG, numberof_CESC, numberof_LUAD, numberof_COAD,numberof_LAML, numberof_BRCA, numberof_ESCA, numberof_SARC, numberof_KIRP, numberof_STAD,numberof_PRAD, numberof_HNSC, numberof_LUSC, numberof_THCA, numberof_MESO, numberof_READ, numberof_SKCM, numberof_PAAD, numberof_OV, numberof_TGCT, numberof_LIHC, numberof_UCEC, numberof_PCPG, numberof_UVM, numberof_UCS, numberof_READ, numberof_BLCA, numberof_LAML, numberof_KICH, numberof_CHOL, numberof_CESC, numberof_ACC, numberof_DLBC)
+
+
+#make histogram
+
+data_NCancerTypes = data.frame(
+  Type = c("GBM", "LGG", "CESC", "LUAD", "COAD", "LAML", "BRCA", "ESCA", "SARC", "KIRP", "STAD", "PRAD", "HNSC", "LUSC", "THCA", "MESO", "READ","SKCM", "PAAD", "OV", "TGCT", "LIHC", "UCEC", "PCPG", "UVM", "UCS", "READ", "BLCA", "LAML", "KICH", "CHOL", "CESC", "ACC",  "DLBC"), 
+  Number_of_Patients = Number_Cancer_Types
+)
+
+#colouring -- extending colour palette
+library(RColorBrewer)
+# Define the number of colours you want
+nb.cols <- 33
+mycolors <- colorRampPalette(brewer.pal(9, "BuPu"))(nb.cols)
+# Create a ggplot with 33 colours,  Use scale_fill_manual
+
+ggplot(data = data_NCancerTypes, mapping = aes(x=Type, y=Number_of_Patients, fill=Type)) + geom_bar(stat="identity", position = "dodge") + scale_fill_manual(values = mycolors) + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8), legend.key.size = unit(5, 'mm'), legend.title = element_text(size=8), legend.text = element_text(size=7)) + ggtitle("Number of patients of different cancer types in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 2, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_cancer_types_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot age of patients in annotaions}
+
+#grouping age of patients into 8 groups 
+library(dplyr)
+library(tibble)
+library(magrittr)
+library(tidyr)
+
+#     extract
+df.age = as.data.frame(tcga_annot$age_at_initial_pathologic_diagnosis)
+
+groups.age_raw = group_by(.data= df.age, .add = FALSE, .drop = group_by_drop_default(.data))
+#group
+groups.age1 = groups.age_raw %>%
+  mutate(age_group=as.character(cut(tcga_annot$age_at_initial_pathologic_diagnosis,
+                  breaks=c(15, 30, 40, 50, 60, 70, 80, 90, 99, Inf),
+                  labels=c("15-30","30-40","40-50","50-60", "60-70", "70-80", "80-90", "90-99", ">99")))
+  ) %>% 
+  group_by(tcga_annot$age_at_initial_pathologic_diagnosis)  %>%
+  ungroup()
+
+# Convert Classes ‘tbl_df’ into dataframe 
+groups.age = as.data.frame(groups.age1)
+age_groups.l = list(groups.age$age_group)
+view(groups.age1)
+
+#put number of patients in an age group  in vector
+numberof_age_15_30 = aggregate(groups.age$age_group == "15-30", by=age_groups.l, sum)
+numberof_age_30_40 = aggregate(groups.age$age_group == "30-40", by=age_groups.l, sum)
+numberof_age_40_50 = aggregate(groups.age$age_group == "40-50", by=age_groups.l, sum)
+numberof_age_50_60 = aggregate(groups.age$age_group == "50-60", by=age_groups.l, sum)
+numberof_age_60_70 = aggregate(groups.age$age_group == "60-70", by=age_groups.l, sum)
+numberof_age_70_80 = aggregate(groups.age$age_group == "70-80", by=age_groups.l, sum)
+numberof_age_80_90 = aggregate(groups.age$age_group == "80-90", by=age_groups.l, sum) # no patient above 90
+
+Number_ageAnnot = c (numberof_age_15_30[1,2],numberof_age_30_40[2,2], numberof_age_40_50[3,2], numberof_age_50_60[4,2], numberof_age_60_70[5,2], numberof_age_70_80[6,2], numberof_age_80_90[7,2])
+
+
+#make histogram
+
+data_Nage = data.frame(
+  Age_Group = c("15-30", "30-40", "40-50", "50-60", "60-70","70-80","80-90"), 
+  Number_of_Patients = Number_ageAnnot
+)
+
+ggplot(data = data_Nage, mapping = aes(x=Age_Group, y=Number_of_Patients, fill=Age_Group)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "YlGnBu") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients in different age groups in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_age_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot or race of patients in annotations}
+#put number of patients of a race in  in vector
+numberof_wh = sum (tcga_annot$race == "WHITE")
+numberof_none = sum (tcga_annot$race == "[Not Evaluated]")
+numberof_bl = sum (tcga_annot$race == "BLACK OR AFRICAN AMERICAN")
+numberof_as = sum (tcga_annot$race == "ASIAN")
+numberof_unknw = sum (tcga_annot$race == "[Unknown]")
+	
+
+Number_raceannot = c (numberof_wh, numberof_none, numberof_bl, numberof_as, numberof_unknw)
+
+
+#make histogram
+
+data_Nrace = data.frame(
+  Race = c("White", "Not Evaluated", "Black or African American", "Asian", "Unknown"), 
+  Number_of_Patients = Number_raceannot
+)
+
+ggplot(data = data_Nrace, mapping = aes(x=Race, y=Number_of_Patients, fill=Race)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "Blues") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients of different races in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 2, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_race_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of pathological stages in annotations}
+
+#to check what stages we have in the annots
+unique(tcga_annot$ajcc_pathologic_tumor_stage)
+
+
+
+##put number of patients of each stage group in vector
+numberof_stage_IA = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IA")
+numberof_stage_IIA = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIA")
+numberof_stage_IIIA = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIIA")
+numberof_stage_IIB = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIB")
+numberof_stage_IIIB = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIIB")
+numberof_stage_IB = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IB")
+numberof_stage_I = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage I")
+numberof_stage_II = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage II")
+numberof_stage_III = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage III")
+numberof_stage_IIIC = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIIC")
+numberof_stage_IIC = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IIC")
+numberof_discrp = sum (tcga_annot$ajcc_pathologic_tumor_stage == "[Discrepancy]")
+numberof_stage_IV = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IV")
+numberof_stage_IVA = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IVA")
+numberof_stage_IVB = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IVB")
+numberof_stage_IVC = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IVC")
+numberof_stage_IS = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage IS")
+numberof_stage_O = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage 0")
+numberof_stage_X = sum (tcga_annot$ajcc_pathologic_tumor_stage == "Stage X")
+numberof_stage_unknwn = sum (tcga_annot$ajcc_pathologic_tumor_stage == "[Unknown]")
+numberof_stage_I_II_NOS = sum (tcga_annot$ajcc_pathologic_tumor_stage == "I/II NOS")
+
+
+Number_pathStageAnnot = c (numberof_stage_IA, numberof_stage_IIA, numberof_stage_IIIA, numberof_stage_IIB, numberof_stage_IIIB, numberof_stage_IB, numberof_stage_I, numberof_stage_II, numberof_stage_III, numberof_stage_IIC, numberof_stage_IIIC, numberof_discrp, numberof_stage_IV, numberof_stage_IVA, numberof_stage_IVB, numberof_stage_IVC, numberof_stage_IS, numberof_stage_O, numberof_stage_X, numberof_stage_unknwn, numberof_stage_I_II_NOS)
+
+
+#make histogram
+
+data_NpathStage = data.frame(
+  Pathological_stage = c("Stage IA", "Stage IIA", "Stage IIIA", "Stage IIB", "Stage IIIB", "Stage IB", "Stage I", "Stage II", "Stage III", "Stage IIC", "Stage IIIC", "Discrepancy", "Stage IV", "Stage IVA", "Stage IVB", "Stage IVC", "Stage IS", "Stage 0", "Stage X", "Unknown", "I/II NOS"),  
+  Number_of_Patients = Number_pathStageAnnot
+)
+#colouring -- extending colour palette
+library(RColorBrewer)
+# Define the number of colours you want
+nb.cols1 <- 22
+mycolors1 <- colorRampPalette(brewer.pal(8, "Pastel2"))(nb.cols)
+# Create a ggplot with 33 colours,  Use scale_fill_manual
+
+ggplot(data = data_NpathStage, mapping = aes(x=Pathological_stage, y=Number_of_Patients, fill=Pathological_stage)) + geom_bar(stat="identity", position = "dodge") + scale_fill_manual(values = mycolors1) + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients with different pathological stages in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 2, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_path_stage_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of clinical stages in annotations}
+
+#to check what stages we have in the annots
+unique(tcga_annot$clinical_stage) #34
+
+##put number of patients of each stage group in vector
+numberof_Cstage_IA = sum (tcga_annot$clinical_stage == "Stage IA")
+numberof_Cstage_IIA = sum (tcga_annot$clinical_stage == "Stage IIA")
+numberof_Cstage_IIIA = sum (tcga_annot$clinical_stage == "Stage IIIA")
+numberof_Cstage_IIB = sum (tcga_annot$clinical_stage == "Stage IIB")
+numberof_Cstage_IIIB = sum (tcga_annot$clinical_stage == "Stage IIIB")
+numberof_Cstage_IB = sum (tcga_annot$clinical_stage == "Stage IB")
+numberof_Cstage_I = sum (tcga_annot$clinical_stage == "Stage I")
+numberof_Cstage_II = sum (tcga_annot$clinical_stage == "Stage II")
+numberof_Cstage_III = sum (tcga_annot$clinical_stage == "Stage III")
+numberof_Cstage_IIIC = sum (tcga_annot$clinical_stage == "Stage IIIC")
+numberof_Cstage_IIC = sum (tcga_annot$clinical_stage == "Stage IIC")
+numberof_Cdiscrp = sum (tcga_annot$clinical_stage == "[Discrepancy]")
+numberof_Cstage_IV = sum (tcga_annot$clinical_stage == "Stage IV")
+numberof_Cstage_IVA = sum (tcga_annot$clinical_stage == "Stage IVA")
+numberof_Cstage_IVB = sum (tcga_annot$clinical_stage == "Stage IVB")
+numberof_Cstage_IVC = sum (tcga_annot$clinical_stage == "Stage IVC")
+numberof_Cstage_IS = sum (tcga_annot$clinical_stage == "Stage IS")
+numberof_Ctage_O = sum (tcga_annot$clinical_stage == "Stage 0")
+numberof_Cstage_X = sum (tcga_annot$clinical_stage == "Stage X")
+numberof_Cstage_I_II_NOS = sum (tcga_annot$clinical_stage == "I/II NOS")
+
+numberof_Cstage_IB1 = sum (tcga_annot$clinical_stage == "Stage IB1")
+numberof_Cstage_IB2 = sum (tcga_annot$clinical_stage == "Stage IB2")
+numberof_CIII = sum (tcga_annot$clinical_stage == "III")
+numberof_Cstage_IIA1 = sum (tcga_annot$clinical_stage == "Stage IIA1")
+numberof_Cstage_IA1 = sum (tcga_annot$clinical_stage == "Stage IA1")
+numberof_Cstage_IA2 = sum (tcga_annot$clinical_stage == "Stage IA2")
+numberof_Cstage_IIA2 = sum (tcga_annot$clinical_stage == "Stage IIA2")
+numberof_CIIa = sum (tcga_annot$clinical_stage == "IIa")
+numberof_CIIb = sum (tcga_annot$clinical_stage == "IIb")    
+numberof_Cstage_IC = sum (tcga_annot$clinical_stage == "Stage IC")
+numberof_Cstage_IIIC1 = sum (tcga_annot$clinical_stage == "Stage IIIC1")
+numberof_Cstage_IIIC2 = sum (tcga_annot$clinical_stage == "Stage IIIC2")
+numberof_CIVb = sum (tcga_annot$clinical_stage == "IVb")    
+numberof_CIVa = sum (tcga_annot$clinical_stage == "IVa") 
+
+
+
+Number_clinicalStageAnnot = c (numberof_stage_IA, numberof_stage_IIA, numberof_stage_IIIA, numberof_stage_IIB, numberof_stage_IIIB, numberof_stage_IB, numberof_stage_I, numberof_stage_II, numberof_stage_III, numberof_stage_IIC, numberof_stage_IIIC, numberof_discrp, numberof_stage_IV, numberof_stage_IVA, numberof_stage_IVB, numberof_stage_IVC, numberof_stage_IS, numberof_stage_O, numberof_stage_X, numberof_stage_I_II_NOS,numberof_Cstage_IB1,numberof_Cstage_IB2, numberof_CIII, numberof_Cstage_IIA1, numberof_Cstage_IA1, numberof_Cstage_IA2, numberof_Cstage_IIA2, numberof_CIIa, numberof_CIIb, numberof_Cstage_IC, numberof_Cstage_IIIC1, numberof_Cstage_IIIC2, numberof_CIVb, numberof_CIVa)
+
+row_number(Number_clinicalStageAnnot)
+
+#make histogram
+
+data_NclinicalStage = data.frame(
+  Clinical_stage = c("Stage IA", "Stage IIA", "Stage IIIA", "Stage IIB", "Stage IIIB", "Stage IB", "Stage I", "Stage II", "Stage III", "Stage IIC", "Stage IIIC", "Discrepancy", "Stage IV", "Stage IVA", "Stage IVB", "Stage IVC", "Stage IS", "Stage 0", "Stage X", "I/II NOS", "Stage IB1", "Stage IB2", "III", "Stage IIA1", "Stage IA1","Stage IA2", "Stage IIA2", "IIa", "IIb", "Stage IC", "Stage IIIC1", "Stage IIIC2",  "IVb", "IVa"),  
+  Number_of_Patients = Number_clinicalStageAnnot
+)
+#colouring -- extending colour palette
+library(RColorBrewer)
+# Define the number of colours you want
+nb.cols1 <- 34
+mycolors1 <- colorRampPalette(brewer.pal(8, "Pastel2"))(nb.cols1)
+# Create a ggplot with 33 colours,  Use scale_fill_manual
+
+ggplot(data = data_NclinicalStage, mapping = aes(x=Clinical_stage, y=Number_of_Patients, fill=Clinical_stage)) + geom_bar(stat="identity", position = "dodge") + scale_fill_manual(values = mycolors1) + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8),legend.key.size = unit(5, 'mm'), legend.title = element_text(size=8), legend.text = element_text(size=7)) + ggtitle("Number of patients with different clinical stages in annots") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 2, position = position_dodge(0.9))
+
+
+#saving plot 
+ggsave(
+  filename = "plot_clinical_stage_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of histological grade in annotations}
+#to check what stages we have in the annots
+unique(tcga_annot$histological_grade) #11
+
+#put number of patients in each hist. grade group  in vector
+numberof_hist_grade_G3 = sum (tcga_annot$histological_grade == "G3")
+numberof_hist_grade_G2 = sum (tcga_annot$histological_grade == "G2")
+numberof_hist_grade_GX = sum (tcga_annot$histological_grade == "GX")
+numberof_hist_grade_G4 = sum (tcga_annot$histological_grade == "G4")
+numberof_hist_grade_G1 = sum (tcga_annot$histological_grade == "G1")
+numberof_hist_grade_GB = sum (tcga_annot$histological_grade == "GB")
+numberof_hist_grade_H = sum (tcga_annot$histological_grade == "High Grade") 
+numberof_hist_grade_L = sum (tcga_annot$histological_grade == "Low Grade") 
+numberof_hist_grade_discrp = sum (tcga_annot$histological_grade == "[Discrepancy]")
+numberof_hist_grade_unknwn = sum (tcga_annot$histological_grade == "[Unknown]")
+
+
+Number_histGradeannot = c (numberof_hist_grade_G3,numberof_hist_grade_G2, numberof_hist_grade_GX, numberof_hist_grade_G4, numberof_hist_grade_G1, numberof_hist_grade_GB, numberof_hist_grade_H, numberof_hist_grade_L, numberof_hist_grade_discrp, numberof_hist_grade_unknwn)
+
+
+#make histogram
+
+data_NhistGrade = data.frame(
+  Histological_grade = c("G3", "G2", "GX", "G4", "G1", "GB", "High Grade", "Low Grade", "[Discrepancy]", "[Unknown]"),  
+  Number_of_Patients = Number_histGradeannot
+)
+
+#colouring -- extending colour palette
+library(RColorBrewer)
+# Define the number of colours you want
+nb.cols2 <- 11
+mycolors2 <- colorRampPalette(brewer.pal(8, "BuPu"))(nb.cols2)
+# Create a ggplot with 33 colours,  Use scale_fill_manual
+
+ggplot(data = data_NhistGrade, mapping = aes(x=Histological_grade, y=Number_of_Patients, fill=Histological_grade)) + geom_bar(stat="identity", position = "dodge") + scale_fill_manual(values = mycolors2) + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients with different hist. grades in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 3, position = position_dodge(0.9))
+
+
+#saving plot 
+ggsave(
+  filename = "plot_hist_grade_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+```
+
+```{r Barplot of tumor status of patients in annotations}
+
+#put number of patients of diff tumor status in vector
+numberof_Tfree = sum (tcga_annot$tumor_status == "TUMOR FREE")
+numberof_wT = sum (tcga_annot$tumor_status == "WITH TUMOR")
+
+Number_tumStat = c (numberof_Tfree, numberof_wT)
+
+
+#make histogram
+
+data_NtumStat = data.frame(
+  Tumor_status = c("Tumor free", "With tumor"),  
+  Number_of_Patients = Number_tumStat
+)
+
+ggplot(data = data_NtumStat, mapping = aes(x=Tumor_status, y=Number_of_Patients, fill=Tumor_status)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "PuRd") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number patients with/without tumor in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+
+#saving plot 
+ggsave(
+  filename = "plot_tumor_status_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of margin status in annotations }
+#to check what margins stati we have in the annots
+unique(tcga_annot$margin_status)
+
+
+#put number of patients in margins stati in vector
+numberof_neg = sum (tcga_annot$margin_status == "Negative")
+numberof_pos = sum (tcga_annot$margin_status == "Positive")
+numberof_cl = sum (tcga_annot$margin_status == "Close")
+numberof_unknwn = sum (tcga_annot$margin_status == "[Unknown]")
+
+Number_marginStatannot = c (numberof_neg, numberof_pos, numberof_cl, numberof_unknwn)
+
+
+#make histogram
+
+data_NmarginStat = data.frame(
+  Margin_status = c("Negative", "Positive", "Close", "[Unknown]"),  
+  Number_of_Patients = Number_marginStatannot 
+)
+
+ggplot(data = data_NmarginStat, mapping = aes(x=Margin_status, y=Number_of_Patients, fill=Margin_status)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "Purples") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients in each margin status in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+
+#saving plot 
+
+ggsave(
+  filename = "plot_margin_status_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r Barplot of new tumor event type in annotations }
+#to check what new tumor event type we have in the annots
+unique(tcga_annot$new_tumor_event_type) #n=35
+
+#put number of patients each type in vector
+numberof_recurr = sum (tcga_annot$new_tumor_event_type == "Recurrence")
+numberof_dist_met = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis")      
+numberof_biochem_evid = sum (tcga_annot$new_tumor_event_type == "Biochemical evidence of disease")         
+numberof_progr = sum (tcga_annot$new_tumor_event_type == "Progression of Disease")         
+numberof_locoreg = sum (tcga_annot$new_tumor_event_type == "Locoregional Recurrence")
+numberof_intrapl = sum (tcga_annot$new_tumor_event_type == "Intrapleural Progression")
+numberof_intrahe = sum (tcga_annot$new_tumor_event_type == "Intrahepatic Recurrence")
+numberof_extrahe = sum (tcga_annot$new_tumor_event_type == "Extrahepatic Recurrence")                         
+numberof_met = sum (tcga_annot$new_tumor_event_type == "Metastatic")
+numberof_regly = sum (tcga_annot$new_tumor_event_type == "Regional lymph node") 
+numberof_npt = sum (tcga_annot$new_tumor_event_type == "New Primary Tumor")    
+numberof_locoreg_recurr = sum (tcga_annot$new_tumor_event_type == "Locoregional Recurrence|Distant Metastasis")   numberof_locoreg_urth = sum (tcga_annot$new_tumor_event_type == "Locoregional (Urothelial tumor event)")          
+numberof_locoreg_d = sum (tcga_annot$new_tumor_event_type == "Locoregional Disease")                              numberof_regly_dist = sum (tcga_annot$new_tumor_event_type == "Regional lymph node|Distant Metastasis")
+numberof_npm = sum (tcga_annot$new_tumor_event_type == "New primary melanoma")
+numberof_dist_met_npt = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|New Primary Tumor")
+numberof_dist_met_locoreg_recurr = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Locoregional Recurrence")
+numberof_locoreg_recurr_2 = sum (tcga_annot$new_tumor_event_type == "Locoregional Recurrence|Locoregional Recurrence|Locoregional Recurrence|Distant Metastasis|Distant Metastasis") 
+numberof_dist_met_2 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis")
+numberof_dist_met_rln = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Regional lymph node")
+numberof_dist_met_3 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Locoregional Recurrence")
+numberof_rln_dist_met = sum (tcga_annot$new_tumor_event_type == "Regional lymph node|Distant Metastasis|Distant Metastasis")
+numberof_dist_met_4 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Distant Metastasis")
+numberof_NA = sum (tcga_annot$new_tumor_event_type == "[Not Available]|[Not Available]")                          numberof_dist_met_5 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis")            numberof_dist_met_6 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis")                                             numberof_dist_met_7 = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis|Distant Metastasis")                                                
+numberof_dist_met_8_rln = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|Distant Metastasis|Regional lymph node") 
+numberof_dist_met_NA = sum (tcga_annot$new_tumor_event_type == "Distant Metastasis|[Not Available]")
+numberof_locoreg_recurr_3 = sum (tcga_annot$new_tumor_event_type == "Locoregional Recurrence|Regional lymph node") numberof_rln_dist_met_1 = sum (tcga_annot$new_tumor_event_type == "Regional lymph node|Regional lymph node|Distant Metastasis|Regional lymph node|Distant Metastasis|Distant Metastasis")
+numberof_rln_dist_met_2 = sum (tcga_annot$new_tumor_event_type == "Regional lymph node|Distant Metastasis|Distant Metastasis")
+numberof_locoreg_npt = sum (tcga_annot$new_tumor_event_type == "Regional lymph node|Distant Metastasis|Distant Metastasis") 
+
+Number_ntevannot = c (numberof_recurr, numberof_dist_met, numberof_biochem_evid, numberof_progr, numberof_locoreg, numberof_intrapl, numberof_intrahe, numberof_extrahe, numberof_met, numberof_regly, numberof_npt, numberof_locoreg_recurr, numberof_locoreg_urth,    numberof_locoreg_d, numberof_regly_dist, numberof_npm, numberof_dist_met_npt, numberof_dist_met_locoreg_recurr, numberof_locoreg_recurr_2, numberof_dist_met_2, numberof_dist_met_rln, numberof_dist_met_3, numberof_rln_dist_met, numberof_dist_met_4,numberof_NA, numberof_dist_met_5, numberof_dist_met_6, numberof_dist_met_7,numberof_dist_met_8_rln,numberof_dist_met_NA,numberof_locoreg_recurr_3, numberof_rln_dist_met_1, numberof_rln_dist_met_2, numberof_locoreg_npt)   
+
+view(Number_ntevannot)
+
+#make histogram
+
+data_Nntev = data.frame(
+  New_tumor_event_type = c("Recurr","Dist_Met", "Biochem_ev_disease","Progr_disease", "Lreg_Recurr","Intrapleural_Progr","Intrahepatic_Recurr","Extrahepatic_Recurr","Metastatic","Reg_lymph node","N_P_Tumor", "Lreg_Recurr|Dist_Met","Lreg(Urot T_event)","Lreg Disease","Reg_lymph node|Dist_Met","N_P_melanoma","Dist_Met|N_P_Tumor","Dist_Met|reg_Recurr", "Lreg_Recurr3|Dist_Met","Dist_Met4","Dist_Met|Reg_lymph n","Dis_Met3|Locoreg_Recurr","Reg_lymph n|Dist_Met2","Dist_Met3","NA","Dist_Met2","Dist_Met5|","Dist_Met10","DistMet2_Reg_lymph n","Dist_Met_NA","Lreg_Recurr|Reg_lymph n","Reg_lymph n3_Dist_Met3","Reg_lymph n|Dist_Met4_Lreg_Recurr","Lreg_Recurr|N_P_Tumor"),  
+  Number_of_Patients = Number_ntevannot
+)
+#view(data_Nntev)
+
+#colouring -- extending colour palette
+library(RColorBrewer)
+# Define the number of colours you want
+nb.cols3 <- 34
+mycolors3 <- colorRampPalette(brewer.pal(8, "PRGn"))(nb.cols3)
+# Create a ggplot with 34 colours,  Use scale_fill_manual
+
+ggplot(data = data_Nntev, mapping = aes(x=New_tumor_event_type, y=Number_of_Patients, fill=New_tumor_event_type)) + geom_bar(stat="identity", position = "dodge") + scale_fill_manual(values = mycolors3) + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=3)) + ggtitle("Number of new tumor event types in annotations") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 2, position = position_dodge(0.9))+  theme(legend.key.size = unit(1, 'mm'), legend.title = element_text(size=4), legend.text = element_text(size=2),axis.title.x = element_text(size = 4),axis.title.y = element_text(size = 4))
+
+
+#save plot new tumor event type -- agian not workyyyyy
+ggsave(
+  filename = "plot_new_tumor_event_type_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+
+```
+
+
+
+
+
+```{r histological_type --> n = 144}
+#to check what new tumor event type we have in the annots
+unique(tcga_annot$histological_type) #144
+
+#loop to get vector with names and number of patients in each group 
+
+hist_stagedf = as.data.frame((tcga_annot$histological_type))
+names_histStage = list(tcga_annot$histological_type)
+
+ for (i in 1: 9741) {
+   Number_ntevannot = aggregate(hist_stagedf, by=names_histStage, sum)
+ } 
+
+
+
+
+```
+
+```{r new_tumor_event_site-->n=60}
+unique(tcga_annot$new_tumor_event_site)
+```

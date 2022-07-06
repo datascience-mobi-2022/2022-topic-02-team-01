@@ -366,21 +366,21 @@ Ensembl_ID_unq1 = rownames(UP.ind1)
 Ensembl_ID_unq1 = append(Ensembl_ID_unq1,  rownames (DOWN.ind1))
 BRCAvsKIRC_wID.df = cbind (Ensembl_ID_unq1,BRCAvsKIRC.df) 
 
-#saveRDS(BRCAvsKIRC_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsKIRC_wID.df.RDS")
+saveRDS(BRCAvsKIRC_wID.df, file ="/Users/lunona/Desktop/BRCA/PanCancerAnalysis/BRCAvsKIRC_wID.df.RDS")
 
 #2
 Ensembl_ID_unq2 = rownames(UP.ind2)
 Ensembl_ID_unq2 = append(Ensembl_ID_unq2,  rownames (DOWN.ind2))
 BRCAvsLUAD_wID.df = cbind (Ensembl_ID_unq2,BRCAvsLUAD.df) 
 
-#saveRDS(BRCAvsLUAD_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsLUAD_wID.df.RDS")
+saveRDS(BRCAvsLUAD_wID.df, file ="/Users/lunona/Desktop/BRCA/PanCancerAnalysis/BRCAvsLUAD_wID.df.RDS")
 
 #3
 Ensembl_ID_unq3 = rownames(UP.ind3)
 Ensembl_ID_unq3 = append(Ensembl_ID_unq3,  rownames (DOWN.ind3))
 BRCAvsPRAD_wID.df = cbind (Ensembl_ID_unq3,BRCAvsPRAD.df) 
 
-#saveRDS(BRCAvsPRAD_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsPRAD_wID.df.RDS")
+saveRDS(BRCAvsPRAD_wID.df, file ="/Users/lunona/Desktop/BRCA/PanCancerAnalysis/BRCAvsPRAD_wID.df.RDS")
 
 #4 
 
@@ -388,7 +388,7 @@ Ensembl_ID_unq4 = rownames(UP.ind4)
 Ensembl_ID_unq4 = append(Ensembl_ID_unq4,  rownames (DOWN.ind4))
 BRCAvsTHCA_wID.df = cbind (Ensembl_ID_unq4, BRCAvsTHCA.df) 
 
-#saveRDS(BRCAvsTHCA_wID.df, file ="/Users/lunona/Desktop/BRCA/BRCAvsTHCA_wID.df.RDS")
+saveRDS(BRCAvsTHCA_wID.df, file ="/Users/lunona/Desktop/BRCA/PanCancerAnalysis/BRCAvsTHCA_wID.df.RDS")
 
 ```
 
