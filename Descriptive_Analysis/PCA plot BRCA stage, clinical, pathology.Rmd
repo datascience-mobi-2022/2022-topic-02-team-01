@@ -89,3 +89,13 @@ View(dfBRCA2)
 library(ggplot2)
 ggplot2::ggplot(data = dfBRCA2, mapping = aes(x = dfBRCA2[, 1], y = dfBRCA2[, 2])) + geom_point(alpha = 0.7) + aes(color=anot) + scale_colour_viridis_d(option = "plasma color") + ggtitle("BRCA") + xlab("PCA1") + ylab("PCA2")
 ````
+
+
+````{r}
+library(umap)
+umap = uwot::umap(dfBRCA[,1:2])
+df = data.frame(umap)
+View(df)
+library(ggplot2)
+ggplot2::ggplot(data = df, mapping = aes(x = df[, 1], y = df[, 2])) + geom_point(alpha = 0.7) + aes(color=anot) + scale_colour_viridis_d(option = "plasma color") + ggtitle("BRCA") + xlab("PCA1") + ylab("PCA2")
+````

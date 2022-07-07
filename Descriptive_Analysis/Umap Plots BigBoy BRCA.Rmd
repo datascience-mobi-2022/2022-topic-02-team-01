@@ -71,6 +71,7 @@ ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plo
 library(ggplot2)
 ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.5) + aes(color=umap_plot$`tcga_tumor_annotation$clinical_stage`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Clinical Stage all patients") + xlab("1") + ylab("2")
 ````
+
 ````{r}
 library(ggplot2)
 ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_plot$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Pathology Stage all patients") + xlab("1") + ylab("2")

@@ -1,0 +1,155 @@
+---
+title: "Umap Plot Other Cancer Types"
+author: "Yoana Onishtenko"
+date: '2022-06-18'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Creating data frame ACC
+````{r}
+dfACC = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "ACC")
+dfACC = rbind(umap_plot[i,],dfACC)
+}
+View(dfACC)
+````
+
+#Sample Type ACC
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfACC, mapping = aes(x = dfACC[, 1], y = dfACC[, 2])) + geom_point(alpha = 0.7) + aes(color=dfACC$`tcga_tumor_annotation$sample_type`) + scale_colour_viridis_d(option = "plasma") + ggtitle("ACC Sample Type") + xlab("x") + ylab("y")
+````
+#Clinical stage ACC
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfACC, mapping = aes(x = dfACC[, 1], y = dfACC[, 2])) + geom_point(alpha = 0.7) + aes(color=dfACC$`tcga_tumor_annotation$clinical_stage`) + scale_colour_viridis_d(option = "plasma") + ggtitle("ACC Clinical Stage") + xlab("x") + ylab("y")
+````
+
+#Patholgy  Stage ACC
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfACC, mapping = aes(x = dfACC[, 1], y = dfACC[, 2])) + geom_point(alpha = 0.7) + aes(color=dfACC$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("ACC Pathology Stage") + xlab("x") + ylab("y")
+````
+
+
+#Creating data frame BLCA
+````{r}
+dfBLCA = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "BLCA")
+dfBLCA = rbind(umap_plot[i,],dfBLCA)
+}
+````
+
+#Patholgy  Stage BLCA
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfBLCA, mapping = aes(x = dfBLCA[, 1], y = dfBLCA[, 2])) + geom_point(alpha = 0.7) + aes(color=dfBLCA$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("BLCA Pathology Stage") + xlab("x") + ylab("y")
+````
+
+
+#Creating data frame CESC
+````{r}
+dfCESC = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "CESC")
+dfCESC = rbind(umap_plot[i,],dfCESC)
+}
+````
+
+#Patholgy  Stage CESC
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfCESC, mapping = aes(x = dfCESC[, 1], y = dfCESC[, 2])) + geom_point(alpha = 0.7) + aes(color=dfCESC$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("CESC Pathology Stage") + xlab("x") + ylab("y")
+````
+
+
+#Creating data frame CHOL
+````{r}
+dfCHOL = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "CHOL")
+dfCHOL = rbind(umap_plot[i,],dfCHOL)
+}
+
+````
+
+#Patholgy  Stage CHOL
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfCHOL, mapping = aes(x = dfCHOL[, 1], y = dfCHOL[, 2])) + geom_point(alpha = 0.7) + aes(color=dfCHOL$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("CHOL Pathology Stage") + xlab("x") + ylab("y")
+````
+
+#Creating data frame COAD
+````{r}
+dfCOAD = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "COAD")
+dfCOAD = rbind(umap_plot[i,],dfCOAD)
+}
+
+````
+
+
+#Creating data frame DLBC
+````{r}
+dfDLBC = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "DLBC")
+dfDLBC = rbind(umap_plot[i,],dfDLBC)
+}
+View(dfDLBC)
+
+````
+
+#Patholgy  Stage DLBC
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfDLBC, mapping = aes(x = dfDLBC[, 1], y = dfDLBC[, 2])) + geom_point(alpha = 0.7)   + ggtitle("DLBC Pathology Stage") + xlab("x") + ylab("y")
+````
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfCOAD, mapping = aes(x = dfCOAD[, 1], y = dfCOAD[, 2])) + geom_point(alpha = 0.7) + aes(color=dfCOAD$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("COAD Pathology Stage") + xlab("x") + ylab("y")
+````
+
+#Creating data frame COAD
+````{r}
+dfCOAD = data.frame()
+for (i in 1:nrow(umap_plot)){
+if (umap_plot[i, 4] == "COAD")
+dfCOAD = rbind(umap_plot[i,],dfCOAD)
+}
+
+````
+
+#Patholgy  Stage COAD
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = dfCOAD, mapping = aes(x = dfCOAD[, 1], y = dfCOAD[, 2])) + geom_point(alpha = 0.7) + aes(color=dfCOAD$`tcga_tumor_annotation$ajcc_pathologic_tumor_stage`)  + ggtitle("COAD Pathology Stage") + xlab("x") + ylab("y")
+````
+
