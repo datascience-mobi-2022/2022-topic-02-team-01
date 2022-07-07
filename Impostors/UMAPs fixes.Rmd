@@ -1,0 +1,161 @@
+---
+title: "Untitled"
+author: "Yoana Onishtenko"
+date: '2022-07-07'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+View(umap_Pathway_plot)
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+
+library(ggplot2)
+ggplot2::ggplot(data = umap_Pathway_plot, mapping = aes(x = umap_Pathway_plot[, 1], y = umap_Pathway_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_Pathway_plot$`Pathological Stage`) + scale_color_brewer(palette = "Paired") + ggtitle("Pathological Stage all patients UMAP") + xlab("1") + ylab("2")
+````
+
+#Fix BRCA
+````{r}
+BRCA_UMAP_Pathway_Menopause=rbind(BRCA_UMAP_Pathway_MenopausePeri,BRCA_UMAP_Pathway_MenopausePost, BRCA_UMAP_Pathway_MenopausePre)
+View(BRCA_UMAP_Pathway_Menopause)
+
+library(ggplot2)
+ggplot2::ggplot(data = BRCA_UMAP_Pathway_Menopause, mapping = aes(x = BRCA_UMAP_Pathway_Menopause[, 1], y = BRCA_UMAP_Pathway_Menopause[, 2])) + geom_point(alpha = 0.9) + aes(color=BRCA_UMAP_Pathway_Menopause$`Menopause Status`) + scale_color_brewer(palette = "Dark2") + ggtitle("BRCA Menoopause only known info") + xlab("1") + ylab("2")
+````
+#Fix Pathological stages made mistake with the names
+````{r}
+#Reducing the information 
+umap_Pathway_plot[umap_Pathway_plot == "Stage IA"] <- "Stage I"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IB"] <- "Stage I"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIA"] <- "Stage II"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIB"] <- "Stage II"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIC"] <- "Stage II"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIIA"] <- "Stage III"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIIB"] <- "Stage III"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IIIC"] <- "Stage III"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IVA"] <- "Stage IV"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IVB"] <- "Stage IV"
+umap_Pathway_plot[umap_Pathway_plot == "Stage IVC"] <- "Stage IV"
+umap_Pathway_plot[umap_Pathway_plot == "Pre"] <- "Stage IV"
+View (umap_Pathway_plot)
+
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+
+library(ggplot2)
+ggplot2::ggplot(data = umap_Pathway_plot, mapping = aes(x = umap_Pathway_plot[, 1], y = umap_Pathway_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_Pathway_plot$`Pathological Stage`) + scale_color_brewer(palette = "Paired") + ggtitle("Pathological Stage all patients UMAP") + xlab("1") + ylab("2")
+````
+
+#Bye Bye missing info 
+````{r}
+UMAP_Pathway_Stage0 = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage 0")
+UMAP_Pathway_Stage0 = rbind(umap_Pathway_plot[i,],UMAP_Pathway_Stage0)
+}
+View(UMAP_Pathway_Stage0)
+
+UMAP_Pathway_IS = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "IS")
+UMAP_Pathway_IS = rbind(umap_Pathway_plot[i,],UMAP_Pathway_IS)
+}
+View(UMAP_Pathway_IS)
+
+UMAP_Pathway_NOS = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "I/II NOS")
+UMAP_Pathway_NOS = rbind(umap_Pathway_plot[i,],UMAP_Pathway_NOS)
+}
+View(UMAP_Pathway_NOS)
+
+UMAP_Pathway_StageI = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage I")
+UMAP_Pathway_StageI = rbind(umap_Pathway_plot[i,],UMAP_Pathway_StageI)
+}
+View(UMAP_Pathway_StageI)
+
+UMAP_Pathway_StageII = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage II")
+UMAP_Pathway_StageII = rbind(umap_Pathway_plot[i,],UMAP_Pathway_StageII)
+}
+View(UMAP_Pathway_StageII)
+
+UMAP_Pathway_StageIII = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage III")
+UMAP_Pathway_StageIII = rbind(umap_Pathway_plot[i,],UMAP_Pathway_StageIII)
+}
+View(UMAP_Pathway_StageIII)
+
+UMAP_Pathway_StageIV = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage IV")
+UMAP_Pathway_StageIV = rbind(umap_Pathway_plot[i,],UMAP_Pathway_StageIV)
+}
+View(UMAP_Pathway_StageIV)
+
+UMAP_Pathway_StageX = data.frame() 
+for (i in 1:nrow(umap_Pathway_plot)){
+if (umap_Pathway_plot[i, 5] == "Stage X")
+UMAP_Pathway_StageX = rbind(umap_Pathway_plot[i,],UMAP_Pathway_StageX)
+}
+View(UMAP_Pathway_StageX)
+
+CPStages = rbind(UMAP_Pathway_IS, UMAP_Pathway_NOS, UMAP_Pathway_Stage0, UMAP_Pathway_StageI, UMAP_Pathway_StageII, UMAP_Pathway_StageIII, UMAP_Pathway_StageIV, UMAP_Pathway_StageX)
+View (CPStages)
+
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+
+library(ggplot2)
+ggplot2::ggplot(data = CPStages, mapping = aes(x = CPStages[, 1], y = CPStages[, 2])) + geom_point(alpha = 0.9) + aes(color=CPStages$`Pathological Stage`) + scale_color_brewer(palette = "Paired") + ggtitle("Pathological Stage all patients UMAP") + xlab("1") + ylab("2")
+
+````
+#BRCA Pathological Stages
+````{r}
+BRCA_CPS = data.frame() 
+for (i in 1:nrow(CPStages)){
+if (CPStages[i, 4] == "BRCA")
+BRCA_CPS = rbind(CPStages[i,],BRCA_CPS)
+}
+View(BRCA_CPS)
+
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+
+library(ggplot2)
+ggplot2::ggplot(data = BRCA_CPS, mapping = aes(x = BRCA_CPS[, 1], y = BRCA_CPS[, 2])) + geom_point(alpha = 0.9) + aes(color=BRCA_CPS$`Pathological Stage`) + scale_color_brewer(palette = "Dark2") + ggtitle("Pathological Stage BRCA cleared") + xlab("1") + ylab("2")
+````
+
+#FIX Cancer types
+````{r}
+library(ggplot2)
+ggplot2::ggplot(data = umap_Pathway_plot, mapping = aes(x = umap_Pathway_plot[, 1], y = umap_Pathway_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_Pathway_plot$`Cancer Type`) + scale_color_brewer(palette = "Paired") + ggtitle("Cancer Type all patients UMAP") + xlab("1") + ylab("2")
+````
