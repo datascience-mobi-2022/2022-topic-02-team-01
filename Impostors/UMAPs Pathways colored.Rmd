@@ -170,8 +170,12 @@ umap_Pathway_plot[umap_Pathway_plot == "Stage IVB"] <- "Pre"
 umap_Pathway_plot[umap_Pathway_plot == "Stage IVC"] <- "Pre"
 View (umap_Pathway_plot)
 
+#try colors
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+
 library(ggplot2)
-ggplot2::ggplot(data = umap_Pathway_plot, mapping = aes(x = umap_Pathway_plot[, 1], y = umap_Pathway_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_Pathway_plot$`Pathological Stage`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Pathological Stage all patients UMAP") + xlab("1") + ylab("2")
+ggplot2::ggplot(data = umap_Pathway_plot, mapping = aes(x = umap_Pathway_plot[, 1], y = umap_Pathway_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=umap_Pathway_plot$`Pathological Stage`) + scale_color_brewer(palette = "Dark2") + ggtitle("Pathological Stage all patients UMAP") + xlab("1") + ylab("2")
 ````
 
 #Fix pathological stages one more, remove the missing information
