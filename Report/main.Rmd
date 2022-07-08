@@ -1,16 +1,5 @@
 ---
-title: "Report 2"
-author: "Junona Sachov"
-date: "7/5/2022"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
----
-title: " Data Analysis Seminar Report "
+title: " "
 output:
   pdf_document:
     number_sections: TRUE
@@ -73,12 +62,12 @@ bibliography: [bib/packages.bib, bib/test.bib]
 	{\vspace{\stretch{2}}}
 	{\usekomafont{title}
 
-		{\Huge Data Analysis Report}
+	{\Huge Data Analysis Report}
 
 		{\Huge Topic 2, group 1}
 
 		{\Huge Supervisor: Carl Hermann}
-		{\Huge Tutor: Wanjun ?}
+		{\Huge Tutor: Wanjun Hu}
 
 	}
 
@@ -103,24 +92,24 @@ bibliography: [bib/packages.bib, bib/test.bib]
 <!-- add your chapters here -->
 \tableofcontents
 
-```{r child = "chapter/abstract.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/abstract.Rmd"}
 ```
 
-```{r child = "chapter/introduction.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/introduction.Rmd"}
 ```
 
-```{r child = "chapter/material_and_methods.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/material_and_methods.Rmd"}
 ```
 
-```{r child = "chapter/results.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/results.Rmd"}
 ```
 
-```{r child = "chapter/discussion.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/discussion.Rmd"}
 ```
 # References
 
 <div id="refs"></div>
 
 
-```{r child = "chapter/appendix.Rmd"}
+```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/appendix.Rmd"}
 ```

@@ -308,11 +308,8 @@ pw_activity <- gsva(expr = as.matrix(SkinnyBoy),
 saveRDS(pw_activity, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/PathwayMatrixDeluxePremium.rds")
 
 
-
+#diagnostics
 match(names(AllPathwaysEns_List),rownames(pw_activity))
-
-
-
 
 multicoreWorkers()
 

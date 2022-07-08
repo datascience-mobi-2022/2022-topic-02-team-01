@@ -1,0 +1,55 @@
+# Material and Methods
+
+## 2.1 Materials 
+### 2.1.1 Data sets 
+- tcga + annot 
+- 5 cancers 
+
+say that they were provided, dimension before cleaning, what contains (rows, columns), what did we use it for or like what work did we perform with it 
+What kind of data do we have?
+
+### Used Packages
+show a table! 
+- where from 
+- what they do 
+- what we used them for 
+
+## 2.2 Methods 
+
+### 2.2.1 Data Exploration 
+
+ 2.2.1.1 Cleaning & Filtering 
+ 
+ -remobed NAs (why & how) + code chunk + function 
+ - biotype filtering (why + how) + function + code chunk 
+ 
+ 2.2.1.2 Discriptive analysis
+ 
+- what is this + what is is used for 
+- what we did (violin, boxplot, barplot, histos, variance mean, PCA ... What else ????) + plots, Q: do we here need code chunks ?
+
+   Results: what did we acchive with this, what does it say, ow can we use thius inforamtion + in dicussion if needed point out what is interersting and if this needs further research 
+   
+2.2.2 Metabolic pathways 
+  
+- how did we find and retrieved the pathways
+- where did we extract them form + how  code chunk ?
+- for what + what did we d further with them 
+ 
+2.2.3 Gene set scoring 
+ 
+- what is this 
+- what used for generally 
+- how did we use it + code chunk + what did we get (probs in results, right?) + plotsss + volcano ? 
+- quality control ???
+
+######where does venn diagrmm gooooo
+
+### pan cancer 
+### GSEA vs GSVA
+###correlation analysis 
+###regression analysis 
+
+
+nowww resultsss and info impuut, go sleepyy sleep 
+ 

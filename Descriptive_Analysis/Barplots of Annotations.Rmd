@@ -575,3 +575,36 @@ names_histStage = list(tcga_annot$histological_type)
 ```{r new_tumor_event_site-->n=60}
 unique(tcga_annot$new_tumor_event_site)
 ```
+
+```{r Barplot of BRCA data sets, per/post Menopause}
+#load data 
+load(tcga_tumor_norm)
+
+#put number of patients in BRCA with per/post menopause in vector
+numberof_BRCA_preMP = sum (tcga_tumor_norm$BRCA$clinical$menopause_status == "Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement)")
+numberof_BRCA_postMP = sum (tcga_tumor_norm$BRCA$clinical$menopause_status == "Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy)")
+
+Number_BRCA_MPannot = c (numberof_BRCA_preMP, numberof_BRCA_postMP )
+View(Number_BRCA_MPannot)
+
+#make histogram
+
+data_N_BRCA_MP = data.frame(
+  Menopause_status = c("Pre", "Post"),  
+  Number_of_Patients = Number_BRCA_MPannot
+)
+
+ggplot(data = data_N_BRCA_MP, mapping = aes(x=Menopause_status, y=Number_of_Patients, fill=Menopause_status)) + geom_bar(stat="identity", position = "dodge") + scale_fill_brewer(palette = "Pastel2") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=8)) + ggtitle("Number of patients in pre/post menopause in BRCA") + geom_text((aes(label = Number_of_Patients)), vjust = -0.2, size = 4, position = position_dodge(0.9))
+
+#saving plot 
+ggsave(
+  filename = "plot_BRCA_MP_annot.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Barplots Annot",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+

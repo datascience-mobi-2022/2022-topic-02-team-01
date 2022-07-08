@@ -1,0 +1,49 @@
+# Introduction
+
+<!-- You can cite one or multiple authors. One author [@kumar_multiple_2017] and multiple authors [@kumar_multiple_2017; @zavidij_single-cell_2020]. Write in **bold** or in *italic* or in both ***bolditalic***. You can also write inline code, e.g. `Seurat::RunUMAP`. -->
+
+## Cancer and BRCA 
+--> cancer generall (quick def, why important for research (fall numbern worldwide + pic of map with brca cases higlighted in dif color), role of data analysis here)
+
+*überleitung 
+
+--> Brca (prevalance general + map, where how often, clinical stages, therapies, role of data analysis here)
+
+*überleitung 
+
+
+
+Up  until this day cancer remains as .... . 
+We all know cancer as a term for a diseases in which abnormal cells divide without control and possibly invade nearby tissues.
+In our project we want to also shine light on the metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis.
+
+
+Breast cancer is the most common malignant tumor and the second capital reason for cancer death among women worldwide.
+To highlight the importance of this research we want to draw your attention to the fact that for 2022 the American Cancer Society
+Estimated about 290,560 breast cancer cases in the US. and about 43,780 death cases.
+
+## Hallmarks 
+--> quick def + who postulated + when + pic of hallmarks 
+
+## Methabolic pathways - ascendany of tumerigenesis 
+--> /quote imortance of mpw from lit 
+--> why provide a selective advantage and where + energy
+--> regulation of diff stages + warburg effect 
+
+
+
+
+## Project outline
+--> pic (overview of the projecrs objectives which our analysis aims to answer)
+--> how, which methods, reg analysis, what use of algorithm in research & treatment & diagnosis 
+-Computational Tools (Gene Set Scoring,Gene Set Variation Analysis, Gene Set Enrichment Analysis, UMAP, PCA )
+- our analysis: Discriptive Analysis, Correlation analysis, Pan Cancer, Focused Analysis
+
+we wanted to especially emphasize the importance of the pan cancer analysis since by comparing, e.g., the upregulation of specific (metabolic) pathways between tumor different typer types, provides the posibility to explore and make connection between the tumerigenesis of thoses tumors which hasnt been made before since its not offensichtlich form just the information u get from primary research 
+
+
+First we cleaned our provided datasets by removing NAs, followed by a biotype filtering to further reduce the size of the datasets. After the biotype filtering in the datasets only protein-coding (genexpressions?) remained.
+Basen on our given data we first wanted to focus our regression analysis on the predition on wheter or not a tumor will be infiltarting or not. After doing a umap on the data we discovered that most of the patients have primary tumor and the analysis would not be that intering. Therefor, we decided to proceed with predicting what pathology stage the patient will have beased on gene/pathway expression????
+
+## Related work 
+if we have time maybe ???

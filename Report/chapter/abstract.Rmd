@@ -1,9 +1,8 @@
----
-title: "abstract report"
-author: "Junona Sachov"
-date: "7/5/2022"
-output: html_document
----
+\renewcommand\abstractname{\Large Acknowledgments}
+\begin{abstract}
+Thank You
+\end{abstract}
+
 
 \renewcommand\abstractname{\Large Acknowledgments}
 \begin{abstract}
@@ -11,4 +10,3 @@ output: html_document
 Thank You --> #do we need that or should we just write like a paper abstract or no abstract ?
 
 \end{abstract}
-

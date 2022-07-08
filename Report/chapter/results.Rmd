@@ -1,0 +1,50 @@
+# Results
+
+## 33 tumor types are showing disting clusters in UMAP
+
+hello world!
+
+## blb alsdjflaskdf umap of some tumortypes
+
+Figure generation. You can do it with knitr or with latex formatting. This is knitr:
+
+```{r figure1, fig.cap="Title. Description",echo=FALSE}
+knitr::include_graphics("figures/figure1.png")
+```
+
+
+easier alternative: this is latex formatting. In Figure \ref{figure1} you can see an UMAP. (+ label your figures, equations etc and then reference with /\ref{})
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/figure1.png}
+    \caption[\textbf{Title}.]{\textbf{Title}. Description.}
+    \label{figure1}
+\end{figure}
+
+----------
+
+# Results
+
+## 1. Data Cleaning & Filtering 
+until what dim did we reduce it and filter it 
+
+## 2. Discriptive analysis 
+
+describing onjectivly what we can see in the plot 
+and then in discussion: interpret what the plot and maybe compare to sth ?
+
+## 3. gene set scoring 
+
+## Umaps ??
+
+## Volcano plots 
+
+## GSEA vs GSVA 
+the plots we got and what its saying ?
+venn diagramm 
+
+
+## Correlation analysis 
+
+## Regression analysis 
