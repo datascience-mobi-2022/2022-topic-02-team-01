@@ -33,7 +33,7 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
 
 ## Methods and Goals
 
-- **1. Descriptive Analysis:** 
+ **1. Descriptive Analysis:** 
  - helps describe, show or summarize data points in a constructive way 
  - one of the most important steps for conducting statistical data analysis
  - general visualizations of the data and it's behaviour
@@ -41,28 +41,28 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
    #### Methods
   - Boxplots, Heatmap, Histogram, PCA
 
-- **2. Gene set scoring:** <!-- describe what it is and what we did during our analysis --> Identify most differentially expressed pathways and find out how they are linked.
+ **2. Gene set scoring:** <!-- describe what it is and what we did during our analysis --> Identify most differentially expressed pathways and find out how they are linked.
  
    #### Methods
   
   
-- **3. Correlation analysis:** <!-- describe what it is and what we did during our analysis --> Answer the question how does metabolic pathways correlate with hallmark pathways in terms of, e.g., gene expression?
+ **3. Correlation analysis:** <!-- describe what it is and what we did during our analysis --> Answer the question how does metabolic pathways correlate with hallmark pathways in terms of, e.g., gene expression?
  
    #### Methods
    
 
-- **4. Pan-cancer analysis:** find similarity in gene expression and pathways between tumor types and assessing frequently mutated genes and other genomic abnormalities common to many different cancers, regardless of tumor origin. Further, to compare the cancer types in terms of pathway expression comparison between the cancer types.
+ **4. Pan-cancer analysis:** find similarity in gene expression and pathways between tumor types and assessing frequently mutated genes and other genomic abnormalities common to many different cancers, regardless of tumor origin. Further, to compare the cancer types in terms of pathway expression comparison between the cancer types.
 
    #### Methods
    
    
 
-- **5. Focused cancer analysis:**  In general it is a comparison between tumor and normal tissue. Our group will focus on the differences in pathway expression between infiltrating and non infiltrating tumors.
+ **5. Focused cancer analysis:**  In general it is a comparison between tumor and normal tissue. Our group will focus on the differences in pathway expression between infiltrating and non infiltrating tumors.
 
    #### Methods
 
 
-- **6. Regression analysis:** <!-- describe what it is and what we did during our analysis --> To be able to predict whether a breast cancer sample is infiltrating or non infiltrating by looking at gene expression data.
+ **6. Regression analysis:** <!-- describe what it is and what we did during our analysis --> To be able to predict whether a breast cancer sample is infiltrating or non infiltrating by looking at gene expression data.
 
    #### Methods
 
