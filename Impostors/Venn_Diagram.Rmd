@@ -144,13 +144,63 @@ ggVennDiagram(
 
 A = c()
 
-for (i in 1:10)
+for (i in 1:6458)
 {
-  append(A, AllPathwaysEns_List[[i]] )
+  B = AllPathwaysEns_List[[i]]
+  A = append(A, B)
+}
+
+EnsemblesVectorAllPathways = A
+
+EnsemblesVectorSkinnyBoy = rownames(SkinnyBoy)
+
+View(PathwayMatrixDeluxePremium)
+
+
+
+for(i in 1:length(rownames(PathwayMatrixDeluxePremium)))
+{
+  apple1 = match(rownames(PathwayMatrixDeluxePremium), names(AllPathwaysEns_List))
+  
 }
 
 
+for (i in apple1)
+{
+  apple4 = AllPathwaysEns_List[[i]]
+}
 
+EnsemblesVectorLastPathways = apple4
+
+
+
+
+
+hes = list(EnsemblesVectorAllPathways, EnsemblesVectorSkinnyBoy, EnsemblesVectorLastPathways)
+
+hus = list(unique(EnsemblesVectorAllPathways),unique(EnsemblesVectorSkinnyBoy),unique(EnsemblesVectorLastPathways))
+
+library("ggVennDiagram")
+
+ggVennDiagram(
+  hus, label_alpha = 0,
+  category.names = c("AllPathways","SkinnyBoy","Last Pathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+
+
+
+hunana = list(unique(EnsemblesVectorSkinnyBoy),unique(EnsemblesVectorLastPathways))
+
+library("ggVennDiagram")
+
+ggVennDiagram(
+  hunana, label_alpha = 0,
+  category.names = c("SkinnyBoy","Last Pathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
 
 
 
