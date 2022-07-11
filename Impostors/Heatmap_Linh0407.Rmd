@@ -85,7 +85,9 @@ library (pheatmap)
 
 scale_PathwayMatrix = scale(PathwayMatrixDeluxePremium) 
 scale_PathwayMatrix_try = scale_PathwayMatrix [1:100,1:100]
-pheatmap (scale_PathwayMatrix_try, angle_col=45, cellwidth = 5,main = "heatmap 100 and 100 patients", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 2)
+pheatmap (scale_PathwayMatrix, angle_col=45, cellwidth = 2,main = "heatmap all pathways all patients", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 2)
+
+
 
 
 ```
