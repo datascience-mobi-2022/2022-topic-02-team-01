@@ -8,6 +8,15 @@
 say that they were provided, dimension before cleaning, what contains (rows, columns), what did we use it for or like what work did we perform with it 
 What kind of data do we have?
 
+For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
+the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
+
+The second data set "tcga_tumor_annotation" is also a data frame which contains all of the patients from the previous datasets with 37 clinical annotations (for example gender, race, tissue type etc.)
+
+The third provided data set is a R object "tcga_tumor_normal_datascience_proj_2022" containing expression data of matched tumor and normal tissue for five tumor types (BRCA, KIRC, LUAD, PRAD, THCA), each of them are specific for one tumour type, each of them have three smaller dataframe showing gene expression of tumor samples and normal samples from the same patients, and clinical annotations for these patients.
+
+Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them contains various amounts of genes associated with this set
+
 ### Used Packages
 show a table! 
 - where from 
@@ -20,8 +29,10 @@ show a table!
 
  2.2.1.1 Cleaning & Filtering 
  
- -remobed NAs (why & how) + code chunk + function 
+ - checked for  NAs (why & how) + code chunk + function 
  - biotype filtering (why + how) + function + code chunk 
+ - variance filtering 
+
  
  2.2.1.2 Discriptive analysis
  
@@ -47,8 +58,8 @@ show a table!
 
 ### pan cancer 
 ### GSEA vs GSVA
-###correlation analysis 
-###regression analysis 
+### correlation analysis 
+### regression analysis 
 
 
 nowww resultsss and info impuut, go sleepyy sleep 

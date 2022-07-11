@@ -1,12 +1,8 @@
 \renewcommand\abstractname{\Large Acknowledgments}
 \begin{abstract}
+
 Thank You
-\end{abstract}
-
-
-\renewcommand\abstractname{\Large Acknowledgments}
-\begin{abstract}
-
-Thank You --> #do we need that or should we just write like a paper abstract or no abstract ?
 
 \end{abstract}
+
+

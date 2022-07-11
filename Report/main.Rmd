@@ -32,6 +32,8 @@ header-includes:
   - \usepackage{acronym}
   - \usepackage{lipsum}
   - \usepackage{scrhack}
+  - \usepackage{blindtext} %This package generates automatic text
+  - \usepackage{epigraph} 
   - \emergencystretch=50pt
   - \clubpenalty = 10000
   - \widowpenalty = 10000
@@ -64,7 +66,7 @@ bibliography: [bib/packages.bib, bib/test.bib]
 
 	{\Huge Data Analysis Report}
 
-		{\Huge Topic 2, group 1}
+		{\Huge Topic 2, Group 1}
 
 		{\Huge Supervisor: Carl Hermann}
 		{\Huge Tutor: Wanjun Hu}
@@ -79,8 +81,8 @@ bibliography: [bib/packages.bib, bib/test.bib]
 	{\Large
 		\begin{tabular}{rl}
 			Autoreb & Ekin Ören, Yoana Onishtenko, Linh Trinh, Junona Sachov\\
-			? & ?\\
-			Abgabetermin &20.07.2022\\
+			
+			Abgabetermin & 20.07.2022\\
 		\end{tabular}
 	}
 
@@ -106,6 +108,7 @@ bibliography: [bib/packages.bib, bib/test.bib]
 
 ```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/discussion.Rmd"}
 ```
+
 # References
 
 <div id="refs"></div>

@@ -174,7 +174,8 @@ saveRDS(umapy.pmdpt, file="/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-
 ```
 
 ```{r umap of skinny BRCA joint }
-uSkinnyBRCA_joint.df = t(SkinnyBRCA_joint)
+
+uSkinnyBRCA_joint.df = t(SkinnyBRCA_joint_fixed)
 View(uSkinnyBRCA_joint.df)
 
 
@@ -187,7 +188,7 @@ library(ggplot2)
 ggplot(df.umap_SkinnyBRCA_joint, aes(x, y, colour = Patients)) +
   geom_point()
 
-#save plot umap pathway matrix new non transposed
+#save plot umap
 ggsave(
   filename = "umap_SkinnyBRCA_joint.png",
   plot = last_plot(),
@@ -199,7 +200,7 @@ ggsave(
 
 #saving umap
 
-saveRDS(umap_SkinnyBRCA_joint, file="/Users/lunona/Desktop/umap_SkinnyBRCA_joint.RDS")
+saveRDS(df.umap_SkinnyBRCA_joint, file="/Users/lunona/Desktop/df.umap_SkinnyBRCA_joint.RDS")
 
 ```
 
@@ -208,15 +209,15 @@ saveRDS(umap_SkinnyBRCA_joint, file="/Users/lunona/Desktop/umap_SkinnyBRCA_joint
 pw_aktivity_SkinnyBRCA.df = t(pw_activity_SkinnyBRCA)
 View(pw_aktivity_SkinnyBRCA.df)
 
-umap_pw_aktivity_SkinnyBRCA = umap(pw_aktivity_SkinnyBRCA.df[, -18226]) #9741 --> subscript out of bounds
-df.pw_aktivity_SkinnyBRCA = data.frame(x = umap_pw_aktivity_SkinnyBRCA $layout [,1],
-                      y = umap_pw_aktivity_SkinnyBRCA $layout[,2],
-                     Patients = pw_aktivity_SkinnyBRCA.df[,18226])
+umap_pw_aktivity_SkinnyBRCA = umap(pw_aktivity_SkinnyBRCA.df[, -1114]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnyBRCA = data.frame(x = umap_pw_aktivity_SkinnyBRCA$layout [,1],
+                                       y = umap_pw_aktivity_SkinnyBRCA$layout[,2],
+                                      Patients = pw_aktivity_SkinnyBRCA.df[,1114])
 
 ggplot(df.pw_aktivity_SkinnyBRCA, aes(x, y, colour = Patients)) +
   geom_point()
 
-#save plot umap pathway matrix new non transposed
+#save plot umap 
 ggsave(
   filename = "umap_pw_aktivity_SkinnyBRCA.png",
   plot = last_plot(),
@@ -226,9 +227,59 @@ ggsave(
   bg = NULL,
 )
 
-#saving umap
+#saving umap 111
 
 saveRDS(df.pw_aktivity_SkinnyBRCA, file="/Users/lunona/Desktop/df.pw_aktivity_SkinnyBRCA.RDS")
+
+```
+
+```{r umap sadTT}
+pw_aktivity_SkinnySadTT.df = t(pw_activity_SkinnyBRCA[,1:111])
+View(pw_aktivity_SkinnySadTT.df)
+
+umap_pw_aktivity_SkinnySadTT = umap(pw_aktivity_SkinnySadTT.df[, -1114]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnySadTT = data.frame(x = umap_pw_aktivity_SkinnySadTT$layout [,1],
+                                        y = umap_pw_aktivity_SkinnySadTT$layout[,2],
+                                        Patients = pw_aktivity_SkinnySadTT.df[,1114])
+
+ggplot(df.pw_aktivity_SkinnySadTT, aes(x, y, colour = Patients)) +
+  geom_point()
+
+#save plot umap 
+ggsave(
+  filename = "umap_pw_aktivity_SkinnyBRCA.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r sad tt pathways not transposed }
+
+pw_aktivity_SkinnySadTT_nt.df = (pw_activity_SkinnyBRCA[,1:111])
+View(pw_aktivity_SkinnySadTT_nt.df)
+
+umap_pw_aktivity_SkinnySadTT_nt = umap(pw_aktivity_SkinnySadTT_nt.df[, -111]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnySadTT_nt = data.frame(x = umap_pw_aktivity_SkinnySadTT_nt$layout [,1],
+                                        y = umap_pw_aktivity_SkinnySadTT_nt$layout[,2],
+                                        Pathways = pw_aktivity_SkinnySadTT_nt.df[,111])
+
+ggplot(df.pw_aktivity_SkinnySadTT_nt, aes(x, y, colour = Pathways)) +
+  geom_point()
+
+#save plot umap 
+ggsave(
+  filename = "umap_pw_aktivity_SkinnyBRCA.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
 
 ```
 
