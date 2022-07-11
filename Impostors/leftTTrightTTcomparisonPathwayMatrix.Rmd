@@ -1,0 +1,79 @@
+---
+title: "Untitled"
+author: "Ekin Ören"
+date: '2022-07-06'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r huhuhuhu, echo=FALSE}
+
+SkinnyBRCA_joint.RDS = readRDS(file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnyBRCA_joint.RDS.rds")
+
+View(SkinnyBRCA_joint.RDS)
+
+
+#fixing the skinny BRCA dont run if u aleady have fixed vesrion #############################
+genes = rownames(SkinnyBRCA_joint.RDS)
+
+gene_identifier <- strsplit(genes, split = "|", fixed = TRUE)
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+# remove version number
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+
+#Diagostic. if true go forth
+length(genes_ensembl) == length(rownames(SkinnyBRCA_joint.RDS))
+
+rownames(SkinnyBRCA_joint.RDS) = genes_ensembl
+
+saveRDS(SkinnyBRCA_joint.RDS, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/SkinnyBRCA_joint_fixed.rds")
+
+View(SkinnyBRCA_joint.RDS)
+###########################################################################################################3
+
+
+SkinnyBRCA_joint.RDS #genexps
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+#do gsva scoring
+pw_activity_SkinnyBRCA <- gsva(expr = as.matrix(SkinnyBRCA_joint.RDS),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+saveRDS(pw_activity_SkinnyBRCA, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/pw_activity_SkinnyBRCA.rds")
+
+View(pw_activity_SkinnyBRCA)4
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

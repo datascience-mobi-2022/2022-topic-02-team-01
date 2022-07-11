@@ -140,5 +140,20 @@ ggVennDiagram(
 
 ```
 
+```{r setup,}
+
+A = c()
+
+for (i in 1:10)
+{
+  append(A, AllPathwaysEns_List[[i]] )
+}
+
+
+
+
+
+
+```
 
 
