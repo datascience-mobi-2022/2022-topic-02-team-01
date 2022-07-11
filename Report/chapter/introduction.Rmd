@@ -42,9 +42,21 @@ Breast cancer can be identified during screening with mammography and clinically
 
 Whereas conventional therapies, such as surgery, radiotherapy, and chemotherapy, are the most common options they usually have limited success. Further, for specifically for patients with high-risk early stage breast cancer neoadjuvant therapy has become standard care [@M. Untch, 2021]. More promesing therapy approches are personalised therapies like immunotherapy, i.e. HER2-targeted therapies [@G. T. Clifton and G. E. Peoples, 2021] or epigenetic therapies. These therapies are a promising tool for overcoming clinical resistance to traditional treatments for breast cancer but are still in the pre-clinical setting and show most promise in use in combinations with other treatments [@L. J. Brown et al., 2022]. 
 
-Especially in the era of personalized medicine and improved genomic analysis using methods of data analysis i.e. to identifify Biomarkers for epigenetic therpies, underline the importance of data analysis in cancer research.  
+Especially in the era of personalized medicine and improved genomic analysis using methods of data analysis i.e. to identify Biomarkers for epigenetic therapies, underline the importance of data analysis in cancer research.  
 
 ## Hallmarks 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/Fig 4.png}
+    \label{Figure 4}
+\end{figure}
+
+\epigraph{The hallmarks constitute an organizing principle for rationalizing the complexities of neoplastic disease. They include sustaining proliferative signaling, evading growth suppressors, resisting cell death, enabling replicative immortality, inducing angiogenesis, and activating invasion and metastasis.}{\textit{Hallmarks of cancer: the next generation \\ D. Hanahan, R. A. Weinberg, 2011}}
+\blindtext
+
+
+
 
 --> quick def + who postulated + when + pic of hallmarks 
 
