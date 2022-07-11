@@ -1,0 +1,148 @@
+---
+title: "Untitled"
+author: "Yoana Onishtenko"
+date: '2022-07-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Loading the data Frames
+````{r}
+View(Number_ageAnnot)
+View (df.pw_aktivity_SkinnyBRCA)
+View (umap_pw_aktivity_SkinnyBRCA)
+View(tcga_tumor_annotation)
+````
+
+#Fix the Annotations
+````{r}
+#Fixing Menopause
+tcga_tumor_annotation[tcga_tumor_annotation == "Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy)"] <- "Post"
+tcga_tumor_annotation[tcga_tumor_annotation == "Indeterminate (neither Pre or Postmenopausal)"] <- "Indeterminate"
+tcga_tumor_annotation[tcga_tumor_annotation == "Peri (6-12 months since last menstrual period)"] <- "Peri"
+tcga_tumor_annotation[tcga_tumor_annotation == "Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement)"] <- "Pre"
+View (tcga_tumor_annotation)
+
+#Fixing stages
+tcga_tumor_annotation[tcga_tumor_annotation == "Stage IA"] <- "Stage I"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IB"] <- "Stage I"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIA"] <- "Stage II"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIB"] <- "Stage II"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIC"] <- "Stage II"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIIA"] <- "Stage III"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIIB"] <- "Stage III"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IIIC"] <- "Stage III"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IVA"] <- "Stage IV"
+tcga_tumor_annotation [tcga_tumor_annotation == "Stage IVB"] <- "Stage IV"
+tcga_tumor_annotation [tcga_tumor_annotation  == "Stage IVC"] <- "Stage IV"
+View (tcga_tumor_annotation )
+
+#Fixing ages
+
+````
+
+
+#Match annotation information
+````{r}
+rownames(tcga_tumor_annotation)=tcga_tumor_annotation$sample
+View (tcga_tumor_annotation)
+Vector1 = rownames(df.pw_aktivity_SkinnyBRCA)
+match(Vector1, rownames(tcga_tumor_annotation)) # this finds row numbers in SB where Vector 1 elements are there
+tcga_tumor_annotation[match(Vector1, rownames(tcga_tumor_annotation))] #this gives you rows only where Vector 1 matches Skinny boy
+
+data.frame(df1=rownames(tcga_tumor_annotation), df2=m[match(d$v2, m$v3), 2])
+
+df.pw.BRCA=cbind(df.pw_aktivity_SkinnyBRCA, rownames(df.pw_aktivity_SkinnyBRCA))
+View(df.pw.BRCA)
+tumor_BRCA_anot=merge(df.pw.BRCA,tcga_tumor_annotation, by.x="rownames(df.pw_aktivity_SkinnyBRCA)", by.y="sample")
+View(tumor_BRCA_anot)
+
+df_BRCA_tumor_normal = rbind(tumor_BRCA_anot, tumor_BRCA_anot)
+View(df_BRCA_tumor_normal)
+
+df_BRCA_plot = cbind(df.pw_aktivity_SkinnyBRCA, df_BRCA_tumor_normal$menopause_status, df_BRCA_tumor_normal$ajcc_pathologic_tumor_stage, df_BRCA_tumor_normal$age_at_initial_pathologic_diagnosis)
+View(df_BRCA_plot)
+```
+
+#GGplot UMAP BRCA
+````{r}
+colnames(df_BRCA_plot)<- c("x","y","Patients","Menopause Status","Pathological Stage","Age")
+View(df_BRCA_plot)
+
+#Menopause
+library(ggplot2)
+ggplot2::ggplot(data = df_BRCA_plot, mapping = aes(x = df_BRCA_plot[, 1], y = df_BRCA_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=df_BRCA_plot$`Menopause Status`) + scale_color_brewer(palette = "Paired") + ggtitle("BRCA tumor and normal Menoopause") + xlab("1") + ylab("2")
+
+#Pathological Stage
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = df_BRCA_plot, mapping = aes(x = df_BRCA_plot[, 1], y = df_BRCA_plot[, 2])) + geom_point(alpha = 0.9) + aes(color=df_BRCA_plot$`Pathological Stage`) + scale_color_brewer(palette = "Paired") + ggtitle("BRCA tumor and normal Pathological stage") + xlab("1") + ylab("2")
+
+#tumor and normal
+c1<-rep("tumor", each=111)
+c2<-rep("normal", each=111)
+d=data.frame(c1,c2)
+d1=data.frame(d$c1)
+d2=data.frame(d$c2)
+View(d1)
+View(d2)
+colnames(d1)=colnames(d2)
+rownames(d1)=rownames(d2)
+normal_tumor=rbind.data.frame(d1, d2)
+View(normal_tumor)
+
+df_BRCA_plot1=cbind.data.frame(df_BRCA_plot,normal_tumor)
+View(df_BRCA_plot)
+Data <- df_BRCA_plot[,-(7:9),drop=FALSE]
+View(Data)
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = Data, mapping = aes(x = Data[, 1], y = Data[, 2])) + geom_point(alpha = 0.9)+ aes(color=Data$d.c2) + scale_color_brewer(palette = "Paired") + ggtitle("BRCA tumor and normal") + xlab("1") + ylab("2")
+````
+
+#Plot Age
+````{r}
+#insert Junes code here
+umap_age.df[umap_age.df == "15-30"] <- "Younger than 30"
+umap_age.df [umap_age.df  == "30-40"] <- "30 < x > 60"
+umap_age.df [umap_age.df  == "40-50"] <-"30 < x > 60"
+umap_age.df [umap_age.df  == "50-60"] <- "30 < x > 60"
+umap_age.df [umap_age.df  == "60-70"] <- "Older than 60"
+umap_age.df [umap_age.df  == "70-80"] <-"Older than 60"
+umap_age.df [umap_age.df  == "80-90"] <- "Older than 60"
+View (umap_age.df )
+
+View(umap_age.df)
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = umap_age.df, mapping = aes(x = umap_age.df[, 1], y = umap_age.df[, 2])) + geom_point(alpha = 0.9)+ aes(color=umap_age.df$age_group) + scale_color_brewer(palette = "Dark2") + ggtitle("BRCA Age") + xlab("1") + ylab("2")
+
+
+
+````
