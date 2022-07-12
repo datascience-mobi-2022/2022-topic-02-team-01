@@ -2,11 +2,6 @@
 
 ## 2.1 Materials 
 ### 2.1.1 Data sets 
-- tcga + annot 
-- 5 cancers 
-
-say that they were provided, dimension before cleaning, what contains (rows, columns), what did we use it for or like what work did we perform with it 
-What kind of data do we have?
 
 For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
 the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
@@ -17,7 +12,7 @@ The third provided data set is a R object "tcga_tumor_normal_datascience_proj_20
 
 Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them contains various amounts of genes associated with this set
 
-### Used Packages
+### 2.1.2 Used Packages
 show a table! 
 - where from 
 - what they do 
@@ -31,6 +26,7 @@ show a table!
  
  - checked for  NAs (why & how) + code chunk + function 
  - biotype filtering (why + how) + function + code chunk 
+ - Distribution of gene expression values
  - variance filtering 
 
  
@@ -47,7 +43,7 @@ show a table!
 - where did we extract them form + how  code chunk ?
 - for what + what did we d further with them 
  
-2.2.3 Gene set scoring 
+2.2.3 Gene set scoring - GSEA, GSVA
  
 - what is this 
 - what used for generally 
@@ -57,6 +53,7 @@ show a table!
 ######where does venn diagrmm gooooo
 
 ### pan cancer 
+### focused analysis 
 ### GSEA vs GSVA
 ### correlation analysis 
 ### regression analysis 
