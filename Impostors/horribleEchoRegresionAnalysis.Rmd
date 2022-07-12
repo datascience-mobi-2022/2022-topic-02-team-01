@@ -1,0 +1,65 @@
+---
+title: "EcoRegressoNoDepresso"
+author: "Ekin Ören"
+date: '2022-07-12'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r multiple regression model: learn the model on the train and testing the model to evaluate its performances}
+# CHOOSING PATHWAY TO PREDICT
+#spilt data into training set and test set
+## take 70% = 155 patients for test set. Rest is training set 
+View(IngredientsForRegressoSmallpack)
+
+i.train = sample (1:ncol(IngredientsForRegressoSmallpack),77)
+
+dat.train = IngredientsForRegressoSmallpack[,i.train]
+dat.test = IngredientsForRegressoSmallpack[,-i.train]
+
+# 2. do regression on 1 pw based on all of other pw (variances)
+##find row no of KEGG 
+WU_CELL_MIGRATION = dat.train_trans[,"WU_CELL_MIGRATION"]
+  which (colnames (dat.train_trans) == "WU_CELL_MIGRATION")
+dat.train_trans_noKEGG = dat.train_trans [,-15]
+  
+dim (dat.train_trans_noKEGG)
+length (WU_CELL_MIGRATION)
+
+#try to transpose the df and do regression on it 
+upregulated_pw_trans = t(IngredientsForRegressoSmallpack)
+dat.train_trans = t (dat.train)
+dat.test_trans = t (dat.test)
+
+## regression function
+l1 = lm(WU_CELL_MIGRATION ~ ., data = as.data.frame(dat.train_trans))
+summary(l1)
+
+
+
+# 3.	We can now check if the prediction are better that with the univariate model
+plot(WU_CELL_MIGRATION,l1$fitted.values,pch=20,col='blue', xlab='Real values',ylab='Predicted values');abline(0,1,col='red')
+
+# To determine the accuracy, we can compute the so called root mean squared error (RMSE)
+
+n = nrow(dat.train_trans)
+rmse = sqrt(1/n*sum(l1$residuals^2))
+rmse
+
+# rmse = 0.04675284: Lower values of RMSE indicate better fit. RMSE is a good measure of how accurately the model predicts the response.
+
+
+```
+```{r predict values based on new data points}
+
+pred = predict(l.train,newdata = dat.test)
+
+```
+
+
+
+

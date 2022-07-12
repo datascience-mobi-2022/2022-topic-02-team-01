@@ -58,8 +58,49 @@ diag (cor_matrix_for_regresso ) = 0
 
 ```{r cars}
 
-# do explaratory
+# do smoller
 
+
+```
+
+
+```{r cars}
+
+DifferingPathwaysin_tumnormBRCA = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ DifferingPathwaysin_tumnormBRCA.rds")
+
+PathwayMatrixDeluxePremium
+
+smolle11 = pw_activity_SkinnyBRCA[match (rownames(DifferingPathwaysin_tumnorm_BRCAPRAD), rownames(pw_activity_SkinnyBRCA)),]
+
+smolle22 = smolle11[,match(colnames(BRCAtum) , colnames(smolle11))]
+
+View(smolle22)
+
+IngredientsForRegressoSmallpack = smolle22
+
+saveRDS(IngredientsForRegressoSmallpack,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ Ingredients_For_Regresso_Smallpack.rds")
+
+```
+
+
+
+FOR SB AND BRCA COMPARİSON
+
+```{r cars}
+
+BRCA_SB_DifferingPathways = df_volcanoplotBRCAvsSBpathways[which (df_volcanoplotBRCAvsSBpathways$different == "UP" | df_volcanoplotBRCAvsSBpathways$different == "DOWN" ) ,]
+
+
+smolle111 = PathwayMatrixDeluxePremium[match (rownames(BRCA_SB_DifferingPathways), rownames(PathwayMatrixDeluxePremium)),]
+
+
+IngredientsForRegressoSB = smolle111
+
+dim(IngredientsForRegressoSB)
+which (row.names (IngredientsForRegressoSB) == "YAMAZAKI_TCEB3_TARGETS_UP")
+
+
+saveRDS(IngredientsForRegressoSB,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ IngredientsForRegressoSB.rds")
 
 ```
 
