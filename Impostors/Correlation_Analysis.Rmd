@@ -1,0 +1,33 @@
+---
+title: "Correlation_Analyis"
+author: "linh"
+date: '2022-07-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r making the correlation df for all pw}
+
+cor_matrix = data.frame()
+for (n in 1:1114) {
+  for (m in 1:1114) {
+    cor_matrix [n,m] = cor(pw_activity_SkinnyBRCA[n,], pw_activity_SkinnyBRCA[m,],  method = "pearson", use = "complete.obs")
+  }
+}
+
+#View (cor_matrix)
+
+
+```
+```{r heatmap correlation}
+
+pheatmap (cor_matrix, angle_col=45, cellwidth = 0.25,main = "correlation heatmap for all pathways", width = 10, height = 10, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
+
+
+
+```
+

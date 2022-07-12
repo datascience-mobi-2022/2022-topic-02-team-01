@@ -1,0 +1,94 @@
+---
+title: "Heatmap_Linh1107"
+author: "linh"
+date: '2022-07-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Heatmap BRCA pathways}
+
+# Heatmap BRCA pathways all 
+
+library (pheatmap)
+
+scale_pw_BRCA = scale (pw_activity_SkinnyBRCA)
+
+pheatmap(scale_pw_BRCA,cutree_cols = 2, angle_col=45, cellwidth = 0.75,main = "heatmap pathways in BRCA", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 1)
+
+# Heatmap BRCA pathways top200 pathways that are differentially expressed between tumor and normal
+
+cancer_mean_vector_pw = rowMeans(pw_activity_SkinnyBRCA [,1:111])
+normal_mean_vector_pw = rowMeans(pw_activity_SkinnyBRCA [,112:222])
+
+foldchange_pw = cancer_mean_vector_pw - normal_mean_vector_pw
+
+
+Top200_PW = head(sort(foldchange_pw,decreasing=TRUE),n=200)
+
+Top200_PW_df = data.frame (Top200_PW)
+
+## find the rows of these pw in the pw-activiy_SkinnyBRCA
+
+row_no = match (names (Top200_PW),rownames(pw_activity_SkinnyBRCA))
+
+##
+
+pheatmap (pw_activity_SkinnyBRCA[row_no,], angle_col=45, cellwidth = 0.75,main = "top 200 differentilly expressed pathways between normal and tumor in BRCA", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 1)
+
+```
+
+
+```{r jarkat heatmap for pathways}
+
+# create the PW_GeneID which consist of 1114 pathways and the genes belong to each pathway
+PW_GeneID = list ()
+
+
+for (i in 1:1114) {
+  PW_GeneID [[i]]= AllPathwaysEns_List[[vector_rownames[i]]]
+}
+
+names (PW_GeneID) = rownames(pw_activity_SkinnyBRCA)
+
+# make jarkat overlap heatmap
+
+jaccard <- function(a, b) {
+    intersection = length(intersect(a, b))
+    union = length(a) + length(b) - intersection
+    return (intersection/union)
+}
+
+jaccard_df_pw = data.frame( )
+for (n in 1:1114) {
+  for (m in 1:1114) {
+    jaccard_df_pw [n,m] = jaccard(PW_GeneID[[n]],PW_GeneID[[m]])
+  }
+}
+
+colnames (jaccard_df_pw) = names (PW_GeneID)
+rownames (jaccard_df_pw) = names (PW_GeneID)
+
+# all pathways
+pheatmap (jaccard_df_pw, angle_col=45, cellwidth = 0.5, cellheight = 0.5, main = "hallmark genesets overlap (Jaccard)", width = 7, height = 7, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
+
+# top 200
+
+jaccard_df_pw_200 = data.frame ()
+jaccard_df_pw_200 = jaccard_df_pw [names(Top200_PW), names(Top200_PW)]
+
+# set diagonal  = 0
+
+diag(jaccard_df_pw_200) = 0
+
+
+pheatmap (jaccard_df_pw_200, angle_col=45, cellwidth = 1, main = "hallmark genesets overlap top 200 pathways (Jaccard)", width = 30, height = 30, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
+
+
+
+
+```
+
