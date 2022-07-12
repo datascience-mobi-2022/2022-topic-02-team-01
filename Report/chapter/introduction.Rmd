@@ -61,11 +61,14 @@ Especially in the era of personalized medicine and improved genomic analysis usi
 --> quick def + who postulated + when + pic of hallmarks 
 
 ## Methabolic pathways - ascendany of tumerigenesis 
+
+In our project we want to also shine light on the metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis.
+
 --> /quote imortance of mpw from lit 
 --> why provide a selective advantage and where + energy
 --> regulation of diff stages + warburg effect 
 
-In our project we want to also shine light on the metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis.
+
 
 
 ## Project outline
