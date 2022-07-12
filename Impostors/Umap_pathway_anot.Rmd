@@ -1,0 +1,74 @@
+---
+title: "Untitled"
+author: "Yoana Onishtenko"
+date: '2022-07-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+````{r}
+View(`df.pw_aktivity_SkinnyBRCA (1)`)
+````
+
+#Data Frame annotation
+````{r}
+Pathway_Plots = cbind(`df.pw_aktivity_SkinnyBRCA (1)`, umap_age.df$`Menopause Status`,umap_age.df$`Pathological Stage`,umap_age.df$Age, umap_age.df$d.c2, umap_age.df$age_group)
+colnames(Pathway_Plots)<- c("x","y","Patients","Menopause Status","Pathological Stage","Age","Tumor/Norm", "Age Group")
+View(Pathway_Plots)
+
+````
+
+#Plot Menopause
+````{r}
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = Pathway_Plots, mapping = aes(x = Pathway_Plots[, 1], y = Pathway_Plots[, 2])) + geom_point(alpha = 0.9)+ aes(color=Pathway_Plots$`Menopause Status`) + scale_color_brewer(palette = "Paired") + ggtitle("Menopause Pathway") + xlab("1") + ylab("2")
+````
+
+#Plot Pathological Stage
+````{r}
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = Pathway_Plots, mapping = aes(x = Pathway_Plots[, 1], y = Pathway_Plots[, 2])) + geom_point(alpha = 0.9)+ aes(color=Pathway_Plots$`Pathological Stage`) + scale_color_brewer(palette = "Dark2") + ggtitle("Pathological Stage Pathway") + xlab("1") + ylab("2")
+````
+#Plot Age
+````{r}
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = Pathway_Plots, mapping = aes(x = Pathway_Plots[, 1], y = Pathway_Plots[, 2])) + geom_point(alpha = 0.9)+ aes(color=Pathway_Plots$`Age Group`) + scale_color_brewer(palette = "Dark2") + ggtitle("Age Pathway") + xlab("1") + ylab("2")
+````
+
+#Plot Tumor Norm
+````{r}
+library(RColorBrewer)
+display.brewer.all(colorblindFriendly = TRUE)
+library(ggplot2)
+ggplot2::ggplot(data = Pathway_Plots, mapping = aes(x = Pathway_Plots[, 1], y = Pathway_Plots[, 2])) + geom_point(alpha = 0.9)+ aes(color=Pathway_Plots$`Tumor/Norm`) + scale_color_brewer(palette = "Dark2") + ggtitle("Tumor Normal Pathway") + xlab("1") + ylab("2")
+````
+

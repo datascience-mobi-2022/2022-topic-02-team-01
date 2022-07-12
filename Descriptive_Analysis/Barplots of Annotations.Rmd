@@ -193,6 +193,9 @@ ggsave(
   bg = NULL,
 )
 
+
+#save age df
+saveRDS(Number_ageAnnot, file="/Users/lunona/Desktop/Number_ageAnnot.RDS")
 ```
 
 ```{r Barplot or race of patients in annotations}

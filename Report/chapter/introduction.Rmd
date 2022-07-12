@@ -3,29 +3,67 @@
 <!-- You can cite one or multiple authors. One author [@kumar_multiple_2017] and multiple authors [@kumar_multiple_2017; @zavidij_single-cell_2020]. Write in **bold** or in *italic* or in both ***bolditalic***. You can also write inline code, e.g. `Seurat::RunUMAP`. -->
 
 ## Cancer and BRCA 
---> cancer generall (quick def, why important for research (fall numbern worldwide + pic of map with brca cases higlighted in dif color), role of data analysis here)
 
-*überleitung 
+Up until this day cancer remains as .... . 
+We all know cancer as a term for a diseases in which abnormal cells divide without control and possibly invade nearby tissues.
+
+\epigraph{Cancer is a disease in which abnormal cells divide without control and can invade nearby tissues.  Cancer cells can also spread to other parts of the body through the blood and lymph systems. There are several main types of cancer.}{\textit{National Cancer Institut \\ at the National Institues of Health}}
+\blindtext
+
+The importance of cancer research and especially the data analysis for it has not faded. In 2020 for industrial countries, e.g., the estimated number of new cancer cases was above 66 thousend cases per country (\ref{Fig 1}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/Fig 1.png}
+    \label{Figure 1}
+\end{figure}
 
 --> Brca (prevalance general + map, where how often, clinical stages, therapies, role of data analysis here)
+Breast cancer is a heterogeneous disease resulting from multiple genetic and environmental factors. It is the most common malignant tumor and the second capital reason for cancer death among women worldwide [@L. Wang, S. Zhang and X. Wang, 2021].
 
-*überleitung 
+Breast cancer is a type of cancer that is caused by ..... (add molbio backround)
+
+To highlight the importance of this research we want to draw your attention to the fact that for 2022 the American Cancer Society estimated about 290,560 breast cancer cases in the US. and about 43,780 death cases.
+Further, as seen in \ref{Fig 2} and \ref{Fig 3} it ranks first in new case incidences in a lot of countries in 2020 but also can be considered the top cancer, together with prostate and cervix uteri cancer, worldwide. 
+
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figures/Fig 2.png}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{figures/Fig 3.png}
+  \end{minipage}
+\end{figure}
 
 
+Breast cancer can be identified during screening with mammography and clinically classified into four stages depending on the tumour size, if it has formed metastasis or spread to other types of tissues [@Giuliano et al., 2017]. 
 
-Up  until this day cancer remains as .... . 
-We all know cancer as a term for a diseases in which abnormal cells divide without control and possibly invade nearby tissues.
-In our project we want to also shine light on the metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis.
+Whereas conventional therapies, such as surgery, radiotherapy, and chemotherapy, are the most common options they usually have limited success. Further, for specifically for patients with high-risk early stage breast cancer neoadjuvant therapy has become standard care [@M. Untch, 2021]. More promesing therapy approches are personalised therapies like immunotherapy, i.e. HER2-targeted therapies [@G. T. Clifton and G. E. Peoples, 2021] or epigenetic therapies. These therapies are a promising tool for overcoming clinical resistance to traditional treatments for breast cancer but are still in the pre-clinical setting and show most promise in use in combinations with other treatments [@L. J. Brown et al., 2022]. 
 
-
-Breast cancer is the most common malignant tumor and the second capital reason for cancer death among women worldwide.
-To highlight the importance of this research we want to draw your attention to the fact that for 2022 the American Cancer Society
-Estimated about 290,560 breast cancer cases in the US. and about 43,780 death cases.
+Especially in the era of personalized medicine and improved genomic analysis using methods of data analysis i.e. to identify Biomarkers for epigenetic therapies, underline the importance of data analysis in cancer research.  
 
 ## Hallmarks 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/Fig 4.png}
+    \label{Figure 4}
+\end{figure}
+
+\epigraph{The hallmarks constitute an organizing principle for rationalizing the complexities of neoplastic disease. They include sustaining proliferative signaling, evading growth suppressors, resisting cell death, enabling replicative immortality, inducing angiogenesis, and activating invasion and metastasis.}{\textit{Hallmarks of cancer: the next generation \\ D. Hanahan, R. A. Weinberg, 2011}}
+\blindtext
+
+
+
+
 --> quick def + who postulated + when + pic of hallmarks 
 
 ## Methabolic pathways - ascendany of tumerigenesis 
+
+In our project we want to also shine light on the metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis.
+
 --> /quote imortance of mpw from lit 
 --> why provide a selective advantage and where + energy
 --> regulation of diff stages + warburg effect 
@@ -34,6 +72,7 @@ Estimated about 290,560 breast cancer cases in the US. and about 43,780 death ca
 
 
 ## Project outline
+
 --> pic (overview of the projecrs objectives which our analysis aims to answer)
 --> how, which methods, reg analysis, what use of algorithm in research & treatment & diagnosis 
 -Computational Tools (Gene Set Scoring,Gene Set Variation Analysis, Gene Set Enrichment Analysis, UMAP, PCA )
@@ -45,5 +84,5 @@ we wanted to especially emphasize the importance of the pan cancer analysis sinc
 First we cleaned our provided datasets by removing NAs, followed by a biotype filtering to further reduce the size of the datasets. After the biotype filtering in the datasets only protein-coding (genexpressions?) remained.
 Basen on our given data we first wanted to focus our regression analysis on the predition on wheter or not a tumor will be infiltarting or not. After doing a umap on the data we discovered that most of the patients have primary tumor and the analysis would not be that intering. Therefor, we decided to proceed with predicting what pathology stage the patient will have beased on gene/pathway expression????
 
-## Related work 
+## Related work --- discussion one senstce here 
 if we have time maybe ???
