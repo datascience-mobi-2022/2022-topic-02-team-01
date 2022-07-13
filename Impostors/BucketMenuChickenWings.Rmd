@@ -495,12 +495,31 @@ THCApathways = THCApathways[match(rownames(BRCApathways), rownames(THCApathways)
 
 
 
+#try1
+#pee_BRCAvsTHCApathways = c()
+ #for (i in 1:nrow(as.numeric(nrow(BRCApathways)))){
+  #pee_BRCAvsTHCApathways[i] = wilcox.test(as.numeric(unlist(THCApathways[i,])),as.numeric(unlist(BRCApathways[i,])),paired = FALSE )$p.value
+ #}
+#p_BRCAvsTHCApathways = pee_BRCAvsTHCApathways*length(BRCApathways[,1])
+
+
+#try2
+pee_BRCAvsTHCApathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pee_BRCAvsTHCApathways[i] = wilcox.test(as.numeric(THCApathways[i,]),as.numeric(BRCApathways[i,]),paired = TRUE )$p.value
+ }
+p_BRCAvsTHCApathways = pee_BRCAvsTHCApathways*length(BRCApathways[,1])
+
+saveRDS(BRCApathways, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/BRCApathwaysWilcox.rds")
+saveRDS(THCApathways, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/THCApathwaysWilcox.rds")
+
+#Original
+
 pee_BRCAvsTHCApathways = c()
  for (i in 1:nrow(BRCApathways)){
   pee_BRCAvsTHCApathways[i] = wilcox.test(unlist(THCApathways[i,]),unlist(BRCApathways[i,]),paired = FALSE )$p.value
  }
 p_BRCAvsTHCApathways = pee_BRCAvsTHCApathways*length(BRCApathways[,1])
-
 
 
 # in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot

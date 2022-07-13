@@ -88,15 +88,11 @@ cutree_cols = 33
 
 ```
 
-Same patients but only top 200 pathways
+
+Same  pathways grouped patients
 
 ```{r setup, include=FALSE}
 
-linguini = top
-
-OrderedCancertypePathwayscores
-
-View(AllPathwaysEns_List)
 
 
 PathwayScoreMeans = list()
@@ -126,6 +122,7 @@ pheatmap(as.data.frame(PathwayScoreMeans), angle_col=45, cluster_rows = TRUE, cl
 ```
 
 
+
 This one only the most imp pathways from SB volcano
 
 ```{r setup, include=FALSE}
@@ -146,9 +143,22 @@ pheatmap(as.data.frame(tangerine), angle_col=45, cluster_rows = TRUE, cluster_co
 
 
 
+This one only topvar
+
+```{r setup, include=FALSE}
+
+
+pheatmap(as.data.frame(matrix.topvar), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "10% top-variance pathways and all patients ordered by tumor type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE)
 
 
 
+
+vari= apply(as.data.frame(PathwayScoreMeans), 1, var)
+matrix.topvar = as.data.frame(PathwayScoreMeans)[vari > quantile(vari, probs=0.9), ]
+
+dim(matrix.topvar)
+
+```
 
 
 
