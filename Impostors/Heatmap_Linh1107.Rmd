@@ -82,7 +82,7 @@ jaccard_df_pw_200 = jaccard_df_pw [names(Top200_PW), names(Top200_PW)]
 
 # set diagonal  = 0
 
-diag(jaccard_df_pw_200) = 0
+diag(jaccard_df_pw_200) = "NA"
 
 
 pheatmap (jaccard_df_pw_200, angle_col=45, cellwidth = 1, main = "hallmark genesets overlap top 200 pathways (Jaccard)", width = 30, height = 30, fontsize = 8, fontsize_col = 1, fontsize_row = 1)

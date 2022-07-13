@@ -39,7 +39,8 @@ pheatmap (cor_matrix_up, angle_col=45, cellwidth = 0.25, main = "correlation hea
 
 
 ```{r multiple regression model: learn the model on the train and testing the model to evaluate its performances}
-# CHOOSING PATHWAY TO PREDICT
+
+
 #spilt data into training set and test set
 ## take 70% = 155 patients for test set. Rest is training set 
 i.train = sample (1:ncol(upregulated_pw),155)
@@ -48,13 +49,11 @@ dat.train = upregulated_pw[,i.train]
 dat.test = upregulated_pw[,-i.train]
 
 # 2. do regression on 1 pw based on all of other pw (variances)
-##find row no of KEGG 
+## find row no of KEGG 
 KEGG_CITRATE_CYCLE_TCA_CYCLE = dat.train_trans[,"KEGG_CITRATE_CYCLE_TCA_CYCLE"]
   which (colnames (dat.train_trans) == "KEGG_CITRATE_CYCLE_TCA_CYCLE")
 dat.train_trans_noKEGG = dat.train_trans [,-26]
-  
-dim (dat.train_trans_noKEGG)
-length (KEGG_CITRATE_CYCLE_TCA_CYCLE)
+
 
 #try to transpose the df and do regression on it 
 upregulated_pw_trans = t(upregulated_pw)
@@ -80,15 +79,185 @@ rmse
 
 
 ```
+
+
 ```{r predict values based on new data points}
 
-pred = predict(l.train,newdata = dat.test)
+pred = predict(l1,newdata = as.data.frame(dat.test_trans))
 
 ```
 
 
+```{r regression model take 2: learning + checking quality: for 85 dif pw in BRCA for tumor patients}
+
+# CHOOSING PATHWAY TO PREDICT: choose the one that is dif expressed in BRCA and dif expressed between BRCA and other cancer types 
+
+#read dataframe and View df
+
+Ingredients_for_Regresso = readRDS ("_Ingredients_for_Regresso", file = "C:/Users/trinh/Documents/GitHub/DATATSETS/_Ingredients_for_Regresso.rds")
+
+View (Ingredients_for_Regresso)
+
+# 85 entries (pw), 111 total columns (patients)
+
+#spilt data into training set and test set
+## take 95 patients for training set. Rest is test set 
+
+
+i.train = sample (1:ncol(Ingredients_for_Regresso),90)
+
+dat.train = Ingredients_for_Regresso[,i.train]
+dat.test = Ingredients_for_Regresso [,-i.train]
+
+#dat.train has 95 patients and 85 pathways
+
+which (rownames (Ingredients_for_Regresso) == "YAMAZAKI_TCEB3_TARGETS_UP")
+# 71 is the row number of the pathway
+
+#transpose everything 
+dat.train_t = t(dat.train)
+dat.test_t = t(dat.test)
+
+YAMAZAKI_TCEB3_TARGETS_UP= dat.train_t [,71]
+rm (YAMAZAKI_TCEB3_TARGETS_UP)
+
+
+# regression 
+# only take 70 pathways bc otherwise it 
+
+l1 = lm (YAMAZAKI_TCEB3_TARGETS_UP ~ ., data = as.data.frame(dat.train_t))
+
+summary(l1)
+
+l1$coefficients
+# R squared =  0.9331 
+
+
+# To determine the accuracy, we can compute the so called root mean squared error (RMSE)
+
+n = nrow(dat.train_t)
+rmse = sqrt(1/n*sum(l1$residuals^2))
+rmse
+
+# result: rmse = 0.01239186
+
+# plotting predicted vs real values
+plot( dat.train_t [,71],l1$fitted.values,pch=20,col='pink', xlab='Real values',ylab='Predicted values');abline(0,1,col='red')
+```
 
 
 
+```{r	predict values based on new data points}
 
+
+pred = predict(l1, newdata = as.data.frame (dat.test_t[,-71]))
+
+
+#and compute the rmse:
+n = nrow(as.data.frame (dat.test_t [,-71]))
+residuals = dat.test_t[,71] - pred
+rmse.test = sqrt(1/n * sum(residuals^2))
+rmse.test
+
+#rmse = 0.1511114
+
+plot(dat.test_t [,71],pred,pch=20,col='pink', xlab='Real values',ylab='Predicted values', main = "predicted values for testing dataset and real values");abline(0,1,col='red') 
+
+
+#row number in r studio in training model different than testing model
+
+```
+
+
+```{r regression model improvement}
+
+#improve the model by reducing the amount of parameter
+
+# choosing the variables, threshold = 0.5 p value
+
+l2 = lm (YAMAZAKI_TCEB3_TARGETS_UP ~ ZHOU_TNF_SIGNALING_30MIN + YOSHIMURA_MAPK8_TARGETS_DN + ZAMORA_NOS2_TARGETS_DN  + ZHAN_MULTIPLE_MYELOMA_CD1_AND_CD2_DN + ZHANG_PROLIFERATING_VS_QUIESCENT +   ZHONG_SECRETOME_OF_LUNG_CANCER_AND_ENDOTHELIUM  +   YAO_TEMPORAL_RESPONSE_TO_PROGESTERONE_CLUSTER_9   + YAGI_AML_WITH_T_8_21_TRANSLOCATION +YAGI_AML_FAB_MARKERS +  WP_VEGFAVEGFR2_SIGNALING_PATHWAY+   WU_CELL_MIGRATION +  WU_HBX_TARGETS_2_UP    + WP_PRIMARY_FOCAL_SEGMENTAL_GLOMERULOSCLEROSIS_FSGS + WP_NUCLEAR_RECEPTORS_IN_LIPID_METABOLISM_AND_TOXICITY + WP_EXTRACELLULAR_VESICLES_IN_THE_CROSSTALK_OF_CARDIAC_CELLS   +    WP_CYTOPLASMIC_RIBOSOMAL_PROTEINS  + WP_CLEAR_CELL_RENAL_CELL_CARCINOMA_PATHWAYS + WOO_LIVER_CANCER_RECURRENCE_UP  + WANG_TUMOR_INVASIVENESS_UP  + WATANABE_RECTAL_CANCER_RADIOTHERAPY_RESPONSIVE_DN   + WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN + WEBER_METHYLATED_HCP_IN_SPERM_DN  +   WEBER_METHYLATED_HCP_IN_SPERM_UP   +  WEIGEL_OXIDATIVE_STRESS_BY_HNE_AND_H2O2 +   WEINMANN_ADAPTATION_TO_HYPOXIA_UP, data = as.data.frame(dat.train_t))
+
+summary(l2)
+
+# R^2 =  0.8932 
+
+n = nrow(dat.train_t)
+rmse = sqrt(1/n*sum(l2$residuals^2))
+rmse
+
+# rmse = 0.04044482 
+
+plot (dat.train_t[,71],l2$fitted.values,pch=20,col='pink', xlab='Real values',ylab='Predicted values', main = "real values again predicted values training model"); abline(0,1,col='red')
+
+
+
+pred = predict(l2, newdata = as.data.frame (dat.test_t[,-71]))
+
+
+#and compute the rmse:
+n = nrow(as.data.frame (dat.test_t [,-71]))
+residuals = dat.test_t[,71] - pred
+rmse.test = sqrt(1/n * sum(residuals^2))
+rmse.test
+
+# rmse.test = 0.08458782
+
+plot(dat.test_t [,71],pred,pch=20,col='pink', xlab='Real values',ylab='Predicted values', main = "predicted values for testing dataset and real values");abline(0,1,col='red')
+
+```
+
+
+```{r k-fold cross validation}
+
+i.train = sample (1:ncol(Ingredients_for_Regresso),77)
+
+dat.train = Ingredients_for_Regresso[,i.train]
+dat.test = Ingredients_for_Regresso [,-i.train]
+
+dat.train_t = t(dat.train)
+dat.test_t = t(dat.test)
+
+l2 = lm (YAMAZAKI_TCEB3_TARGETS_UP ~ ZHOU_TNF_SIGNALING_30MIN + YOSHIMURA_MAPK8_TARGETS_DN + ZAMORA_NOS2_TARGETS_DN  + ZHAN_MULTIPLE_MYELOMA_CD1_AND_CD2_DN + ZHANG_PROLIFERATING_VS_QUIESCENT +   ZHONG_SECRETOME_OF_LUNG_CANCER_AND_ENDOTHELIUM  +   YAO_TEMPORAL_RESPONSE_TO_PROGESTERONE_CLUSTER_9   + YAGI_AML_WITH_T_8_21_TRANSLOCATION +YAGI_AML_FAB_MARKERS +  WP_VEGFAVEGFR2_SIGNALING_PATHWAY+   WU_CELL_MIGRATION +  WU_HBX_TARGETS_2_UP    + WP_PRIMARY_FOCAL_SEGMENTAL_GLOMERULOSCLEROSIS_FSGS + WP_NUCLEAR_RECEPTORS_IN_LIPID_METABOLISM_AND_TOXICITY + WP_EXTRACELLULAR_VESICLES_IN_THE_CROSSTALK_OF_CARDIAC_CELLS   +    WP_CYTOPLASMIC_RIBOSOMAL_PROTEINS  + WP_CLEAR_CELL_RENAL_CELL_CARCINOMA_PATHWAYS + WOO_LIVER_CANCER_RECURRENCE_UP  + WANG_TUMOR_INVASIVENESS_UP  + WATANABE_RECTAL_CANCER_RADIOTHERAPY_RESPONSIVE_DN   + WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN + WEBER_METHYLATED_HCP_IN_SPERM_DN  +   WEBER_METHYLATED_HCP_IN_SPERM_UP   +  WEIGEL_OXIDATIVE_STRESS_BY_HNE_AND_H2O2 +   WEINMANN_ADAPTATION_TO_HYPOXIA_UP, data = as.data.frame(dat.train_t))
+
+summary(l2)
+
+
+#1 Adjusted R-squared:  0.8727 
+#2 Adjusted R-squared: 0.8696 
+#3 Adjusted R-squared: 0.8417 
+#4 Adjusted R-squared:0.8458 
+#5 Adjusted R-squared:0.8275 
+
+n = nrow(dat.train_t)
+rmse = sqrt(1/n*sum(l2$residuals^2))
+rmse
+
+#1: 0.0410006
+#2: 0.0436547
+#3: 0.04716991
+#4: 0.04701736
+#5: 0.04413988
+
+
+plot (dat.train_t[,71],l2$fitted.values,pch=20,col='pink', xlab='Real values',ylab='Predicted values', main = "real values again predicted values training model #5"); abline(0,1,col='red')
+
+
+
+pred = predict(l2, newdata = as.data.frame (dat.test_t[,-71]))
+
+#and compute the rmse:
+n = nrow(as.data.frame (dat.test_t [,-71]))
+residuals = dat.test_t[,71] - pred
+rmse.test = sqrt(1/n * sum(residuals^2))
+rmse.test
+
+#1 rmse.test = 0.07613583
+#2: rmse.test = 0.07622888
+#3: rmse.test =  0.07467378
+#4: rmse.test = 0.06281068
+#5: rmse.test =0.07238331
+
+
+plot(dat.test_t [,71],pred,pch=20,col='pink', xlab='Real values',ylab='Predicted values', main = "predicted values for testing dataset and real values #5");abline(0,1,col='red')
+```
 
