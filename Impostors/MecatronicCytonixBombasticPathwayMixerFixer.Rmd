@@ -53,7 +53,7 @@ names(h_pathways) <- unique(h_gene_sets$gs_name)
 
 # lieber mit ensemble id arbeiten!
 
-View(Hallmarks)
+View(h_pathways)
 
 qc_pathways <- sapply(h_pathways, 
                       function(geneset){
@@ -101,7 +101,11 @@ for (i in 6:6366){
  
 View(CPathways)
 
-saveRDS(CPathways, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/CPathways.RDS")
+CPathways = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/CPathways.RDS")
+
+CPathwaysNames = names(h_pathways)
+
+saveRDS(CPathwaysNames, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/CPathwaysNames.RDS")
 
 
 ## attributes: what we wanna retrieve from Biomart 
@@ -213,11 +217,17 @@ View(C_PathwaysEns) #list of CPathway ensembles DOESNT WORK MUST REDO
 View(h_pathways) #list of CPathway pathways
 #####################################################################################################
 
+Metabolic.names = c()
 
+for (i in 1:46){
+  Metabolic.names [i] = names (MetabolicGenesets[[i]]) 
+}
 
-
-
-###################################MAKES MIX OF ALL PATHWAYS İN ORDER Hall Met C############
+saveRDS(Metabolic.names,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/MetabolicPathwayNames.rds" )
+        
+        
+        
+        ##################################MAKES MIX OF ALL PATHWAYS İN ORDER Hall Met C############
 
 ha = x$ID
 huaa = CPathways$ID

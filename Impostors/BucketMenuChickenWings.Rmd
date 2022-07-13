@@ -65,8 +65,13 @@ df_volcanoplotBRCA_TUMvsNORM_pathways$different[df_volcanoplotBRCA_TUMvsNORM_pat
 
 df_volcanoplotBRCA_TUMvsNORM_pathways$different[which (row.names (df_volcanoplotBRCA_TUMvsNORM_pathways) == "YAMAZAKI_TCEB3_TARGETS_UP")]= "YAMAZAKI_TCEB3_TARGETS_UP"
 
+Name = row.names(df_volcanoplotBRCA_TUMvsNORM_pathways)
+
 #we plot 
 ggplot (data = df_volcanoplotBRCA_TUMvsNORM_pathways, aes (x=foldchange_tum_norm, y=-log10(p_BRCA_TUMvsNORM_pathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs norm pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue", "red"))+ theme (text=element_text(size = 8) )
+
+#tryyna put pathway names in this shit
+  #geom_point() + geom_text(aes(label=ifelse(-log10(p_BRCA_TUMvsNORM_pathways)>30,as.character(Name),'')),hjust=0,vjust=0,)
 
 JerryTheDataset = df_volcanoplotBRCA_TUMvsNORM_pathways[df_volcanoplotBRCA_TUMvsNORM_pathways$different == "UP" | df_volcanoplotBRCA_TUMvsNORM_pathways$different == "DOWN", ]
 
@@ -77,6 +82,11 @@ View(df_volcanoplotBRCA_TUMvsNORM_pathways)
 rownames(JerryTheDataset)
 
 saveRDS(JerryTheDataset,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ DifferingPathwaysin_tumnormBRCA.rds")
+
+
+ ggplot(nba, aes(x= MIN, y= PTS, colour="green", label=Name))+
+  geom_point() +
+  geom_text(aes(label=ifelse(PTS>24,as.character(Name),'')),hjust=0,vjust=0)
 
 
 #saveRDS(df_volcanoplotBRCA_TUMvsNORM_pathways,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ volcanoplotBRCA_TUMvsNORM_pathways.RDS")
