@@ -1,7 +1,7 @@
-# Material and Methods
+# 2. Material and Methods
 
-## 2.1 Materials 
-### 2.1.1 Data sets 
+## **2.1 Materials** 
+### ***2.1.1 Data sets*** 
 
 For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
 the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
@@ -12,52 +12,44 @@ The third provided data set is a R object "tcga_tumor_normal_datascience_proj_20
 
 Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them contains various amounts of genes associated with this set
 
-### 2.1.2 Used Packages
+### ***2.1.2 Used Packages***
 show a table! 
 - where from 
 - what they do 
 - what we used them for 
 
-## 2.2 Methods 
+## **2.2 Methods** 
 
-### 2.2.1 Data Exploration 
+### ***2.2.1 Data Exploration*** 
 
- 2.2.1.1 Cleaning & Filtering 
+ **2.2.1.1 Cleaning and Filtering** 
  
- - checked for  NAs (why & how) + code chunk + function 
- - biotype filtering (why + how) + function + code chunk 
- - Distribution of gene expression values
- - variance filtering 
+Data cleaning is the process of deleting inaccurate, corrupted, malformed, duplicated, or incomplete information in a dataset. First we checked for missing values in our datasets. Secondly we removed the low variance genes in the “tcga_tumor_log2TPM” dataset and then performed biotype filtering.
+
 
  
- 2.2.1.2 Discriptive analysis
+ **2.2.1.2 Descriptive analysis**
  
-- what is this + what is is used for 
-- what we did (violin, boxplot, barplot, histos, variance mean, PCA ... What else ????) + plots, Q: do we here need code chunks ?
+Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did  PCA and UMAP to reduce the dimension and explore the structure of the data. 
 
-   Results: what did we acchive with this, what does it say, ow can we use thius inforamtion + in dicussion if needed point out what is interersting and if this needs further research 
    
-2.2.2 Metabolic pathways 
+**2.2.2 Selecting and Retrieving Pathways from Database** 
   
-- how did we find and retrieved the pathways
-- where did we extract them form + how  code chunk ?
-- for what + what did we d further with them 
+To create our pathway matrix we first collected all the hallmark pathways in our "hallmarks_genesets" list. Additionally, we identified in the literature 46 metabolic pathways that behave differently in the presence of cancer and retrieved them from the MSigDB (Molecular Signature Database). As the last stage we inserted all the pathways from the “C2: curated gene sets” database. The gene sets in the pathway matrix are carefully selected from a variety of sources, consisting of online pathway databases and biomedical literature. In order to implement this matrix for further analysis, we reduced the number of pathways by filtering out the pathways that have less than 15 genes in them.
+
  
-2.2.3 Gene set scoring - GSEA, GSVA
- 
-- what is this 
-- what used for generally 
-- how did we use it + code chunk + what did we get (probs in results, right?) + plotsss + volcano ? 
-- quality control ???
+**2.2.3 Gene set scoring (GSVA)**
 
-######where does venn diagrmm gooooo
+As mentioned in mathematical tools we implied variation of pathway activity over a sample population [@S. Hänzelmann, R. Castelo, J. Guinney, 2013].  This method was applied on genesets constructed by matching the cleaned “tcga_tumor_log2tpm” data frame genes to their respective pathways by matching ensembl-IDs through the MSigDB database. Thus, an activity score was assigned to each pathway per each patient. A second pathway matrix was constructed from only the BRCA patients where normal tissue and tumor tissue were both included. Lastly we checked via a Venn diagram the percentage of overlap of the genes from the original data set (“tcga_tumor_log2tpm”) and different satges of our pathway matrix.  
 
-### pan cancer 
-### focused analysis 
-### GSEA vs GSVA
-### correlation analysis 
-### regression analysis 
+**2.2.4 Pan cancer analysis**
+
+Pan cancer analysis includes the assessment of frequently mutated genes and other genomic abnormalities that are common to many different types of cancer, regardless of the origin of the tumor. First of all, we computed UMAP for the data cleaned  “tcga_tumor_log2TPM” dataset and pathway data frame and colored using the annotation information for cancer type and pathological stage to assess distribution of annotations within clusters. Moreover, we plotted a heatmap for the activity scores in our pathway matrix and categorized the pathways into Metabolic, Hallmark or C2: curated genes.In order to identify pathways with large fold changes that are also statistically and biologically significant, we plotted the BRCA pathway matrix in comparison to other tumor types on volcano plots where each dot was representative of a pathway. Pathways were separated by vertical and horizontal thresholds and annotated accordingly.  Lastly correlation analysis was carried out in order to identify overlapping genes between pathways using Jaccard index.
 
 
-nowww resultsss and info impuut, go sleepyy sleep 
- 
+**2.2.5 Focused analysis**
+
+**2.2.6 Correlation analysis**
+
+**2.2.7 Regression analysis**
+

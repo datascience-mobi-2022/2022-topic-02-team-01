@@ -241,7 +241,7 @@ umap_pw_aktivity_SkinnySadTT = umap(pw_aktivity_SkinnySadTT.df[, -1114]) #9741 -
 df.pw_aktivity_SkinnySadTT = data.frame(x = umap_pw_aktivity_SkinnySadTT$layout [,1],
                                         y = umap_pw_aktivity_SkinnySadTT$layout[,2],
                                         Patients = pw_aktivity_SkinnySadTT.df[,1114])
-
+library(ggplot2)
 ggplot(df.pw_aktivity_SkinnySadTT, aes(x, y, colour = Patients)) +
   geom_point()
 
