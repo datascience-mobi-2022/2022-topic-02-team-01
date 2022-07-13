@@ -9,15 +9,99 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+```{r}
+
+
+```
+
+
 ```{r Heatmap BRCA pathways}
 
 # Heatmap BRCA pathways all 
 
 library (pheatmap)
 
+#creating a vector consist of names for hallmark
+Hallmark_Names = names (hallmarks_genesets$genesets)
+
+#extracting a vector consists of all the pathway name in heatmap 
+pw_name_heatmap = rownames(scale_pw_BRCA[heatmap$tree_row[["order"]],])
+
+saveRDS (pw_name_heatmap, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/pw_name_heatmap.RSD")
+
+# creating pw_cate
+pw_cate = data.frame ()
+
+rowno = match (CPathwaysNames,pw_name_heatmap)
+
+
+## C2
+row.names(pw_cate) = pw_name_heatmap
+pw_cate [1:1114,1] = "NA"
+pw_cate [na.omit (rowno),1] = "C2_curated_genes"
+
+## hallmark 
+rowno_hall = match (Hallmark_Names,pw_name_heatmap)
+
+pw_cate [na.omit (rowno_hall),1] = "Hallmark Genesets"
+
+##Metabolic
+rowno_metabolic = match (MetabolicPathwayNames,pw_name_heatmap)
+
+pw_cate [na.omit (rowno_metabolic),1] = "Metabolic Genesets"
+
+row.names(pw_cate) = pw_name_heatmap
+
+# modifying heatmap
 scale_pw_BRCA = scale (pw_activity_SkinnyBRCA)
 
-pheatmap(scale_pw_BRCA,cutree_cols = 2, angle_col=45, cellwidth = 0.75,main = "heatmap pathways in BRCA", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 1)
+# annotation columns
+
+pw_name_heatmap_col = colnames(scale_pw_BRCA[heatmap$tree_row[["order"]],])
+
+names_df = data.frame ()
+
+names_df [1:111,1] = "tumor"
+names_df [112:222,1] = "normal"
+rownames(names_df)  = pw_name_heatmap_col
+
+library (pheatmap)
+heatmap = pheatmap(scale_pw_BRCA, cellwidth = 0.75 ,main = "heatmap pathways in BRCA", width = 15, height = 15, fontsize = 8,fontsize_row = 0.5, cluster_cols=F, show_colnames = F, annotation_row = pw_cate, treeheight_row = 0, cutree_cols = 2 )
+
+df = data.frame()
+
+##SHERLOCK MODE: find the pathways in the cluster
+hc <- heatmap$tree_row
+
+lbl <- cutree(hc, 5) # you'll need to change '5' to the number of gene-groups you're interested in
+# find genes corresponding to first group, ...
+pathways_1stclsuter = which(lbl==1)
+#640
+pathways_2ndclsuter = which(lbl==2)
+no_intpathways_heatmap_BRCA_2 = match (names (pathways_2ndclsuter), pw_name_heatmap)
+intpathways_heatmap_BRCA_2 = pw_name_heatmap [no_intpathways_heatmap_BRCA_2]
+#189
+pathways_3rdclsuter = which(lbl==3)
+match (names (pathways_3rdclsuter), pw_name_heatmap)
+#38
+pathways_4thclsuter = which(lbl==4)
+no_intpathways_heatmap_BRCA_3 = match (names (pathways_4thclsuter), pw_name_heatmap)
+intpathways_heatmap_BRCA_3 = pw_name_heatmap [no_intpathways_heatmap_BRCA_3]
+#224
+pathways_5thclsuter = which(lbl==5)
+#23
+no_intpathways_heatmap_BRCA = match (names (pathways_5thclsuter), pw_name_heatmap)
+intpathways_heatmap_BRCA = pw_name_heatmap [no_intpathways_heatmap_BRCA]
+
+
+## saving interesting pathways
+saveRDS (intpathways_heatmap_BRCA, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/intpathways_heatmap_BRCA.RDS")
+saveRDS (intpathways_heatmap_BRCA, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/intpathways_heatmap_BRCA.RDS")
+saveRDS (intpathways_heatmap_BRCA_2, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/intpathways_heatmap_BRCA_2.RDS")
+saveRDS (intpathways_heatmap_BRCA_3, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/intpathways_heatmap_BRCA_3.RDS")
+
 
 # Heatmap BRCA pathways top200 pathways that are differentially expressed between tumor and normal
 
@@ -35,9 +119,12 @@ Top200_PW_df = data.frame (Top200_PW)
 
 row_no = match (names (Top200_PW),rownames(pw_activity_SkinnyBRCA))
 
+
 ##
 
 pheatmap (pw_activity_SkinnyBRCA[row_no,], angle_col=45, cellwidth = 0.75,main = "top 200 differentilly expressed pathways between normal and tumor in BRCA", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 1)
+
+?hclust
 
 ```
 
@@ -47,12 +134,17 @@ pheatmap (pw_activity_SkinnyBRCA[row_no,], angle_col=45, cellwidth = 0.75,main =
 # create the PW_GeneID which consist of 1114 pathways and the genes belong to each pathway
 PW_GeneID = list ()
 
+vector_rownames = match (rownames(pw_activity_SkinnyBRCA), names (AllPathwaysEns_List))
+
+length (vector_rownames)
 
 for (i in 1:1114) {
   PW_GeneID [[i]]= AllPathwaysEns_List[[vector_rownames[i]]]
 }
 
-names (PW_GeneID) = rownames(pw_activity_SkinnyBRCA)
+names(PW_GeneID) = rownames(pw_activity_SkinnyBRCA)
+
+#View (PW_GeneID)
 
 # make jarkat overlap heatmap
 
@@ -69,20 +161,24 @@ for (n in 1:1114) {
   }
 }
 
+dim(jaccard_df_pw)
+
 colnames (jaccard_df_pw) = names (PW_GeneID)
 rownames (jaccard_df_pw) = names (PW_GeneID)
 
+#View (jaccard_df_pw)
 # all pathways
+
 pheatmap (jaccard_df_pw, angle_col=45, cellwidth = 0.5, cellheight = 0.5, main = "hallmark genesets overlap (Jaccard)", width = 7, height = 7, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
 
+#show_colnames = F, show_rownames = F, treeheight_row = 0, treeheight_col = 0
+          
 # top 200
 
 jaccard_df_pw_200 = data.frame ()
 jaccard_df_pw_200 = jaccard_df_pw [names(Top200_PW), names(Top200_PW)]
 
 # set diagonal  = 0
-
-diag(jaccard_df_pw_200) = "NA"
 
 
 pheatmap (jaccard_df_pw_200, angle_col=45, cellwidth = 1, main = "hallmark genesets overlap top 200 pathways (Jaccard)", width = 30, height = 30, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
