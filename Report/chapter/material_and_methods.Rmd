@@ -5,12 +5,9 @@
 
 For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
 the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
-
 The second data set "tcga_tumor_annotation" is also a data frame which contains all of the patients from the previous datasets with 37 clinical annotations (for example gender, race, tissue type etc.)
-
-The third provided data set is a R object "tcga_tumor_normal_datascience_proj_2022" containing expression data of matched tumor and normal tissue for five tumor types (BRCA, KIRC, LUAD, PRAD, THCA), each of them are specific for one tumour type, each of them have three smaller dataframe showing gene expression of tumor samples and normal samples from the same patients, and clinical annotations for these patients.
-
-Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them contains various amounts of genes associated with this set
+The third provided data set is a R object "tcga_tumor_normal_datascience_proj_2022" containing expression data of matched tumor and normal tissue for five tumor types (BRCA, KIRC, LUAD, PRAD, THCA), each of them are specific for one tumor type, each of them have three smaller dataframe showing gene expression of tumor samples and normal samples from the same patients, and clinical annotations for these patients.
+Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them containing various amounts of genes associated with this set.
 
 ### ***2.1.2 Used Packages***
 show a table! 
@@ -27,7 +24,6 @@ show a table!
 Data cleaning is the process of deleting inaccurate, corrupted, malformed, duplicated, or incomplete information in a dataset. First we checked for missing values in our datasets. Secondly we removed the low variance genes in the “tcga_tumor_log2TPM” dataset and then performed biotype filtering.
 
 
- 
  **2.2.1.2 Descriptive analysis**
  
 Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did  PCA and UMAP to reduce the dimension and explore the structure of the data. 
@@ -37,19 +33,25 @@ Descriptive analysis is a type of data analysis that helps you describe, visuali
   
 To create our pathway matrix we first collected all the hallmark pathways in our "hallmarks_genesets" list. Additionally, we identified in the literature 46 metabolic pathways that behave differently in the presence of cancer and retrieved them from the MSigDB (Molecular Signature Database). As the last stage we inserted all the pathways from the “C2: curated gene sets” database. The gene sets in the pathway matrix are carefully selected from a variety of sources, consisting of online pathway databases and biomedical literature. In order to implement this matrix for further analysis, we reduced the number of pathways by filtering out the pathways that have less than 15 genes in them.
 
+
  
 **2.2.3 Gene set scoring (GSVA)**
 
-As mentioned in mathematical tools we implied variation of pathway activity over a sample population [@S. Hänzelmann, R. Castelo, J. Guinney, 2013].  This method was applied on genesets constructed by matching the cleaned “tcga_tumor_log2tpm” data frame genes to their respective pathways by matching ensembl-IDs through the MSigDB database. Thus, an activity score was assigned to each pathway per each patient. A second pathway matrix was constructed from only the BRCA patients where normal tissue and tumor tissue were both included. Lastly we checked via a Venn diagram the percentage of overlap of the genes from the original data set (“tcga_tumor_log2tpm”) and different satges of our pathway matrix.  
+Gene Set Variation Analysis (GSVA) is a GSA method considered to contribute to the current need of GSE methods for RNA-seq data. It is  applied for estimation of variation of pathway activity over a sample population in an unsupervised manner and provides higher power compared to other methods for detecting subtle changes in pathway activity over samples. [@S. Hänzelmann, R. Castelo, J. Guinney, 2013].  This method was applied on genesets constructed by matching the cleaned “tcga_tumor_log2tpm” data frame genes to their respective pathways by matching ensembl-IDs through the MSigDB database. Thus, an activity score was assigned  and each pathway per each patient. A second pathway matrix was constructed from only the BRCA patients where normal tissue and tumor tissue were both included. Lastly we checked via a venn diagram the percentage of overlap of the genes from the original data set (“tcga_tumor_log2tpm”) and different stages of our pathway matrix.   
 
 **2.2.4 Pan cancer analysis**
 
-Pan cancer analysis includes the assessment of frequently mutated genes and other genomic abnormalities that are common to many different types of cancer, regardless of the origin of the tumor. First of all, we computed UMAP for the data cleaned  “tcga_tumor_log2TPM” dataset and pathway data frame and colored using the annotation information for cancer type and pathological stage to assess distribution of annotations within clusters. Moreover, we plotted a heatmap for the activity scores in our pathway matrix and categorized the pathways into Metabolic, Hallmark or C2: curated genes.In order to identify pathways with large fold changes that are also statistically and biologically significant, we plotted the BRCA pathway matrix in comparison to other tumor types on volcano plots where each dot was representative of a pathway. Pathways were separated by vertical and horizontal thresholds and annotated accordingly.  Lastly correlation analysis was carried out in order to identify overlapping genes between pathways using Jaccard index.
+Pan cancer analysis includes the assessment of frequently mutated genes and other genomic observations that are common to many different types of cancer, regardless of the origin of the tumor. First of all, we computed UMAP for the cleaned  “tcga_tumor_log2TPM'' dataset and for pathway activity score data frame.  By using the annotation information for cancer type and pathological stage we colored the both plots to assess distribution of annotations within clusters. Moreover, we created a heatmap for the activity scores in our pathway matrix and categorized the pathways into Metabolic, Hallmark or C2: curated genes.In order to identify pathways with large fold changes that are also statistically and biologically significant, we plotted the BRCA pathway matrix in comparison to other tumor types and the final pathway matrix, on volcano plots where each dot was representative of a pathway. Pathways were separated by vertical and horizontal thresholds and annotated accordingly.  Lastly correlation analysis was carried out in order to identify overlapping genes between pathways using Jaccard index.
 
 
 **2.2.5 Focused analysis**
 
-**2.2.6 Correlation analysis**
+In Focused Analysis we investigated BRCA tumor and normal tissue via UMAP plots  annotated by menopause, pathological stage and sample type in order to test for significant clustering of these parameters. A Volcano plot between the tumor and non-tumor samples of the BRCA pathway matrix was carried out and subsequently split  by vertical and horizontal thresholds. Additionally we computed a heatmap out of activity score in BRCA for tumor and normal samples for all pathways and top 200 differentially active pathways .
 
-**2.2.7 Regression analysis**
+
+**2.2.6 Regression analysis**
+
+Focused analysis provided us with a list of potentially significant pathways for regression analysis. A comparison of these pathways with previously identified significant pathways in pan cancer analysis further narrowed the selection of our potential regression analysis pathways. Literature was considered to identify potential clinical significance of the overlapping pathways, which lead to the selection of one pathway as a prediction target. The rest of the significant pathways were used as variables to predict the chosen pathway. The patients were split into a training and a testing group to train the algorithm and compute the accuracy of the prediction consecutively. Afterwards parameter reduction by the exclusion of low significance parameters and k-fold cross validation were carried out to solve overfitting issues and increase precision. 
+
+
 
