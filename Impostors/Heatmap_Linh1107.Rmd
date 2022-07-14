@@ -36,7 +36,6 @@ pw_cate = data.frame ()
 
 rowno = match (CPathwaysNames,pw_name_heatmap)
 
-
 ## C2
 row.names(pw_cate) = pw_name_heatmap
 pw_cate [1:1114,1] = "NA"
@@ -68,7 +67,7 @@ names_df [112:222,1] = "normal"
 rownames(names_df)  = pw_name_heatmap_col
 
 library (pheatmap)
-heatmap = pheatmap(scale_pw_BRCA, cellwidth = 0.75 ,main = "heatmap pathways in BRCA", width = 15, height = 15, fontsize = 8,fontsize_row = 0.5, cluster_cols=F, show_colnames = F, annotation_row = pw_cate, treeheight_row = 0, cutree_cols = 2 )
+heatmap = pheatmap(scale_pw_BRCA, cellwidth = 0.75 ,main = "heatmap pathways in BRCA", width = 15, height = 15, fontsize = 8,fontsize_row = 0.5, cluster_cols=F, show_colnames = F, annotation_row = pw_cate, treeheight_row = 0)
 
 df = data.frame()
 
@@ -92,7 +91,7 @@ intpathways_heatmap_BRCA_3 = pw_name_heatmap [no_intpathways_heatmap_BRCA_3]
 #224
 pathways_5thclsuter = which(lbl==5)
 #23
-no_intpathways_heatmap_BRCA = match (names (pathways_5thclsuter), pw_name_heatmap)
+no_intpathways_heatmap_BRCA = match (names (pathways_5thclsuter), pw_name_heat3amap)
 intpathways_heatmap_BRCA = pw_name_heatmap [no_intpathways_heatmap_BRCA]
 
 

@@ -98,6 +98,10 @@ Ingredients_for_Regresso = readRDS ("_Ingredients_for_Regresso", file = "C:/User
 
 View (Ingredients_for_Regresso)
 
+Regression_Pathways = names (Ingredients_for_Regresso) 
+
+saveRDS (Regression_Pathways, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/Regression_Pathways.RDS")
+
 # 85 entries (pw), 111 total columns (patients)
 
 #spilt data into training set and test set
@@ -108,6 +112,7 @@ i.train = sample (1:ncol(Ingredients_for_Regresso),90)
 
 dat.train = Ingredients_for_Regresso[,i.train]
 dat.test = Ingredients_for_Regresso [,-i.train]
+
 
 #dat.train has 95 patients and 85 pathways
 
@@ -142,7 +147,7 @@ rmse
 # result: rmse = 0.01239186
 
 # plotting predicted vs real values
-plot( dat.train_t [,71],l1$fitted.values,pch=20,col='pink', xlab='Real values',ylab='Predicted values');abline(0,1,col='red')
+plot(dat.train_t [,71],l1$fitted.values,pch=20,col='pink', xlab='Real values',ylab='Predicted values');abline(0,1,col='red')
 ```
 
 
@@ -178,6 +183,7 @@ plot(dat.test_t [,71],pred,pch=20,col='pink', xlab='Real values',ylab='Predicted
 l2 = lm (YAMAZAKI_TCEB3_TARGETS_UP ~ ZHOU_TNF_SIGNALING_30MIN + YOSHIMURA_MAPK8_TARGETS_DN + ZAMORA_NOS2_TARGETS_DN  + ZHAN_MULTIPLE_MYELOMA_CD1_AND_CD2_DN + ZHANG_PROLIFERATING_VS_QUIESCENT +   ZHONG_SECRETOME_OF_LUNG_CANCER_AND_ENDOTHELIUM  +   YAO_TEMPORAL_RESPONSE_TO_PROGESTERONE_CLUSTER_9   + YAGI_AML_WITH_T_8_21_TRANSLOCATION +YAGI_AML_FAB_MARKERS +  WP_VEGFAVEGFR2_SIGNALING_PATHWAY+   WU_CELL_MIGRATION +  WU_HBX_TARGETS_2_UP    + WP_PRIMARY_FOCAL_SEGMENTAL_GLOMERULOSCLEROSIS_FSGS + WP_NUCLEAR_RECEPTORS_IN_LIPID_METABOLISM_AND_TOXICITY + WP_EXTRACELLULAR_VESICLES_IN_THE_CROSSTALK_OF_CARDIAC_CELLS   +    WP_CYTOPLASMIC_RIBOSOMAL_PROTEINS  + WP_CLEAR_CELL_RENAL_CELL_CARCINOMA_PATHWAYS + WOO_LIVER_CANCER_RECURRENCE_UP  + WANG_TUMOR_INVASIVENESS_UP  + WATANABE_RECTAL_CANCER_RADIOTHERAPY_RESPONSIVE_DN   + WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN + WEBER_METHYLATED_HCP_IN_SPERM_DN  +   WEBER_METHYLATED_HCP_IN_SPERM_UP   +  WEIGEL_OXIDATIVE_STRESS_BY_HNE_AND_H2O2 +   WEINMANN_ADAPTATION_TO_HYPOXIA_UP, data = as.data.frame(dat.train_t))
 
 summary(l2)
+WP_NUCLEAR_RECEPTORS_IN_LIPID_METABOLISM_AND_TOXICITY
 
 # R^2 =  0.8932 
 
