@@ -11,11 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-```{r}
-
-
-```
-
 
 ```{r Heatmap BRCA pathways}
 
@@ -74,7 +69,7 @@ df = data.frame()
 ##SHERLOCK MODE: find the pathways in the cluster
 hc <- heatmap$tree_row
 
-lbl <- cutree(hc, 5) # you'll need to change '5' to the number of gene-groups you're interested in
+lbl <- cutree(hc, 5) 
 # find genes corresponding to first group, ...
 pathways_1stclsuter = which(lbl==1)
 #640
@@ -181,7 +176,6 @@ jaccard_df_pw_200 = jaccard_df_pw [names(Top200_PW), names(Top200_PW)]
 
 
 pheatmap (jaccard_df_pw_200, angle_col=45, cellwidth = 1, main = "hallmark genesets overlap top 200 pathways (Jaccard)", width = 30, height = 30, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
-
 
 
 

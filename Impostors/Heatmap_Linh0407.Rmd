@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Pathway_MeanScore = apply (PathwayMatrixDeluxePremium, 1, mean)
 
-#View (Pathway_MeanScore)
+View (Pathway_MeanScore)
 
 ```
 

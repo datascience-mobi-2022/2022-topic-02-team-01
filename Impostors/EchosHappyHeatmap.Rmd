@@ -125,12 +125,11 @@ pheatmap(as.data.frame(PathwayScoreMeans), angle_col=45, cluster_rows = TRUE, cl
 
 This one only the most imp pathways from SB volcano
 
-```{r setup, include=FALSE}
+```{r }
 
 match(rownames(IngredientsForRegressoSB), rownames(OrderedCancertypePathwayscores[[1]]))
 
 tangerine = as.data.frame(PathwayScoreMeans)[ match(rownames(IngredientsForRegressoSB), rownames(OrderedCancertypePathwayscores[[1]])),]
-
 
 pheatmap(as.data.frame(tangerine), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE, cellheight = 0.6)
 
@@ -159,13 +158,6 @@ matrix.topvar = as.data.frame(PathwayScoreMeans)[vari > quantile(vari, probs=0.9
 dim(matrix.topvar)
 
 ```
-
-
-
-
-
-
-
 
 
 
