@@ -9,84 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r creating df with all pw that are upregulated from volcano}
-
-# take all the pw that are upregulated from volcano plot
-
-pw_upregulated_rowno = which (volcanoplotBRCA_TUMvsNORM_pathways [,3] == "UP")
-names_all_pw = rownames (volcanoplotBRCA_TUMvsNORM_pathways)
-pw_upregulated = names_all_pw[pw_upregulated_rowno]
-
-# match them with the activity pw df in BRCA. We get: Df: rows: pathways that are upregulated and all of patients 
-
-
-rowno = match(pw_upregulated,rownames(pw_activity_SkinnyBRCA))
-
-upregulated_pw = pw_activity_SkinnyBRCA [rowno,]
-
-# compute correlation heatmap on these pw
-cor_matrix_up = data.frame()
-for (n in 1:358) {
-  for (m in 1:358) {
-    cor_matrix_up [n,m] = cor(pw_activity_SkinnyBRCA[n,], pw_activity_SkinnyBRCA[m,],  method = "pearson", use = "complete.obs")
-  }
-}
-
-library (pheatmap)
-pheatmap (cor_matrix_up, angle_col=45, cellwidth = 0.25, main = "correlation heatmap for upregulated pathways in BRCA", width = 10, height = 10, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
-
-```
-
-
-```{r multiple regression model: learn the model on the train and testing the model to evaluate its performances}
-
-
-#spilt data into training set and test set
-## take 70% = 155 patients for test set. Rest is training set 
-i.train = sample (1:ncol(upregulated_pw),155)
-
-dat.train = upregulated_pw[,i.train]
-dat.test = upregulated_pw[,-i.train]
-
-# 2. do regression on 1 pw based on all of other pw (variances)
-## find row no of KEGG 
-KEGG_CITRATE_CYCLE_TCA_CYCLE = dat.train_trans[,"KEGG_CITRATE_CYCLE_TCA_CYCLE"]
-  which (colnames (dat.train_trans) == "KEGG_CITRATE_CYCLE_TCA_CYCLE")
-dat.train_trans_noKEGG = dat.train_trans [,-26]
-
-
-#try to transpose the df and do regression on it 
-upregulated_pw_trans = t(upregulated_pw)
-dat.train_trans = t (dat.train)
-dat.test_trans = t (dat.test)
-
-## regression function
-l1 = lm(KEGG_CITRATE_CYCLE_TCA_CYCLE ~ dat.train_trans_noKEGG [,1:100], data = as.data.frame(dat.train_trans))
-summary(l1)
-
-
-
-# 3.	We can now check if the prediction are better that with the univariate model
-plot(KEGG_CITRATE_CYCLE_TCA_CYCLE,l1$fitted.values,pch=20,col='blue', xlab='Real values',ylab='Predicted values');abline(0,1,col='red')
-
-# To determine the accuracy, we can compute the so called root mean squared error (RMSE)
-
-n = nrow(dat.train_trans)
-rmse = sqrt(1/n*sum(l1$residuals^2))
-rmse
-
-# rmse = 0.04675284: Lower values of RMSE indicate better fit. RMSE is a good measure of how accurately the model predicts the response.
-
-
-```
-
-
-```{r predict values based on new data points}
-
-pred = predict(l1,newdata = as.data.frame(dat.test_trans))
-
-```
-
 
 ```{r regression model take 2: learning + checking quality: for 85 dif pw in BRCA for tumor patients}
 
@@ -123,8 +45,6 @@ which (rownames (Ingredients_for_Regresso) == "YAMAZAKI_TCEB3_TARGETS_UP")
 dat.train_t = t(dat.train)
 dat.test_t = t(dat.test)
 
-YAMAZAKI_TCEB3_TARGETS_UP= dat.train_t [,71]
-rm (YAMAZAKI_TCEB3_TARGETS_UP)
 
 
 # regression 

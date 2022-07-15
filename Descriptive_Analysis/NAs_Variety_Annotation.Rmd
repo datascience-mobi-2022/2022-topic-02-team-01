@@ -56,6 +56,7 @@ data2 <- data.frame (
 
 ggplot(data2, aes(x=Annotations, y=NumberNAs)) + 
   geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90), axis.text=element_text(size=6))+ ggtitle("Number of NAs in annotation")
+
 ```{r create variety histogram}
 
 
