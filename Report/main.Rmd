@@ -8,17 +8,16 @@ output:
 documentclass: scrreprt
 classoption: [parskip, oneside] # für drucken twoside
 header-includes:
-  - \usepackage[greek, ngerman, main=english]{babel}
   - \usepackage[utf8]{inputenc}
   - \usepackage[T1]{fontenc}
   - \usepackage{lmodern}
   - \usepackage[onehalfspacing]{setspace}
   - \usepackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=2.50cm, bindingoffset=10mm, includehead, includefoot]{geometry}
-  - \usepackage[headsepline]{scrlayer-scrpage}
+  - \usepackage[automark]{scrlayer-scrpage}
   - \usepackage{url}
   - \usepackage[backend=biber, style=authoryear, giveninits=true, maxbibnames=99, uniquename=init, maxcitenames=2, hyperref=true, date=year]{biblatex}
   #- \usepackage{bib/cellstyle_it}
-  - \usepackage{xpatch}
+  - \usepackage[english]{babel}
   - \usepackage{csquotes}
   - \usepackage{amsmath}
   - \usepackage{listings}
@@ -51,9 +50,8 @@ header-includes:
 csl: bib/molecular-biology-of-the-cell.csl
 #bibliography: [bib/packages.bib, bib/test.bib]
 ---
-<!-- Based on Nicolas Peschkes LaTeX Template for MoBis, if you want further information on the packages just check it here: https://gitlab.com/npeschke/LaTeX-Template-IPMB -->
 
-<!-- your title page -->
+<!-- title page -->
 
 \begin{titlepage}
 \centering
@@ -68,8 +66,8 @@ csl: bib/molecular-biology-of-the-cell.csl
 
 		{\Huge Topic 2, Group 1}
 
-		{\Huge Supervisor: Carl Hermann}
-		{\Huge Tutor: Wanjun Hu}
+		{\Large Supervisor: Carl Hermann}\\
+		{\Large Tutor: Wanjun Hu}
 
 	}
 
@@ -80,9 +78,9 @@ csl: bib/molecular-biology-of-the-cell.csl
 
 	{\Large
 		\begin{tabular}{rl}
-			Autoreb & Ekin Ören, Yoana Onishtenko, Linh Trinh, Junona Sachov\\
+			Autores: & Ekin Ören, Yoana Onishtenko, Linh Trinh, Junona Sachov\\
 			
-			Abgabetermin & 20.07.2022\\
+			Deadline: & 18.07.2022\\
 		\end{tabular}
 	}
 
@@ -90,29 +88,149 @@ csl: bib/molecular-biology-of-the-cell.csl
 
 \end{titlepage}
 
-
-<!-- add your chapters here -->
 \tableofcontents
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/abstract.Rmd"}
-```
+\section{Introduction}
+\subsection{Cancer and BRCA}
+\begin{displayquote}
+Cancer is a disease in which abnormal cells divide without control and can invade nearby tissues.  Cancer cells can also spread to other parts of the body through the blood and lymph systems. There are several main types of cancer.{\textit{National Cancer Institut, at the National Institues of Health}}
+\end{displayquote}
+Up until this day cancer remains a crucial research topic in the scientific fields. 
+In 2020 for industrial countries, e.g., the estimated number of new cancer cases was above 66 thousend cases per country according to the World Health Organization.
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/introduction.Rmd"}
-```
+The focus of this project lies specifically on breast cancer. It is the most common malignant tumor and the second capital reason for cancer death among women worldwide [@L. Wang, S. Zhang and X. Wang, 2021].
+Breast cancer is a heterogeneous disease resulting from multiple genetic and environmental factors. Underling  those are mutations most commonly in BRCA-1, BRCA-2 and HER-2. 
+Mutations in the BRCA1 protein result in DNA damage sensing, cell cycling regulation, E3 ubiquitin ligase activity, chromatin remodeling, and homologous recombination (HR). In contrast, the functional domains of BRCA2 are principally associated with the HR-related proteins, including RAD51 and deleted in split-hand/split foot protein 1 (DSS1). Moreover, double strand breaks that occur as a result of a defective DNA repair system in HR, lead to genomic instability. Which is then favorable for the progression of BRCA-related cancers, especially in the early stages of effective acquisition of sequence and structural changes.[@Y. Hatano *et al.*, 2020].
+Among the various breast cancer subtypes, overexpression of the human epidermal growth factor receptor 2 gene is associated with decreased survival and increased recurrence [@P. Petrou, 2019]. The overexpression of Her-2 in the outer membrane of cancer cells  has been a significant therapeutic target for targeted therapy, since it leads to  high aggressiveness, high frequency of brain metastases and poor prognosis [@L. Sitia, *et al.*, 2022].
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/material_and_methods.Rmd"}
-```
+Breast cancer can be identified during screening with mammography and clinically classified into four stages depending on the tumour size, if it has formed metastasis or spread to other types of tissues [@Giuliano et al., 2017]. 
+Whereas conventional therapies, such as surgery, radiotherapy, and chemotherapy, are the most common options they usually have limited success. More promising therapy approaches are personalised therapies like immunotherapy, i.e., HER2-targeted therapies [@G. T. Clifton and G. E. Peoples, 2021] or epigenetic therapies. These therapies are a promising tool for overcoming clinical resistance to traditional treatments for breast cancer but are still in the pre-clinical setting and show most promise in use in combinations with other treatments [@L. J. Brown *et al.*, 2022]. 
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/results.Rmd"}
-```
+Especially in the era of personalized medicine and improved genomic analysis using methods of data analysis, i.e., to identify biomarkers for epigenetic therapies, underline the importance of the combined force of computational mathematical analyses via the creation of computer-generated models or simulations and the foundational experimental laboratory. 
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/discussion.Rmd"}
-```
+\subsection{Hallmarks}
+\begin{displayquote}
+The hallmarks constitute an organizing principle for rationalizing the complexities of neoplastic disease. They include sustaining proliferative signaling, evading growth suppressors, resisting cell death, enabling replicative immortality, inducing angiogenesis, and activating invasion and metastasis.{\textit{Hallmarks of cancer: the next generation (D. Hanahan, R. A. Weinberg, 2011)}}
+\end{displayquote}
 
-# References
-
-<div id="refs"></div>
+The Hallmarks describe the distinction among tumor and regular cells, comprising six organic abilties received throughout the multistep development of human tumors. Underlying those hallmarks are the "emerging hallmarks" and the "enabling hallmarks", like genome instability, which generates the genetic variety that expedites their acquisition, and inflammation, which fosters multiple hallmark functions. 
 
 
-```{r child = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Report/chapter/appendix.Rmd"}
-```
+\subsection{Methabolic pathways - ascendany of tumerigenesis}
+
+An additional core point of our project is the focus on metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells.These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis. [@Hanahan, D. and Robert, 2011].
+
+Metabolic profiles observed in cancer cells often include increased  glucose and glutamine consumption, increased glycolysis, altered utilization of metabolic enzyme isoforms, and increased lactate secretion. [@H. A. Coller, 2014].Tumor cells exhibit altered metabolism, as observed by O. Warburg (1920) and more recently, the metabolic changes that occur during cancer are being reconsidered as pivotal to the disease itself.Important regulators of metabolism are oncogenes and tumor suppressors that are consistently activated or deleted. In example, oncogenic molecules AKT, MYC, and hypoxia-inducible factor-1 (HIF-1) can all contribute to the metabolic shifts that occur during carcinogenesis [@H. A. Coller, 2014].
+
+The significant differences in the relative use of different types of energy production in normal cells and tumors, observed by O. Warburg manifests itself in tumor cells during the glycolysis, where pyruvate is mainly converted to lactic acid and energy is produced anaerobically. This phenomena takes place even if there is sufficient oxygen for supporting the mitochondrial function. Hence, the conversion of  pyruvate to lactic acid by fermentation, even in the presence of oxygen, is called aerobic glycolysis or the Warburg effect.[@H. A. Coller, 2014]
+
+
+\subsection{Mathematical Tools}
+
+In order to perform significant examination of our data we implemented different mathematical tools such as dimensional reduction, wilcoxon test, jaccard index, bonferroni correction and fold change. First we started with computing the variance, defining how far our samples are from the average value, and continued with dimensionality reduction via Principal Component Analysis (PCA) and Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP). The goal of PCA is to extract  important information from a data frame and represent it as a new set of orthogonal variables called principal components [@H. Abdi, L. J. Williams, 2010] . In comparison to PCA the UMAP method reduces dimensions of the data nonlinearly, indicating highest reproducibility and the most meaningful organization of cell clusters [@E. Becht *et al.,* 2019]. 
+For the comparison of BRCA and other tumor types we computed p-values via Wilcoxon paired test. Wilcoxon paired test is a nonparametric statistical hypothesis used to compare the position of two populations using two matched samples [@W. J. Conover, 1999]. The p-value helps us to estimate the probability of getting a test statistic as large or larger assuming both distributions are the same [H. M. J. Hung *et al.*, 1997]. Since in some cases p-value correction was necessary, we used the Bonferroni method to reduce the chances of obtaining false-positive results (type I errors) when multiple pairwise tests are performed on a single set of data [@J. Ranstam, 2016].
+Furthermore, we also used Jaccard index to compare members for two sets to see which members are shared and which are distinct [@S. Fletcher, M. Z. Islam, 2018].  For measuring how much quantity  changes between the original and  subsequent measurements we computed fold change, which is defined as the ratio of the two quantities. [@J. Feng *et al.*, 2012].
+
+
+\subsection{Project Outline}
+Aiming to investigate the possibility of identifying breast cancer-relevant biomarkers, during the course of this project, we explored the gene expression data of a broad selection of patients in a step-by-step manner summarized in our project outline (supplements). \ref{figure1}
+We aimed to gradually concentrate the descriptive capacity of our data by data cleaning and dimensional reduction methods, including PCA and UMAP, eventually grouping and collectively scoring genes in the context of pathways by the GSVA method. Afterwards, we compared the respective differential activation scores of several tumor types. Furthermore, we plotted the pathways in the context of p-value and fold change, thus identifying the pathways most relevant to BRCA and tumor progression and possible trends connecting these pathways. With this information, we selected one pathway we hypothesize could be scientifically and clinically relevant as a biomarker. Hence, we built a regression model predicting the behaviour of this pathway by selecting other highly relevant pathways. In conclusion, we propose that further use and optimization of this regression model could lead to the identification of previously unknown interconnections between these pathways, as well as the identification of biomarkers for targeted therapy and diagnostic tools employed in the treatment of breast cancer.
+
+\section{Material and Methods}
+\subsection{Material}
+\subsubsection{Data Sets}
+For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
+the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
+The second data set "tcga_tumor_annotation" is also a data frame which contains all of the patients from the previous datasets with 37 clinical annotations (for example gender, race, tissue type etc.)
+The third provided data set is a R object "tcga_tumor_normal_datascience_proj_2022" containing expression data of matched tumor and normal tissue for five tumor types (BRCA, KIRC, LUAD, PRAD, THCA), each of them are specific for one tumor type, each of them have three smaller dataframe showing gene expression of tumor samples and normal samples from the same patients, and clinical annotations for these patients.
+Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them containing various amounts of genes associated with this set.
+
+\subsubsection{Used Packages}
+<!-- add table  here  or put into appendix -->
+
+\subsection{Methods}
+\subsubsection{Data Exploration}
+*Cleaning and Filtering*
+ 
+Data cleaning is the process of deleting inaccurate, corrupted, malformed, duplicated, or incomplete information in a dataset. First we checked for missing values in our datasets. Secondly we removed the low variance genes in the “tcga_tumor_log2TPM” dataset and then performed biotype filtering.
+
+*Descriptive analysis*
+ 
+Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did  PCA and UMAP to reduce the dimension and explore the structure of the data. 
+
+\subsubsection{Selecting and Retrieving Pathways from Database}
+To create our pathway matrix we first collected all the hallmark pathways in our "hallmarks_genesets" list. Additionally, we identified in the literature 46 metabolic pathways that behave differently in the presence of cancer and retrieved them from the MSigDB (Molecular Signature Database). As the last stage we inserted all the pathways from the “C2: curated gene sets” database. The gene sets in the pathway matrix are carefully selected from a variety of sources, consisting of online pathway databases and biomedical literature. In order to implement this matrix for further analysis, we reduced the number of pathways by filtering out the pathways that have less than 15 genes in them.
+
+\subsubsection{Gene Set Scoring (GSVA)}
+Gene Set Variation Analysis (GSVA) is a GSA method considered to contribute to the current need of GSE methods for RNA-seq data. It is  applied for estimation of variation of pathway activity over a sample population in an unsupervised manner and provides higher power compared to other methods for detecting subtle changes in pathway activity over samples. [@S. Hänzelmann, R. Castelo, J. Guinney, 2013].  This method was applied on genesets constructed by matching the cleaned “tcga_tumor_log2tpm” data frame genes to their respective pathways by matching ensembl-IDs through the MSigDB database. Thus, an activity score was assigned and each pathway per each patient. A second pathway matrix was constructed from only the BRCA patients where normal tissue and tumor tissue were both included. Lastly we checked via a venn diagram the percentage of overlap of the genes from the original data set (“tcga_tumor_log2tpm”) and different stages of our pathway matrix.  
+
+\subsubsection{Pan Cancer Analysis}
+Pan cancer analysis includes the assessment of frequently mutated genes and other genomic observations that are common to many different types of cancer, regardless of the origin of the tumor. First of all, we computed UMAP for the cleaned  “tcga_tumor_log2TPM'' dataset and for pathway activity score data frame.  By using the annotation information for cancer type and pathological stage we colored the both plots to assess distribution of annotations within clusters. Moreover, we created a heatmap for the activity scores in our pathway matrix and categorized the pathways into Metabolic, Hallmark or C2: curated genes.In order to identify pathways with large fold changes that are also statistically and biologically significant, we plotted the BRCA pathway matrix in comparison to other tumor types and the final pathway matrix, on volcano plots where each dot was representative of a pathway. Pathways were separated by vertical and horizontal thresholds and annotated accordingly. Lastly correlation analysis was carried out in order to identify overlapping genes between pathways using Jaccard index.
+
+\subsubsection{Focused Analysis}
+In Focused Analysis we investigated BRCA tumor and normal tissue via UMAP plots  annotated by menopause, pathological stage and sample type in order to test for significant clustering of these parameters. A Volcano plot between the tumor and non-tumor samples of the BRCA pathway matrix was carried out and subsequently split  by vertical and horizontal thresholds. Additionally we computed a heatmap out of activity score in BRCA for tumor and normal samples for all pathways and top 200 differentially active pathways.
+
+\subsubsection{Regression Analysis}
+Focused analysis provided us with a list of potentially significant pathways for regression analysis. A comparison of these pathways with previously identified significant pathways in pan cancer analysis further narrowed the selection of our potential regression analysis pathways. Literature was considered to identify potential clinical significance of the overlapping pathways, which lead to the selection of one pathway as a prediction target. The rest of the significant pathways were used as variables to predict the chosen pathway. The patients were split into a training and a testing group to train the algorithm and compute the accuracy of the prediction consecutively. Afterwards parameter reduction by the exclusion of low significance parameters and k-fold cross validation were carried out to solve overfitting issues and increase precision. 
+
+\section{Results}
+\subsection{Data cleaning and exploration}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics{figures/Fig2.png}
+    \label{Figure 2}
+\end{figure}
+
+
+\subsection{Dimensional reduction}
+
+
+\subsection{Gene set scoring}
+\subsection{Pan cancer analysis}
+\subsection{Focused analysis}
+\subsection{Regression Analysis}
+
+
+\begin{table}[!h]
+\caption{Results for regression.}
+\label{tab:regression_table}
+\begin{tabular}{|l|l|l|l|}
+\hline
+    & \textbf{Adjusted R-squared values} & \textbf{RMSE for training model} & \textbf{RMSE for test data sets} \\ \hline
+\#1 & 0.8727                             & 0.0410006                        & 0.07613583                       \\ \hline
+\#2 & 0.8696                             & 0.043647                         & 0.07622888                       \\ \hline
+\#3 & 0.8417                             & 0.04716991                       & 0.07467378                       \\ \hline
+\#4 & 0.8458                             & 0.4701736                        & 0.06281068                       \\ \hline
+\#5 & 0.8275                             & 0.04413988                       & 0.07238331                       \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
+\section{Discussion}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Suplememnts}
+
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\textwidth]{figures/Fig1.png}
+  \caption[\textbf{Project outline}.]{\textbf{Project outline}. Our project outline describing our main goals that our project aims to answer.}
+  \label{Figure 1}
+\end{figure}
+
+
