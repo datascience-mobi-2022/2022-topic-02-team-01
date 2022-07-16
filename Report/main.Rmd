@@ -175,22 +175,135 @@ Focused analysis provided us with a list of potentially significant pathways for
 
 \section{Results}
 \subsection{Data cleaning and exploration}
+As already  mentioned our first task was to reduce our “tcga_tumor_log2tpm” to a more handable one, in order to perform significant analysis. Starting with a data frame consisting of 60498 genes and 9741 patients we reduced the number of the genes to 14674.  The starting point was to explore the distribution of the data by calculating the variance and the mean from all available patients and plotted against each other as in (see TO SUPPLEMENTARY PANEL 1  FIG A).  After checking our data for missing values, we didn’t encounter any, hence, filtering for missing values was not necessary. Aiming to concentrate our analysis only on relevant genes, we performed biotype filtering removing all the non-protein coding genes from our data. In order to determine the biotypes of all the genes we used biomaRt package (see list 1 in supplementary) and the ensembles IDs we were given in our  “tcga_tumor_log2tpm”  data. As a second step we also cleared all the low variance genes since they are considered as not crucial for the distribution of our data. SUPPLEMENTARY PANEL). Considering that, we removed more than 70% of the genes in the original data it was necessary to guarantee that the behavior of our data remained the same. This we followed by plotting the variance against the mean after each step of cleaning (REFER TO SUPPLEMENTARY PANEL 1  FIG)
+Additionally we investigated the significant information in the "tcga_tumor_annotation"  data frame via bar plots. In contrast to the  “tcga_tumor_log2tpm” data frame here we encountered a lot of missing information as seen in Fig 2.A.  Consequently we excluded the annotations with a significant amount of missing values from our plan for further analysis. As shown in Fig X we have potential clustering and regression analysis information in the form of histological grades, race, new tumor event, margin status, clinical stages, pathological stages and cancer type.
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     \includegraphics{figures/Fig2.png}
     \label{Figure 2}
 \end{figure}
 
-
 \subsection{Dimensional reduction}
-
+After successfully cleaning our data and analysis of our annotations we continued exploring our data by dimensional reduction. Our first attempt consisted of linear dimensional reduction of the genes in our filtered “tcga_tumor_log2tpm” data via PCA. First we computed 14 principal components and tested which of them carry the most significant information using the Elbow method [@F. Liu and Y. Deng, 2021] which brought us to the conclusion that we can plot our data using the first two principal components. For more detailed analysis we also applied cancer type annotations to color respectively each patient in our plot. As visualized in Fig X.A we encountered two clusters, however the information in the annotation is not distributed in a polarized manner. Aiming to observe more significant clustering we also performed non linear reduction via UMAP (Fig. X.B). Subsequently we were able to see very distinct clusters and polarized distribution in terms of tumor type.  Furthermore, we encountered several clusters consisting of only one tumor type (BRCA, PCPG, TGCT, THCA). UMAP proved to be more successful in terms of keeping information in the reduced dimensions, so we continued using it for further analysis.
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig3.png}
+    \label{Figure 3}
+\end{figure}
 
 \subsection{Gene set scoring}
-\subsection{Pan cancer analysis}
-\subsection{Focused analysis}
-\subsection{Regression Analysis}
+After creating our pathway list and selecting the gene sets accordingly we matched our  filtered “tcga_tumor_log2tpm” data with the corresponding pathways. An activity score was assigned and final pathway matrix computed, consisting of patients as columns and pathway names as rows. The same was performed with only BRCA patients. In order to visualize and quantify how many of the genes are kept within the pathway matrix in each stage of the pathway matrix creation we created venn diagrams for each stage of our pathway matrix creation (Fig X). This allows us to see the percentage comparisons of overlapping genes between our cleaned tcga_tumor_log2tpm dataframe. In figures X.A and X.B we see the overlap of all available pathways we had collected, both separately (fig 1) and grouped (fig 2). The number of pathways was further reduced to ease computational load, address concerns about inclusion of geneset scores of very little (lower than 15 genes) pathways leading to overrepresentation of certain genes, as well as concerns regarding misrepresentation of pathways that had very little matching genes with our cleaned  tcga_tumor_log2tpm dataframe. Pathways which had less than 15 matching genes with our  cleaned tcga_tumor_log2tpm dataframe were excluded, and the remaining 1010 pathways were subjected to GSVA scoring to generate a final pathway matrix of 1010 pathways and 9741 patients. The overlap of all genes in the final pathway, the previous selection of all available pathways, and our cleaned tcga_tumor_log2tpm dataframe can be seen in fig X.C, and a more direct comparison of the final pathways and our cleaned tcga_tumor_log2tpm dataframe in fig X.D.The initial 54 % overlap was reduced to 9 % after exclusion of pathways carrying less than 15 overlapping genes.
+In order to test the significance of our pathway matrix we plotted UMAP annotated by cancer type and compared it to our cleaned“tcga_tumor_log2tpm” data (Fig X). We could observe similar clustering of both which verified the biological significance of the pathway matrix. Additional confirmation we encountered in the comparison between UMAP plots for our data cleaned  "tcga_tumor_normal_datascience_proj_2022"  for BRCA patients and on the corresponding pathway activity matrix (Fig X). The plot represents every dot as a patient and  gives us output for two very distinguished clusters. By applying annotation information for tumor and normal tissue we proved that the clustering in both  gene expression data and pathway matrix activity data corresponds to similarities within tumor and normal tissue annotations. 
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig4.png}
+    \label{Figure 4}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig5.png}
+    \label{Figure 5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig6.png}
+    \label{Figure 6}
+\end{figure}
+
+
+\subsection{Pan cancer analysis}
+In pan cancer analysis we investigated common genetic abnormalities in many different cancers.
+ 
+1.   	Distribution of interesting annotative data inside UMAP of final pathway matrix
+ 
+Firstly, we colored the UMAP of the final pathway matrix with a focus on interesting annotations in order to identify a potential annotative target for regression analysis. In Fig.X.A clear clusters of different cancer types including BRCA can be seen. The UMAP was then colored by pathological stages. Lastly, only BRCA patients are colored by gender and menopause status. Unfortunately, no conclusive information was delivered.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig6.png}
+    \label{Figure 6}
+\end{figure}
+
+2. 	Comparison of five cancer types
+ 
+Afterward, the four other major cancer types present in our database were compared with BRCA in terms of gene expression by plotting each gene in a scatter plot of respective p values scaled by logarithm, and fold changes. A horizontal threshold that separates the visibly differing genes from non differing genes were selected individually for each plot, as well as a vertical threshold separating the upregulated (right) genes from the downregulated (left) were generated to separate and annotate the data, the respective threshold values are given below the individual volcano plots. The comparatively upregulated (in pink), downregulated(in blue) and non-changing genes (in black) were labeled as such, and colored accordingly. This separation provided us with lists of genes that differed in terms of expression between cancer types. 
+ \begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig8.png}
+    \label{Figure 8}
+\end{figure}
+
+3. 	Pan cancer volcano plot
+ 
+Different cancer types were compared not only by gene expression but also by pathway activity. By doing so we are provided with lists of genesets that are commonly or differentially active between cancer types. More detail about the pathway in red will be explained in regression analysis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig10.png}
+    \label{Figure 10}
+\end{figure}
+ 
+4.  20 pathways with highest GSVA score in all cancer types.
+In the next step, the mean GSVA score for all pathways was calculated and twenty highest-scoring pathways were plotted, indicating potential biomarkers for cancer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig9.png}
+    \label{Figure 9}
+\end{figure}
+
+5.  Pan cancer analysis heatmaps
+ 
+Next step includes plotting heatmaps for the pathways activity matrix to identify most important pathways in cancer development and identify which pathways are highly active or less active in which cancer type. In further research these scores can be used to cluster the cancer types, identify biomarkers.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig11.png}
+    \label{Figure 11}
+\end{figure}
+
+
+\subsection{Focused analysis}
+
+In focus analysis we took a closer look at breast cancer.
+ 
+1.     Correlation analysis of the pathways:
+First of all, the correlation values of the pathways for BRCA patients were computed and plotted in a heatmap in Fig.X.A 1. The reason for strong correlation between pathway groups was further investigated by computing the overlapping number of genes in each geneset. This score was normalized by Jaccard index and was plotted in image 2. Although the number of genes that are shared by the gene sets is not high, a large number of pathways are highly correlated. This suggests that the pathways that are highly correlated shown in the correlation matrix, are correlated because they are upregulated or downregulated in a similar manner.
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig13.png}
+    \label{Figure 13}
+\end{figure}
+
+2. 	Focused analysis heatmaps
+ 
+Normal tissue and tumor tissue from BRCA patients were plotted against all pathways and the top 200 pathways(which were selected by taking those with the highest fold changes.) The clear distinction in geneset scores between clusters of genesets can be seen. These clusters of genesets were retrieved and can be used for further analysis.
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig12.png}
+    \label{Figure 12}
+\end{figure}
+
+ 
+3.     Volcano:
+By comparing  BRCA pathway matrix for tumor and normal tissue we were able to visually see the most upregulated and most downregulated pathways in BRCA patients. After the selection of YAMAZAKI_TCEB3_TARGETS_UP as our regression analysis target, we colored the  YAMAZAKI_TCEB3_TARGETS_UP showing that it is situated in the most upregulated expressed in BRCA tumor and normal tissue. By coloring the same pathway in the volcano plot of BRCA pathway activity in tumor tissue and final pathway matrix for tcga_tumor_log2tpm we again identified it as upregulated.
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig14.png}
+    \label{Figure 14}
+\end{figure}
+
+\subsection{Regression Analysis}
+The look for a target for regression analysis by coloring the UMAP by interesting annotation was not successful, as shown in Fig.X. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.X.), a list of 85 pathways that are up-regulated and down-regulated  in breast cancer were provided. Then the list narrowed down by choosing only upregulated and down-regulated pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Fig.X.). This process narrowed the list down to two pathways,  wWU_CELL_MIGRATION and YAMAZAKI_TCEB3_TARGETS_UP. After literature research, WU_CELL_MIGRATION is excluded for being  strongly tied to bladder cancer [@Y. Wu, M. S. Siadaty, M. E. Berens, G. M. Hampton and D. Theodorescu, 2008]. Therefore, YAMAZAKI_TCEB3_TARGETS_UP is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YAMAZAKI_TCEB3_TARGETS_UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Fig.X)
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig15.png}
+    \label{Figure 15}
+\end{figure}
+The data was splitted into two groups, one is the training set and the other is the testing set. Originally, the model performed successfully on the training set but poorly on the testing set, indicating an overfitting problem. In order to solve that, variables that have p-value larger than 0.5 were excluded, and the process was performed five-times with random patients for training set and testing set each time. List of final pathways used for predicting YAMAZAKI_TCEB3_TARGETS_UP can be seen in the supplementary. Final result is shown in Fig.X and Fig.X: 
 
 \begin{table}[!h]
 \caption{Results for regression.}
@@ -206,6 +319,10 @@ Focused analysis provided us with a list of potentially significant pathways for
 \end{tabular}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig16.png}
+    \label{Figure 16}
 
 
 
@@ -226,7 +343,7 @@ Focused analysis provided us with a list of potentially significant pathways for
 \section{Suplememnts}
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/Fig1.png}
   \caption[\textbf{Project outline}.]{\textbf{Project outline}. Our project outline describing our main goals that our project aims to answer.}
@@ -234,3 +351,8 @@ Focused analysis provided us with a list of potentially significant pathways for
 \end{figure}
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/Fig7.png}
+    \label{Figure 7}
+\end{figure}
