@@ -1,0 +1,156 @@
+---
+title: "EchosWonky_Heatmap_PanCancer"
+author: "Ekin Ören"
+date: '2022-07-12'
+output: html_document
+---
+
+
+I want to make a seperated pathway matrix here with patients ordered in cols by tumour type
+
+```{r echo is always true, echo=FALSE}
+
+
+AnnotsOfSkinnyBoy = tcga_tumor_annotation.RDS
+
+View(Different_Cancers[[1]])
+
+
+
+Different_Cancers = list()
+
+for(i in 1: length(split(AnnotsOfSkinnyBoy,AnnotsOfSkinnyBoy$cancer_type_abbreviation))){
+  
+  Different_Cancers[i] = split(AnnotsOfSkinnyBoy,AnnotsOfSkinnyBoy$cancer_type_abbreviation)[i]
+  
+}
+
+A = c()
+
+for(i in 1: length(split(AnnotsOfSkinnyBoy,AnnotsOfSkinnyBoy$cancer_type_abbreviation))){
+  
+  A = append(A, unique(Different_Cancers[[i]]$cancer_type_abbreviation))
+  
+}
+
+names(Different_Cancers) = A
+
+View(PathwayMatrixDeluxePremium)
+
+
+
+
+
+OrderedCancertypePathwayscores = list()
+heheee = data.frame()
+
+for(i in 1:33){
+  
+  heheee = PathwayMatrixDeluxePremium[,match(Different_Cancers[[i]]$sample, colnames(PathwayMatrixDeluxePremium))]
+  
+  OrderedCancertypePathwayscores[[i]] = heheee
+  
+}
+
+#OrderedCancertypePathwayscores says it has doubles as items but it actually has data frames. it is lying!
+
+View(OrderedCancertypePathwayscores[[1]]) #see a motherfucker data frame that fucks mothers
+
+
+
+lazanya = data.frame()
+
+for(i in 1:33){
+  
+ lazanya = rbind(lazanya,t(OrderedCancertypePathwayscores[[i]]))
+ 
+}
+
+View(sphagetto)
+
+
+sphagetto = t(lazanya)
+
+
+library(pheatmap)
+
+pheatmap(sphagetto, angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 0.03, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 8, fontsize_col = 0.1, fontsize_row = 0.1)
+
+
+pheatmap(sphagetto, angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 0.03, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 0.1, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE, show_colnames = FALSE)
+
+
+cutree_cols = 33
+
+```
+
+
+Same  pathways grouped patients
+
+```{r setup, include=FALSE}
+
+
+
+PathwayScoreMeans = list()
+for(i in 1:33){
+  
+ PathwayScoreMeans[[i]]  = apply(unlist(OrderedCancertypePathwayscores[[i]]),1, mean )
+ 
+}
+
+A = c()
+
+for(i in 1: length(split(AnnotsOfSkinnyBoy,AnnotsOfSkinnyBoy$cancer_type_abbreviation))){
+  
+  A = append(A, unique(Different_Cancers[[i]]$cancer_type_abbreviation))
+  
+}
+
+names(PathwayScoreMeans) = A
+
+
+
+library(pheatmap)
+
+pheatmap(as.data.frame(PathwayScoreMeans), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE)
+
+
+```
+
+
+
+This one only the most imp pathways from SB volcano
+
+```{r setup, include=FALSE}
+
+match(rownames(IngredientsForRegressoSB), rownames(OrderedCancertypePathwayscores[[1]]))
+
+tangerine = as.data.frame(PathwayScoreMeans)[ match(rownames(IngredientsForRegressoSB), rownames(OrderedCancertypePathwayscores[[1]])),]
+
+
+pheatmap(as.data.frame(tangerine), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE, cellheight = 0.6)
+
+
+#pheatmap(as.data.frame(tangerine[1:100,]), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE, cellheight = 1)
+
+
+
+```
+
+
+This one only topvar
+
+```{r setup, include=FALSE}
+
+
+pheatmap(as.data.frame(matrix.topvar), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "10% top-variance pathways and all patients ordered by tumor type", width = 15, height = 15, fontsize = 10, fontsize_col = 8, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE)
+
+
+vari= apply(as.data.frame(PathwayScoreMeans), 1, var)
+matrix.topvar = as.data.frame(PathwayScoreMeans)[vari > quantile(vari, probs=0.9), ]
+
+dim(matrix.topvar)
+
+```
+
+

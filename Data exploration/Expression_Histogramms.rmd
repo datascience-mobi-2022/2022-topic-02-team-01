@@ -1,0 +1,50 @@
+---
+title: "VisualizeExpressionsHistogram"
+author: "Ekin Ören"
+date: '2022-05-15'
+output: html_document
+---
+
+WARNİNG: For this code to run, you need to have "BigBoy" dataframe and "tcga_tumor_norm" datalist in your enviroment.if not, go load them.
+
+Calculating the means of each row of the big boy, BRCA and norm-tissue BRCA gene expression data.
+in the end we get a vector of the mean expression of each gene in these data frames. (one vector for each data frame)
+```{r Histogrammy, include=FALSE}
+
+SadBRCAExpressions = tcga_tumor_norm$BRCA$tumor
+HappyBRCAExpressions = tcga_tumor_norm$BRCA$normal
+
+ExpressionMeansBigBoy = rowMeans(BigBoy)
+ExpressionMeansSadBRCA = rowMeans(SadBRCAExpressions)
+ExpressionMeansHappyBRCA = rowMeans(HappyBRCAExpressions)
+
+ExpressionMeansBigBoyLog = log(rowMeans(BigBoy))
+ExpressionMeansSadBRCALog = log(rowMeans(SadBRCAExpressions))
+ExpressionMeansHappyBRCALog = log(rowMeans(HappyBRCAExpressions))
+
+```
+
+
+Creating the Histogramms of gene expression for the named datasets. There is also histograms of logs of the same vecotrs
+y axis is frequency of expression in this range, and x axis is expression rates.
+```{r Histogrammy, include=FALSE}
+
+hist(ExpressionMeansBigBoy, xlab = "", main="Means of Cancer Gene Expression Data", breaks = 100, col = "purple")
+hist(ExpressionMeansHappyBRCA, xlab = "", main="Means of Breast Cancer Patients Healthy Tissue Gene Expression Data", breaks = 100, col = "pink", ylim = c(0,1500))
+hist(ExpressionMeansSadBRCA, xlab = "", main="Means of Breast Cancer Tissue Gene Expression Data", breaks = 100, col = "violet", ylim = c(0,1500))
+
+
+hist(ExpressionMeansBigBoyLog, xlab = "", main="Means of Cancer Gene Expression Data Log", breaks = 100, col = "purple")
+hist(ExpressionMeansHappyBRCALog, xlab = "", main="Means of Breast Cancer Patients Healthy Tissue Gene Expression Data Log", breaks = 100, col = "pink", ylim = c(0,1500))
+hist(ExpressionMeansSadBRCALog, xlab = "", main="Means of Breast Cancer Tissue Gene Expression Data Log", breaks = 100, col = "violet", ylim = c(0,1500))
+
+```
+
+
+
+
+
+
+
+
+

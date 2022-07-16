@@ -1,0 +1,128 @@
+---
+title: "SaveAndLoad"
+author: "linh"
+date: '2022-06-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r fixing p value} 
+
+################################ 
+
+#### creating a vector that contains number of all of genes in the pathways
+
+for (i in 1:46) {
+  number_pathway[i]= length(unlist(x$ID[[i]]))
+}
+
+
+#View (number_pathway)
+
+
+##### multiple the p value by the number of the genes in the pathways
+
+df_pathway_patient_S_pvalue = data.frame ()
+
+for (n in 1:46){
+    
+ df_pathway_patient_S_pvalue[n,2] = number_pathway[n]*df_pathway_patient_SB[n,2]
+    
+}
+
+
+max (df_pathway_patient_S_pvalue)
+
+      
+
+```
+
+
+```{r creating histogram}
+
+
+
+### find p value for 50st patients
+
+for (m in 1:ncol(SkinnyBoy)){
+  for (n in 1:46){
+      pathway_geneexp_patient_SB[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
+     df_pathway_patient_SB[n,m] = wilcox.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+  
+  df_pathway_patient_S_pvalue[n,m] = number_pathway[n]*df_pathway_patient_SB[n,m]
+  
+  }
+}
+saveRDS (df_pathway_patient_S_pvalue, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/df_pathway_patient_S_pvalue.RDS")
+
+View(df_pathway_patient_S_pvalue)
+## df_pathway_patient_S_pvalue is the final 
+
+
+
+View  (df_pathway_patient_SB)
+
+
+######
+
+##### multiple the p value by the number of the genes in the pathways
+
+df_pathway_patient_S_pvalue = data.frame ()
+for (m in 1:50){
+  for (n in 1:46){
+    
+ df_pathway_patient_S_pvalue[n,m] = number_pathway[n]*df_pathway_patient_SB[n,m]
+  }
+}
+
+View (df_pathway_patient_S_pvalue)
+
+##### putting pvalue of df into a vector
+Vector = (c(t(df_pathway_patient_S_pvalue)))
+
+min(df_pathway_patient_S_pvalue)
+
+View (Vector) 
+class (Vector)
+
+min (Vector)
+min (df_pathway_patient_S_pvalue)
+
+##### trying for the 10st patients. Need to do it smarter
+
+#hist(c(df_pathway_patient_S_pvalue [,1],df_pathway_patient_S_pvalue [,2], df_pathway_patient_S_pvalue[,3],df_pathway_patient_S_pvalue [,4], df_pathway_patient_S_pvalue [,5], df_pathway_patient_S_pvalue [,6], df_pathway_patient_S_pvalue [,7],df_pathway_patient_S_pvalue [,8],df_pathway_patient_S_pvalue [,9],df_pathway_patient_S_pvalue [,10] ))
+
+
+##### plot histogram with hist function
+
+hist (Vector, xlim = 5 )
+
+  
+max(df_pathway_patient_S_pvalue)
+
+hist (Vector)
+
+library(ggplot2)
+
+# Plot histogram with ggplot function
+
+new_df = data.frame (Vector)
+View (new_df)
+
+ggplot(log(new_df), aes (x = Vector)) + geom_histogram() 
+
+
+
+```
+
+
+
+
+

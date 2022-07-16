@@ -1,0 +1,98 @@
+---
+title: "RegressionPathwayPreparingEngine"
+author: "Ekin Ören"
+date: '2022-07-12'
+output: html_document
+---
+
+This code extracts genesets that we find interesting from previous analysis and plots and compares them. it also groups and saves the mto be put as inputs into further analysis and plotting. (for example corrolation heatmap)
+
+
+```{r cars}
+
+DifferingPathwaysin_tumnormBRCA = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ DifferingPathwaysin_tumnormBRCA.rds")
+
+PathwayMatrixDeluxePremium
+
+smolle1 = pw_activity_SkinnyBRCA[match (rownames(DifferingPathwaysin_tumnormBRCA), rownames(pw_activity_SkinnyBRCA)),]
+
+smolle2 = smolle1[,match(colnames(BRCAtum) , colnames(smolle1))]
+
+View(smolle2)
+
+colnames(BRCAtum) 
+
+match(colnames(BRCAtum) , colnames(smolle1))
+
+IngredientsForRegresso = smolle2
+
+saveRDS(IngredientsForRegresso,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ Ingredients_for_Regresso.rds")
+
+```
+
+
+
+```{r cars}
+
+# compute correlation heatmap on these pw
+cor_matrix_for_regresso = data.frame()
+for (n in 1:85) {
+  for (m in 1:85) {
+    cor_matrix_for_regresso [n,m] = cor(IngredientsForRegresso[n,], IngredientsForRegresso[m,],  method = "pearson", use = "complete.obs")
+  }
+}
+
+library (pheatmap)
+
+pheatmap (cor_matrix_for_regresso, angle_col=45, cellwidth = 3, main = "correlation heatmap for DE pathways in BRCA", width = 10, height = 10, fontsize = 8, fontsize_col = 1, fontsize_row = 1)
+
+diag (cor_matrix_for_regresso ) = 0
+
+
+```
+
+
+```{r cars}
+
+DifferingPathwaysin_tumnormBRCA = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ DifferingPathwaysin_tumnormBRCA.rds")
+
+PathwayMatrixDeluxePremium
+
+smolle11 = pw_activity_SkinnyBRCA[match (rownames(DifferingPathwaysin_tumnorm_BRCAPRAD), rownames(pw_activity_SkinnyBRCA)),]
+
+smolle22 = smolle11[,match(colnames(BRCAtum) , colnames(smolle11))]
+
+View(smolle22)
+
+IngredientsForRegressoSmallpack = smolle22
+
+saveRDS(IngredientsForRegressoSmallpack,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ Ingredients_For_Regresso_Smallpack.rds")
+
+```
+
+
+FOR SB AND BRCA COMPARİSON
+
+```{r cars}
+
+BRCA_SB_DifferingPathways = df_volcanoplotBRCAvsSBpathways[which (df_volcanoplotBRCAvsSBpathways$different == "UP" | df_volcanoplotBRCAvsSBpathways$different == "DOWN" ) ,]
+
+
+smolle111 = PathwayMatrixDeluxePremium[match (rownames(BRCA_SB_DifferingPathways), rownames(PathwayMatrixDeluxePremium)),]
+
+
+IngredientsForRegressoSB = smolle111
+
+dim(IngredientsForRegressoSB)
+which (row.names (IngredientsForRegressoSB) == "YAMAZAKI_TCEB3_TARGETS_UP")
+
+
+saveRDS(IngredientsForRegressoSB,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ IngredientsForRegressoSB.rds")
+
+```
+
+
+
+
+
+

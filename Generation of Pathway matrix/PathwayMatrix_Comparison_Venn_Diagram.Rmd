@@ -1,0 +1,192 @@
+---
+title: "Venn_Diagramm"
+author: "Ekin Ören"
+date: '2022-07-01'
+output: html_document
+---
+
+
+This chunk loads the library required for the venn diagram
+```{r Venn Life Gets you down, echo=FALSE}
+
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("gaospecial/ggVennDiagram")
+
+```
+
+
+
+This chunk extracts genes and creates vectors that will be imputs into the venn diagramm
+
+```{r Venn Life Gets you down, echo=FALSE}
+
+#genes_ens_SB needs to be already in your enviroment! if not, ask me (echo) to send it
+
+genes_ens_vn <- strsplit(genes_ens_SB, split = ".", fixed = TRUE)
+SkinnyBoyEnsembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+
+A = c()
+
+for(i in 1:46)
+{
+  A= append(A, MetabolicsEnsembl$ID[[i]])
+}
+
+Metabolic_EnsemblesVector = unique(A)
+
+Hallmarks = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/x.RDS")
+
+
+B = c()
+
+for(i in 1:46)
+{
+  B = append(B, Hallmarks$ID[[i]])
+}
+
+Hallmarks_EnsemblesVector = unique(B)
+
+VoVee = list(Hallmarks_EnsemblesVector, Metabolic_EnsemblesVector, SkinnyBoyEnsembl)
+
+```
+
+
+
+
+This chunk computes the first Ven diagram of all pathway we had before addition of C compared
+```{r Venn Life Gets you down, echo=FALSE}
+
+
+AllPathwayGenesByID = append(Hallmarks_EnsemblesVector,Metabolic_EnsemblesVector)
+VoVoo = list(AllPathwayGenesByID, SkinnyBoyEnsembl)
+
+ggVennDiagram(
+  VoVoo, label_alpha = 0,
+  category.names = c("pathways","SkinnyBoy")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+```
+
+
+
+
+This chunk computes the first Ven diagram of all pathway groups compared
+```{r Venn Life Gets you down, echo=FALSE}
+
+
+C = c()
+
+for(i in 1:6366)
+{
+  C = append(C, CPathways$ID[[i]])
+}
+
+View(C)
+
+CPathways = unique(C)
+
+
+VoVouou = list(Hallmarks_EnsemblesVector, Metabolic_EnsemblesVector, SkinnyBoyEnsembl, CPathways)
+
+
+ggVennDiagram(
+  VoVouou, label_alpha = 0,
+  category.names = c("Hallmarks","Metabolics","SkinnyBoy","CPathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+```
+
+
+
+
+This chunk computes the Venn diagram of  pathway matrix selections and SkinnyBoy
+```{r Venn Life Gets you down, echo=FALSE}
+
+AllPathwayGenesByID2 = append(Hallmarks_EnsemblesVector,Metabolic_EnsemblesVector)
+AllPathwayGenesByID3 = append(AllPathwayGenesByID2,CPathways)
+VoVeh = list(AllPathwayGenesByID3, SkinnyBoyEnsembl)
+
+ggVennDiagram(
+  VoVeh, label_alpha = 0,
+  category.names = c("pathways","SkinnyBoy")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+```
+
+
+This chunk generates venn diagrams comparing old pathway matrix, new pathway matrix and the initial dataframe (SkinnyBoy)
+
+```{r setup,}
+
+A = c()
+
+for (i in 1:6458)
+{
+  B = AllPathwaysEns_List[[i]]
+  A = append(A, B)
+}
+
+EnsemblesVectorAllPathways = A
+
+EnsemblesVectorSkinnyBoy = rownames(SkinnyBoy)
+
+View(PathwayMatrixDeluxePremium)
+
+
+
+for(i in 1:length(rownames(PathwayMatrixDeluxePremium)))
+{
+  apple1 = match(rownames(PathwayMatrixDeluxePremium), names(AllPathwaysEns_List))
+  
+}
+
+
+for (i in apple1)
+{
+  apple4 = AllPathwaysEns_List[[i]]
+}
+
+EnsemblesVectorLastPathways = apple4
+
+
+
+
+
+hes = list(EnsemblesVectorAllPathways, EnsemblesVectorSkinnyBoy, EnsemblesVectorLastPathways)
+
+hus = list(unique(EnsemblesVectorAllPathways),unique(EnsemblesVectorSkinnyBoy),unique(EnsemblesVectorLastPathways))
+
+library("ggVennDiagram")
+
+ggVennDiagram(
+  hus, label_alpha = 0,
+  category.names = c("AllPathways","SkinnyBoy","Last Pathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+
+
+
+hunana = list(unique(EnsemblesVectorSkinnyBoy),unique(EnsemblesVectorLastPathways))
+
+library("ggVennDiagram")
+
+ggVennDiagram(
+  hunana, label_alpha = 0,
+  category.names = c("SkinnyBoy","Last Pathways")
+  ) +
+  ggplot2::scale_fill_gradient(low="white",high = "violet")
+
+
+```
+
+

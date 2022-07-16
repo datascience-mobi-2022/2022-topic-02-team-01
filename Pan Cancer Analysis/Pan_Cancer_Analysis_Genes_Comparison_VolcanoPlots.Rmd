@@ -1,0 +1,471 @@
+---
+title: "Pathway_Volcano"
+author: "Ekin Ören"
+date: '2022-06-19'
+output: html_document
+---
+
+#Loading and slicing the tumory data for further use
+```{r Load DF's, }
+
+#Loading and slicing the tumory data for further use
+df_BRCA_pvalue = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/df_BRCA_pvalue.RDS")
+VliveVdieVlivagen5 = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/Five_Tumory_Bois.RDS")
+View(VliveVdieVlivagen5)
+View(df_BRCA_pvalue)
+
+BRCAtum = VliveVdieVlivagen5$BRCA$tumor
+BRCAnorm = VliveVdieVlivagen5$BRCA$normal
+
+KIRCtum = VliveVdieVlivagen5$KIRC$tumor
+KIRCnorm = VliveVdieVlivagen5$KIRC$normal
+
+LUADtum = VliveVdieVlivagen5$LUAD$tumor
+LUADnorm = VliveVdieVlivagen5$LUAD$normal
+
+PRADtum = VliveVdieVlivagen5$PRAD$tumor
+PRADnorm = VliveVdieVlivagen5$PRAD$normal
+
+THCAtum = VliveVdieVlivagen5$THCA$tumor
+THCAnorm = VliveVdieVlivagen5$THCA$normal
+```
+
+
+
+#Here we compute the p values of all cancer types with comparison to BRCA
+```{r compute p-values for each genes}
+
+pee_BRCAvsKIRC = c()
+ for (i in 1:nrow(BRCAtum)){
+  pee_BRCAvsKIRC[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(KIRCtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsKIRC = pee_BRCAvsKIRC*length(BRCAtum[,1])
+
+
+pee_BRCAvsLUAD = c()
+ for (i in 1:nrow(BRCAtum)){
+  pee_BRCAvsLUAD[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(LUADtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsLUAD = pee_BRCAvsLUAD*length(BRCAtum[,1])
+
+
+pee_BRCAvsPRAD = c()
+ for (i in 1:nrow(BRCAtum)){
+  pee_BRCAvsPRAD[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(PRADtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsPRAD = pee_BRCAvsPRAD*length(BRCAtum[,1])
+
+
+pee_BRCAvsTHCA = c()
+ for (i in 1:nrow(BRCAtum)){
+  pee_BRCAvsTHCA[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(THCAtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsTHCA = pee_BRCAvsTHCA*length(BRCAtum[,1])
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+
+df_pBRCAvsKIRC = data.frame(rownames(BRCAtum), p_BRCAvsKIRC)
+df_pBRCAvsLUAD = data.frame(rownames(BRCAtum), p_BRCAvsLUAD)
+df_pBRCAvsPRAD = data.frame(rownames(BRCAtum), p_BRCAvsPRAD)
+df_pBRCAvsTHCA = data.frame(rownames(BRCAtum), p_BRCAvsTHCA)
+
+```
+
+
+
+#here we find the highest and lowest P values in previous comparisons and draw out the gene
+#we don't need to calculate additional correlation value because we already computed p value
+#we must however also consider fold change. so we will make volcano plots for each of these comparisons
+#to do this we first need to compute fold change
+
+```{r Foldchange, }
+
+#each row (row not column ı checked)
+foldchange1 = apply(BRCAtum, 1, mean) - apply(KIRCtum, 1, mean)
+log2foldchange1 = log2(foldchange1)
+
+foldchange2 = apply(BRCAtum, 1, mean) - apply(LUADtum, 1, mean)
+log2foldchange2 = log2(foldchange2)
+
+foldchange3 = apply(BRCAtum, 1, mean) - apply(PRADtum, 1, mean)
+log2foldchange3 = log2(foldchange3)
+
+foldchange4 = apply(BRCAtum, 1, mean) - apply(THCAtum, 1, mean)
+log2foldchange4 = log2(foldchange4)
+
+#PROBLEM: NaN's get produced here (PLS DEBUG)
+
+```
+
+
+
+#here we make the volcano plots for all cancer types
+```{r Vocano yea, }
+
+
+df_volcanoplotBRCAvsKIRC = data.frame (foldchange1, p_BRCAvsKIRC)
+df_volcanoplotBRCAvsKIRC$different = "NO"
+
+df_volcanoplotBRCAvsKIRC$different[df_volcanoplotBRCAvsKIRC$foldchange1 > 0.1  &     df_volcanoplotBRCAvsKIRC$p_BRCAvsKIRC < 0.00001]= "UP"
+
+df_volcanoplotBRCAvsKIRC$different[df_volcanoplotBRCAvsKIRC$foldchange1 < 0.1 &      df_volcanoplotBRCAvsKIRC$p_BRCAvsKIRC < 0.00001]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsKIRC, aes (x=foldchange1, y=-log10(p_BRCAvsKIRC), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsLUAD = data.frame (foldchange2, p_BRCAvsLUAD)
+df_volcanoplotBRCAvsLUAD$different = "NO"
+
+df_volcanoplotBRCAvsLUAD$different[df_volcanoplotBRCAvsLUAD$foldchange2 > 0.1  &     df_volcanoplotBRCAvsLUAD$p_BRCAvsLUAD < 0.00001]= "UP"
+
+df_volcanoplotBRCAvsLUAD$different[df_volcanoplotBRCAvsLUAD$foldchange2 < 0.1 &      df_volcanoplotBRCAvsLUAD$p_BRCAvsLUAD < 0.00001]= "DOWN"
+
+#we plot
+ggplot (data = df_volcanoplotBRCAvsLUAD, aes (x=foldchange2, y=-log10(p_BRCAvsLUAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs LUAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsPRAD = data.frame (foldchange3, p_BRCAvsPRAD)
+df_volcanoplotBRCAvsPRAD$different = "NO"
+
+df_volcanoplotBRCAvsPRAD$different[df_volcanoplotBRCAvsPRAD$foldchange3 > 0.1  &     df_volcanoplotBRCAvsPRAD$p_BRCAvsPRAD < 0.00001]= "UP"
+
+df_volcanoplotBRCAvsPRAD$different[df_volcanoplotBRCAvsPRAD$foldchange3 < 0.1 &      df_volcanoplotBRCAvsPRAD$p_BRCAvsPRAD < 0.00001]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsPRAD, aes (x=foldchange3, y=-log10(p_BRCAvsPRAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs PRAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsTHCA = data.frame (foldchange4, p_BRCAvsTHCA)
+df_volcanoplotBRCAvsTHCA$different = "NO"
+
+df_volcanoplotBRCAvsTHCA$different[df_volcanoplotBRCAvsTHCA$foldchange4 > 0.1  &     df_volcanoplotBRCAvsTHCA$p_BRCAvsTHCA < 0.00001]= "UP"
+
+df_volcanoplotBRCAvsTHCA$different[df_volcanoplotBRCAvsTHCA$foldchange4 < 0.1 &      df_volcanoplotBRCAvsTHCA$p_BRCAvsTHCA < 0.00001]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsTHCA, aes (x=foldchange4, y=-log10(p_BRCAvsTHCA), col = different)) + ggtitle("volcanoplot BRCA tumour vs THCA tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+```
+
+```{r Plots (with normal grenze), }
+
+
+#Recap of all of the plots:
+
+ggplot (data = df_volcanoplotBRCAvsKIRC, aes (x=foldchange1, y=-log10(p_BRCAvsKIRC), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+ggplot (data = df_volcanoplotBRCAvsLUAD, aes (x=foldchange2, y=-log10(p_BRCAvsLUAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs LUAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+ggplot (data = df_volcanoplotBRCAvsPRAD, aes (x=foldchange3, y=-log10(p_BRCAvsPRAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs PRAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+ggplot (data = df_volcanoplotBRCAvsTHCA, aes (x=foldchange4, y=-log10(p_BRCAvsTHCA), col = different)) + ggtitle("volcanoplot BRCA tumour vs THCA tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+```
+
+
+
+```{r Plots (with normal grenze and with strict), }
+
+#Stricc Plot
+
+df_volcanoplotBRCAvsKIRCstrict = data.frame (foldchange1, p_BRCAvsKIRC)
+df_volcanoplotBRCAvsKIRCstrict$different = "NO"
+
+df_volcanoplotBRCAvsKIRCstrict$different[df_volcanoplotBRCAvsKIRCstrict$foldchange1 > 0.1  &     df_volcanoplotBRCAvsKIRCstrict$p_BRCAvsKIRC < 0.0000000000000000000001]= "UP"
+
+df_volcanoplotBRCAvsKIRCstrict$different[df_volcanoplotBRCAvsKIRCstrict$foldchange1 < 0.1 &      df_volcanoplotBRCAvsKIRCstrict$p_BRCAvsKIRC < 0.00000000000000000000001]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsKIRC, aes (x=foldchange1, y=-log10(p_BRCAvsKIRC), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+ggplot (data = df_volcanoplotBRCAvsKIRCstrict, aes (x=foldchange1, y=-log10(p_BRCAvsKIRC), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour STRICT") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+#As you can see in the "STRİCT" df we have only the most differentially expressed genes identified as up and down.
+#we can make barplots with those later
+
+
+df_volcanoplotBRCAvsLUADstrict = data.frame (foldchange2, p_BRCAvsLUAD)
+df_volcanoplotBRCAvsLUADstrict$different = "NO"
+
+df_volcanoplotBRCAvsLUADstrict$different[df_volcanoplotBRCAvsLUADstrict$foldchange2 > 0.1  &     df_volcanoplotBRCAvsLUADstrict$p_BRCAvsLUAD < 0.000000000000001]= "UP"
+
+df_volcanoplotBRCAvsLUADstrict$different[df_volcanoplotBRCAvsLUADstrict$foldchange2 < 0.1 &      df_volcanoplotBRCAvsLUADstrict$p_BRCAvsLUAD <  0.0000000000000001]= "DOWN"
+
+
+ggplot (data = df_volcanoplotBRCAvsLUAD, aes (x=foldchange2, y=-log10(p_BRCAvsLUAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs LUAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+ggplot (data = df_volcanoplotBRCAvsLUADstrict, aes (x=foldchange2, y=-log10(p_BRCAvsLUAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs LUAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+
+```
+
+
+
+
+Here we explore the genes that were distinct in the plots we saw as an output of the chunk above
+
+```{r get genes, }
+
+Uppers1 <- df_volcanoplotBRCAvsKIRCstrict[ which(df_volcanoplotBRCAvsKIRCstrict$different =='UP'),]
+#View(Uppers) #72 genes
+
+Downers1 <- df_volcanoplotBRCAvsKIRCstrict[ which(df_volcanoplotBRCAvsKIRCstrict$different =='DOWN'),]
+#View(Downers) #65 genes
+
+UppersExpression1 =  SkinnyBoy[(match(rownames(Uppers1), rownames(SkinnyBoy))), ]
+UppersExpression1 = na.omit(UppersExpression1)
+
+DownersExpression1 =  SkinnyBoy[(match(rownames(Downers1), rownames(SkinnyBoy))), ]
+DownersExpression1 = na.omit(DownersExpression1)
+
+Uppers2 <- df_volcanoplotBRCAvsLUADstrict[ which(df_volcanoplotBRCAvsLUADstrict$different =='UP'),]
+#View(Uppers) #72 genes
+
+Downers2 <- df_volcanoplotBRCAvsLUADstrict[ which(df_volcanoplotBRCAvsLUADstrict$different =='DOWN'),]
+#View(Downers) #65 genes
+
+UppersExpression2 =  SkinnyBoy[(match(rownames(Uppers2), rownames(SkinnyBoy))), ]
+UppersExpression2 = na.omit(UppersExpression2)
+
+DownersExpression2 =  SkinnyBoy[(match(rownames(Downers2), rownames(SkinnyBoy))), ]
+DownersExpression2 = na.omit(DownersExpression2)
+
+```
+
+
+
+
+In this chunk we look at the corrolation values. howeverwe ended up making a different corrolation analysis after an update to the pathway matrix
+so this chunk is used only as a diagnostic tool
+
+```{r lookat corrolation, }
+#
+UppersMeanExp1 = apply(UppersExpression1, 1, mean)
+DownersMeanExp1 = apply(DownersExpression1, 1, mean)
+
+UppersMeanExp2 = apply(UppersExpression2, 1, mean)
+DownersMeanExp2 = apply(DownersExpression2, 1, mean)
+
+
+Testpresso1 =  SkinnyBoy[(match(rownames(df_BRCA_pvalue), rownames(SkinnyBoy))), ]
+Testpresso1 = na.omit(Testpresso1)
+
+
+plot(UppersMeanExp1[1:100], Testpresso1[1:100], pch = 19, col = "lightblue")
+
+
+View(df_BRCA_pvalue)
+
+
+
+
+
+n = cor.test(UppersMeanExp1[1:100], UppersMeanExp1[1:100])
+n$estimate
+
+a = cor.test(UppersMeanExp1[1:100], UppersMeanExp2[1:100])
+a$estimate
+
+b = cor.test(UppersMeanExp1[1:100], DownersMeanExp1[1:100])
+b$estimate
+
+
+View(UppersExpression1)
+
+
+#corrolation plots of first 200 upper genes in several patients
+for (i in 1:10) {
+  
+  plot(UppersExpression1[1:200,i], UppersExpression1[1:200, i+1], pch = 19, col = "lightblue")
+
+}
+
+UpperGene_AllPatientsCor = c()
+
+for (i in 1:(length(UppersExpression1[,1])-1)) {
+  
+  z = cor.test(UppersExpression1[,i], UppersExpression1[, i+1], pch = 19, col = "lightblue")
+  UpperGene_AllPatientsCor[i] = z$estimate
+
+}
+
+hist(UpperGene_AllPatientsCor, breaks = 40)
+
+
+
+```
+
+
+```{r compute p-values for each genes}
+
+#Here we compute the p values of all cancer types with comparison to BRCA
+
+pea_BRCAvsKIRC = c()
+ for (i in 1:nrow(BRCAtum)){
+  pea_BRCAvsKIRC[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(KIRCtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsKIRC = pea_BRCAvsKIRC*length(BRCAtum[,1])
+
+
+pea_BRCAvsLUAD = c()
+ for (i in 1:nrow(BRCAtum)){
+  pea_BRCAvsLUAD[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(LUADtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsLUAD = pea_BRCAvsLUAD*length(BRCAtum[,1])
+
+
+pea_BRCAvsPRAD = c()
+ for (i in 1:nrow(BRCAtum)){
+  pea_BRCAvsPRAD[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(PRADtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsPRAD = pea_BRCAvsPRAD*length(BRCAtum[,1])
+
+
+pea_BRCAvsTHCA = c()
+ for (i in 1:nrow(BRCAtum)){
+  pea_BRCAvsTHCA[i] = wilcox.test(unlist(BRCAtum[i,]),unlist(THCAtum[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsTHCA = pea_BRCAvsTHCA*length(BRCAtum[,1])
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+
+df_pBRCAvsKIRC = data.frame(rownames(BRCAtum), p_BRCAvsKIRC)
+df_pBRCAvsLUAD = data.frame(rownames(BRCAtum), p_BRCAvsLUAD)
+df_pBRCAvsPRAD = data.frame(rownames(BRCAtum), p_BRCAvsPRAD)
+df_pBRCAvsTHCA = data.frame(rownames(BRCAtum), p_BRCAvsTHCA)
+
+```
+
+```{r Foldchange, }
+
+#here we find the highest and lowest P values in previous comparisons and draw out the gene
+#we don't need to calculate additional correlation value because we already computed p value
+#we must however also consider fold change. so we will make volcano plots for each of these comparisons
+#to do this we first need to compute fold change
+
+#each row (row not column ı checked)
+#log2FC_gene1 = mean(condition1_gene) -mean(condition2_gene) @wanjun
+
+log2FC1 = apply(BRCAtum, 1, mean) - apply(KIRCtum, 1, mean)
+
+log2FC2 = apply(BRCAtum, 1, mean) - apply(LUADtum, 1, mean)
+
+log2FC3 = apply(BRCAtum, 1, mean) - apply(PRADtum, 1, mean)
+
+log2FC4 = apply(BRCAtum, 1, mean) - apply(THCAtum, 1, mean)
+
+#PROBLEM: NaN's get produced here (PLS DEBUG)
+
+```
+
+
+```{r Vocano, with higher threshold }
+
+#we make the volcano plots for all cancer types
+
+df_volcanoplotBRCAvsKIRC = data.frame (log2FC1, p_BRCAvsKIRC)
+df_volcanoplotBRCAvsKIRC$different = "NO"
+
+df_volcanoplotBRCAvsKIRC$different[df_volcanoplotBRCAvsKIRC$log2FC1 > 0.1  &     df_volcanoplotBRCAvsKIRC$p_BRCAvsKIRC < 0.0000000000000000000001]= "UP"
+
+df_volcanoplotBRCAvsKIRC$different[df_volcanoplotBRCAvsKIRC$log2FC1 < 0.1 &      df_volcanoplotBRCAvsKIRC$p_BRCAvsKIRC < 0.0000000000000000000001]= "DOWN"
+
+#we plot 
+library(ggplot2)
+ggplot (data = df_volcanoplotBRCAvsKIRC, aes (x=log2FC1, y=-log10(p_BRCAvsKIRC), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsLUAD = data.frame (log2FC2, p_BRCAvsLUAD)
+df_volcanoplotBRCAvsLUAD$different = "NO"
+
+df_volcanoplotBRCAvsLUAD$different[df_volcanoplotBRCAvsLUAD$log2FC2 > 0.1  &     df_volcanoplotBRCAvsLUAD$p_BRCAvsLUAD < 0.0000000000000000000001]= "UP"
+
+df_volcanoplotBRCAvsLUAD$different[df_volcanoplotBRCAvsLUAD$log2FC2 < 0.1 &      df_volcanoplotBRCAvsLUAD$p_BRCAvsLUAD < 0.0000000000000000000001]= "DOWN"
+
+#we plot
+
+ggplot (data = df_volcanoplotBRCAvsLUAD, aes (x=log2FC2, y=-log10(p_BRCAvsLUAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs LUAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsPRAD = data.frame (log2FC3, p_BRCAvsPRAD)
+df_volcanoplotBRCAvsPRAD$different = "NO"
+
+df_volcanoplotBRCAvsPRAD$different[df_volcanoplotBRCAvsPRAD$log2FC3 > 0.1  &     df_volcanoplotBRCAvsPRAD$p_BRCAvsPRAD < 0.0000000000000000000001]= "UP"
+
+df_volcanoplotBRCAvsPRAD$different[df_volcanoplotBRCAvsPRAD$log2FC3 < 0.1 &      df_volcanoplotBRCAvsPRAD$p_BRCAvsPRAD < 0.0000000000000000000001]= "DOWN"
+
+#we plot 
+library(ggplot2)
+ggplot (data = df_volcanoplotBRCAvsPRAD, aes (x=log2FC3, y=-log10(p_BRCAvsPRAD), col = different)) + ggtitle("volcanoplot BRCA tumour vs PRAD tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+
+
+df_volcanoplotBRCAvsTHCA = data.frame (log2FC4, p_BRCAvsTHCA)
+df_volcanoplotBRCAvsTHCA$different = "NO"
+
+df_volcanoplotBRCAvsTHCA$different[df_volcanoplotBRCAvsTHCA$log2FC4 > 0.1  &     df_volcanoplotBRCAvsTHCA$p_BRCAvsTHCA < 0.0000000000000000000001]= "UP"
+
+df_volcanoplotBRCAvsTHCA$different[df_volcanoplotBRCAvsTHCA$flog2FC4 < 0.1 &      df_volcanoplotBRCAvsTHCA$p_BRCAvsTHCA < 0.0000000000000000000001]= "DOWN"
+
+#we plot 
+library(ggplot2)
+ggplot (data = df_volcanoplotBRCAvsTHCA, aes (x=log2FC4, y=-log10(p_BRCAvsTHCA), col = different)) + ggtitle("volcanoplot BRCA tumour vs THCA tumour") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+
+```
+
+
+
+
+
+
+
+
+
+
+FURTHER DİAGNOSTİC TESTS and DEBUGGİNG (can delete if wanted. not necessary for function)
+```{r compute p-values for each genes}
+#DİAGNOSTİK TESTS
+
+View(BRCAtum)
+View(KIRCtum)
+
+nrow(BRCAtum) == nrow(KIRCtum) # returns true
+# patients are different but the genes are not
+
+match(rownames(BRCAtum), rownames(KIRCtum))
+#reihenfolge of the genes are also the same. we can get to work now
+
+length(BRCAtum[1,]) == length(KIRCtum[1,]) # returns false v sad
+length(BRCAtum[1,]) - length(KIRCtum[1,]) #BRCA has 39 more patients
+
+#to run wilcox test we need the patient numbers to be same
+min( length(BRCAtum[1,]), length(KIRCtum[1,]) , length(LUADtum[1,]) , length(PRADtum[1,]) , length(THCAtum[1,]) )
+max( length(BRCAtum[1,]), length(KIRCtum[1,]) , length(LUADtum[1,]) , length(PRADtum[1,]) , length(THCAtum[1,]) )
+
+#max 111 min 52. we need to exclude a lot of patients. who we gonna exclude? 
+#no wait it do b working when paired = false
+
+
+```
+
+

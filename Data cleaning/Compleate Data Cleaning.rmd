@@ -1,0 +1,596 @@
+---
+title: "DataCleaningCompleate"
+author: "Ekin Ören"
+date: '2022-05-17'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+BIOTYPE FİLTERİNG BİG BOY:
+
+_________________________________________________________________________________________________________________________________________________
+
+Errinnerung: we are working on the copies of the datasets, defined by the code below from last time.
+
+CancerGeneExpressionsRemix = tcga_exp
+CancerGeneExpressionsRemixAnnots = tcga_annot
+TumorSpesificGenexpDatalist = tcga_tumor_norm
+CancerHallmarkGenesetsList = genesets
+
+
+This Chunk Configures Biomart, and gets the Gene names sepearately out of our data
+
+```{r ConfigureBiomart, echo=FALSE}
+#-----------------------------------------------------------#
+# Load the genes
+#-----------------------------------------------------------#
+
+#directory = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/CancerGeneExpressionRemix.rds"
+#filename = "CancerGeneExpressionRemix"
+#genes <- readRDS(directory)
+#help("readRDS")
+
+tcga_exp = readRDS("C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS")
+directory = "C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS"
+genes <- readRDS(directory)
+GeneNames <- rownames(genes)
+
+#-----------------------------------------------------------#
+# Split ENSG identifier from Gene Symbol
+#-----------------------------------------------------------#
+
+
+gene_identifier <- strsplit(GeneNames, split = "|", fixed = TRUE)
+
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+
+# remove version number
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+```
+now we have a list of ENSEMBL-ID's for our genes under the name genes_ensembl
+
+
+
+This chunk İdentifies the Biotypes of the genes we have
+
+```{r chunky, echo=FALSE}
+library(biomaRt)
+
+
+# Access Database and use homo sapiens dataset
+
+#ensembl = useEnsembl(biomart = "ensembl")   #this line does not work. SKİPPED İT
+searchDatasets(mart = ensembl, pattern = "hsapiens")                              
+ensembl <- useDataset(dataset = "hsapiens_gene_ensembl", mart = ensembl) 
+
+# Search of gene biotypes using Ensemble Gene IDs as identifier
+list_biotype = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id",
+                     values = genes_ensembl, mart = ensembl)                                                                  
+
+# Genes which could not be found in the database
+rest = genes_ensembl[-match(list_biotype$ensembl_gene_id, genes_ensembl)]
+
+```
+list_biotype: The biotypes of the genes from our dataset (bigboi) genes that are found on ensembl database
+rest: the genes from our database that doesnt exist
+
+
+
+This chunk İdentifies the Biotypes found in known Hallmark Genes
+
+```{r chunky, echo=FALSE}
+
+## initiate package
+if(!require(msigdbr))
+  install.packages("msigdbr")
+library(msigdbr)
+library(biomaRt)
+
+## retrieve hallmark datasets from msigdbr database. 
+
+h_gene_sets = msigdbr(species = "Homo sapiens", category = "H")
+
+#View(h_gene_sets)
+
+## create an vector consist of ensemble (gene id) from the h_gene_sets 
+
+hallmark_gen_id = c(h_gene_sets$ensembl_gene)
+
+#View(hallmark_gen_id)
+
+## Access Database and use homo sapiens dataset
+
+ensembl = useEnsembl(biomart = "ensembl")   
+searchDatasets(mart = ensembl, pattern = "hsapiens")                              
+ensembl <- useDataset(dataset = "hsapiens_gene_ensembl", mart = ensembl) 
+
+## Search of gene biotypes using Ensemble Gene IDs as identifier
+
+list_biotype_hallmark = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id", values = hallmark_gen_id, mart = ensembl)                                       
+
+
+View(list_biotype_hallmark)
+
+## See what for biotypes are there in this datasets
+
+cancery_biotypes = unique (list_biotype_hallmark$gene_biotype)
+cancery_biotypes
+#
+
+#We decide NOT TO use the cancery biotypes but only use the protein coding ones!!!
+
+```
+hallmark_gen_id: ID's of hallmark genes
+list_biotype_hallmark: list of hallmark gen ID's with biotypes
+cancery_biotypes: biotypes found in hallmark genes
+
+
+This Chunk finds the genes with the cancery biotypes.
+
+```{r chunky, echo=FALSE}
+
+protein_coding = list_biotype[which(list_biotype$gene_biotype == "protein_coding"), 1]
+
+polymorphic_pseudogene = list_biotype[which(list_biotype$gene_biotype == "polymorphic_pseudogene"), 1]
+
+lncRNA = list_biotype[which(list_biotype$gene_biotype == "lncRNA"), 1]
+
+
+processed_pseudogene = list_biotype[which(list_biotype$gene_biotype == "processed_pseudogene"), 1]
+
+transcribed_unprocessed_pseudogene = list_biotype[which(list_biotype$gene_biotype == "transcribed_unprocessed_pseudogene"),1]
+
+interesting_ens = c(protein_coding, polymorphic_pseudogene, lncRNA, processed_pseudogene, transcribed_unprocessed_pseudogene)
+
+head(interesting_ens)
+
+```
+interesting_ens: names of all our genes from relevant biotypes
+
+
+This Chunk Pulls only the relevant data and makes a smaller data frame "SkinnyBoy"
+```{r chunky, echo=FALSE}
+
+directory = "C:/Users/EKN/Documents/tcga_tumor_log2TPM.RDS"
+BigBoy <- readRDS(directory)
+head(BigBoy)
+
+matchingGetSkinny = match(protein_coding, genes_ensembl)
+matchingGetSkinny
+
+SkinnyBoy = BigBoy[matchingGetSkinny,]
+dim(BigBoy)
+dim(SkinnyBoy)
+head(SkinnyBoy)
+
+BiotypeFilteredBoy = SkinnyBoy
+
+# Take only the matches.
+#final_genes = interesting_ens[na.omit(matching)]
+#final_genes
+
+
+```
+SkinnyBoy: The reduced data frame with only the relevant genes
+
+
+__________________________________________________________________________________________________________________________________________________
+
+NOW VARİANCE FİLTERİNG:
+
+
+Select rows where variance is bigger than 75 percent (Interesting values)
+```{r cars}
+
+#Variance 
+varianceSkinnyBoy = apply(BiotypeFilteredBoy, 1, var)
+#greater75.variance = BiotypeFilteredBoy[varianceSkinnyBoy > quantile(varianceSkinnyBoy , probs = 0.95), ]
+
+SkinnyBoy = BiotypeFilteredBoy[varianceSkinnyBoy > quantile(varianceSkinnyBoy , probs = 0.25), ]
+
+
+```
+greater75.varience: A data frame with unwanted rows
+
+
+Find row numbers for greater75.varience rows.
+```{r cars}
+
+#matching.2 = match(rownames(greater75.variance), rownames(BiotypeFilteredBoy))
+#matching.2 # a vector with the row numbers of Bigboy Dataset that needs to be removed
+
+```
+matching.2: row numbers in BigBoy we dont want because they are outliers
+
+
+
+This chunk finds Unwanted Rows. (identifies rownumbers of the unwanted rows of bigboy using previous data)
+```{r cars}
+
+#dim(BiotypeFilteredBoy)
+#Vector = c(1:19566) #A vector with all the row numbers of SkinnyBoy
+#SkinnyBoy = BiotypeFilteredBoy[Vector[-matching.2],]
+
+SkinnyBoy[1:10,]
+dim(BiotypeFilteredBoy)
+dim(SkinnyBoy)
+
+saveRDS(SkinnyBoy, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyBoy.RDS") 
+#SkinnyBoy
+
+```
+__________________________________________________________________________________________________________________________________________________
+
+
+SAME CODE FOR THE BREAST CANCER DATA:
+
+
+_________________________________________________________________________________________________________________________________________________
+
+
+CancerGeneExpressionsRemix = tcga_exp
+CancerGeneExpressionsRemixAnnots = tcga_annot
+TumorSpesificGenexpDatalist = tcga_tumor_norm
+CancerHallmarkGenesetsList = genesets
+
+
+This Chunk Configures Biomart, and gets the Gene names sepearately out of our data
+
+```{r ConfigureBiomart, echo=FALSE}
+#-----------------------------------------------------------#
+# Load the genes
+#-----------------------------------------------------------#
+
+#directory = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/CancerGeneExpressionRemix.rds"
+#filename = "CancerGeneExpressionRemix"
+#genes <- readRDS(directory)
+#help("readRDS")
+
+tcga_tumor_norm = readRDS("C:/Users/EKN/Documents/tcga_tumor_normal_datascience_proj_2022.RDS")
+BigSadBRCA = tcga_tumor_norm$BRCA$tumor
+BigHappyBRCA = tcga_tumor_norm$BRCA$normal
+
+head(tcga_tumor_norm$BRCA$tumor)
+head(BigSadBRCA)
+
+genes1 <- BigSadBRCA
+genes2 <- BigHappyBRCA
+GeneNames1 <- rownames(genes1)
+GeneNames2 <- rownames(genes2)
+GeneNames1[1:10]
+
+#-----------------------------------------------------------#
+# Split ENSG identifier from Gene Symbol
+#-----------------------------------------------------------#
+
+
+gene_identifier1 <- strsplit(GeneNames1, split = "|", fixed = TRUE)
+
+
+genes_ens1<- sapply(gene_identifier1, FUN = function(gene_identifier1){
+  ens = gene_identifier1[1]
+  return(ens)
+})
+
+genes_symbol1<- sapply(gene_identifier1, FUN = function(gene_identifier1){
+  ens = gene_identifier1[2]
+  return(ens)
+})
+
+
+gene_identifier2 <- strsplit(GeneNames2, split = "|", fixed = TRUE)
+
+
+genes_ens2<- sapply(gene_identifier2, FUN = function(gene_identifier2){
+  ens = gene_identifier2[1]
+  return(ens)
+})
+
+genes_symbol2<- sapply(gene_identifier2, FUN = function(gene_identifier2){
+  ens = gene_identifier2[2]
+  return(ens)
+})
+
+
+
+# remove version number
+
+genes_ens_vn1 <- strsplit(genes_ens1, split = ".", fixed = TRUE)
+genes_ensembl1 <- sapply(genes_ens_vn1, FUN = function(genes_ens_vn1){
+  ens = genes_ens_vn1[1]
+  return(ens)
+})
+
+
+genes_ens_vn2 <- strsplit(genes_ens2, split = ".", fixed = TRUE)
+genes_ensembl2 <- sapply(genes_ens_vn2, FUN = function(genes_ens_vn2){
+  ens = genes_ens_vn2[1]
+  return(ens)
+})
+
+genes_ensembl2[1:10]
+genes_ens_vn2[1:10]
+
+```
+now we have a list of ENSEMBL-ID's for our genes under the names genes_ensembl1 (BigSadBRCA) and genes_ensembl2 (BigHappyBRCA)
+
+
+
+This chunk İdentifies the Biotypes of the genes we have
+
+```{r chunky, echo=FALSE}
+
+## initiate package
+if(!require(msigdbr))
+  install.packages("msigdbr")
+library(msigdbr)
+library(biomaRt)
+
+## retrieve hallmark datasets from msigdbr database. 
+
+h_gene_sets = msigdbr(species = "Homo sapiens", category = "H")
+
+## create an vector consist of ensemble (gene id) from the h_gene_sets 
+
+hallmark_gen_id = c(h_gene_sets$ensembl_gene)
+
+## Access Database and use homo sapiens dataset
+
+ensembl = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/ensembl.RDS")
+#ensembl = useEnsembl(biomart = "ensembl")
+searchDatasets(mart = ensembl, pattern = "hsapiens")                              
+ensembl <- useDataset(dataset = "hsapiens_gene_ensembl", mart = ensembl) 
+
+
+# Search of gene biotypes using Ensemble Gene IDs as identifier
+list_biotype1 = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id",
+                     values = genes_ensembl1, mart = ensembl)                                                                  
+
+# Genes which could not be found in the database
+#rest1 = genes_ensembl[-match(list_biotype$ensembl_gene_id, genes_ensembl1)] #GİVES ERROR IDK WHY
+
+# Search of gene biotypes using Ensemble Gene IDs as identifier
+list_biotype2 = getBM(attributes = c("ensembl_gene_id", "gene_biotype"), filters = "ensembl_gene_id",
+                     values = genes_ensembl2, mart = ensembl)                                                                  
+
+# Genes which could not be found in the database
+#rest2 = genes_ensembl[-match(list_biotype$ensembl_gene_id, genes_ensembl2)] #GİVES ERROR IDK WHY
+
+```
+list_biotype1 and 2: The biotypes of the genes from our datasets (BigSadBRCA and HappyBRCA) genes that are found on ensembl database
+rest1 and 2: the genes from our datasets that doesnt exist in the database
+
+
+
+For comparison we use the cancery biotypes that are previously detected
+
+```{r chunky, echo=FALSE}
+
+cancery_biotypes = unique (list_biotype_hallmark$gene_biotype)
+cancery_biotypes
+
+```
+hallmark_gen_id: ID's of hallmark genes
+list_biotype_hallmark: list of hallmark gen ID's with biotypes
+cancery_biotypes: biotypes found in hallmark genes
+
+
+This Chunk finds the genes with the cancery biotypes.
+
+```{r chunky, echo=FALSE}
+
+protein_coding1 = list_biotype1[which(list_biotype1$gene_biotype == "protein_coding"), 1]
+
+polymorphic_pseudogene1 = list_biotype1[which(list_biotype1$gene_biotype == "polymorphic_pseudogene"), 1]
+
+lncRNA1 = list_biotype1[which(list_biotype1$gene_biotype == "lncRNA"), 1]
+
+
+processed_pseudogene1 = list_biotype1[which(list_biotype1$gene_biotype == "processed_pseudogene"), 1]
+
+transcribed_unprocessed_pseudogene1 = list_biotype1[which(list_biotype1$gene_biotype == "transcribed_unprocessed_pseudogene"),1]
+
+interesting_ens1 = c(protein_coding1, polymorphic_pseudogene1, lncRNA1, processed_pseudogene1, transcribed_unprocessed_pseudogene1)
+
+head(interesting_ens1)
+
+
+
+protein_coding2 = list_biotype2[which(list_biotype2$gene_biotype == "protein_coding"), 1]
+
+polymorphic_pseudogene2 = list_biotype2[which(list_biotype2$gene_biotype == "polymorphic_pseudogene"), 1]
+
+lncRNA2 = list_biotype2[which(list_biotype2$gene_biotype == "lncRNA"), 1]
+
+
+processed_pseudogene2 = list_biotype2[which(list_biotype2$gene_biotype == "processed_pseudogene"), 1]
+
+transcribed_unprocessed_pseudogene2 = list_biotype2[which(list_biotype2$gene_biotype == "transcribed_unprocessed_pseudogene"),1]
+
+interesting_ens2 = c(protein_coding2, polymorphic_pseudogene2, lncRNA2, processed_pseudogene2, transcribed_unprocessed_pseudogene2)
+
+head(interesting_ens2)
+head(interesting_ens1)
+
+
+```
+interesting_ens: names of all our genes from relevant biotypes
+
+
+This Chunk Pulls only the relevant data and makes a smaller data frame
+```{r chunky, echo=FALSE}
+
+
+matching1 = match(protein_coding1, genes_ensembl1)
+matching2 = match(protein_coding2, genes_ensembl2)
+
+length(BigSadBRCA[1,])
+length(matching1)
+length(unique(matching1))
+
+BiotypeCleanedSadBRCA  = BigSadBRCA[matching1,]
+BiotypeCleanedHappyBRCA = BigHappyBRCA[matching2,]
+
+BigSadBRCA[1,]
+
+
+dim(BigSadBRCA)
+dim(BigHappyBRCA)
+dim(SkinnySadBRCA)
+dim(SkinnyHappyBRCA)
+# Take only the matches.
+#final_genes = interesting_ens[na.omit(matching)]
+#final_genes
+
+
+```
+SkinnyBoy: The reduced data frame with only the relevant genes
+
+
+_____________________________________________________________________________________________________________________________________
+
+
+NOW VARİANCE FİLTERİNG:
+
+
+Finished varience filtering for BRCA datasets in this chunk
+```{r cars}
+
+#Variance 
+variance1 = apply(BiotypeCleanedSadBRCA, 1, var)
+variance2 = apply(BiotypeCleanedHappyBRCA, 1, var)
+
+greater75.variance1 = SkinnySadBRCA[variance1 > quantile(variance1 , probs = 0.05), ]
+greater75.variance2 = SkinnyHappyBRCA[variance2 > quantile(variance2, probs = 0.05), ]
+
+dim(greater75.variance1)
+
+SkinnySadBRCA = greater75.variance1
+SkinnyHappyBRCA = greater75.variance2
+
+saveRDS(SkinnySadBRCA, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnySadBRCA.RDS") 
+saveRDS(SkinnyHappyBRCA, file = "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/SkinnyHappyBRCA.RDS") 
+
+```
+
+
+READ THE COMMENTS BELOW! DO NOT RUN WİTHOUT READİNG. 
+READ THE COMMENTS BELOW! DO NOT RUN WİTHOUT READİNG.
+READ THE COMMENTS BELOW! DO NOT RUN WİTHOUT READİNG.
+READ THE COMMENTS BELOW! DO NOT RUN WİTHOUT READİNG.
+READ THE COMMENTS BELOW! DO NOT RUN WİTHOUT READİNG.
+
+_____________________________________________________________________________________________________________________________________
+ONLY JUNK ROWS BELOW DO NOT RUN THEM
+_____________________________________________________________________________________________________________________________________
+Select rows where variance is bigger than 75 percent (Interesting values)
+```{r cars}
+
+#Variance 
+varianceSkinnyBoy = apply(BiotypeFilteredBoy, 1, var)
+#greater75.variance = BiotypeFilteredBoy[varianceSkinnyBoy > quantile(varianceSkinnyBoy , probs = 0.95), ]
+
+SkinnyBoy = BiotypeFilteredBoy[varianceSkinnyBoy > quantile(varianceSkinnyBoy , probs = 0.25), ]
+
+
+```
+
+
+
+
+Find row numbers for greater75.varience rows.
+```{r cars}
+
+matchingBRCA1 = match(rownames(greater75.variance1), rownames(SkinnySadBRCA))
+matchingBRCA1 # a vector with the row numbers of Bigboy Dataset that needs to be removed
+
+
+matchingBRCA2 = match(rownames(greater75.variance2), rownames(SkinnyHappyBRCA))
+matchingBRCA2 # a vector with the row numbers of Bigboy Dataset that needs to be removed
+
+```
+matching.2: row numbers in BigBoy we dont want because they are outliers
+
+
+
+This chunk finds Unwanted Rows. (identifies rownumbers of the unwanted rows of bigboy using previous data)
+```{r cars}
+dim(SkinnySadBRCA)
+dim(SkinnyHappyBRCA)
+
+Vector = c(1:19306) #A vector with all the row numbers of SkinnyBoy
+SkinnySadBRCA = SkinnySadBRCA[Vector[-matchingBRCA1],]
+SkinnyHappyBRCA = SkinnyHappyBRCA[Vector[-matchingBRCA2],]
+
+
+dim(SkinnySadBRCA)
+dim(SkinnyHappyBRCA)
+
+```
+___________________________________________________________________________________________________________________________________
+
+
+This chunk deletes all new stuff so you can run it again if you have doubts
+```{r cars}
+
+rm(SkinnyBoy)
+rm(SkinnyHappyBRCA)
+rm(SkinnySadBRCA)
+
+```
+
+
+This chunk is for tries
+```{r cars}
+
+vectorA = c("gene one", "gene two", "gene three")
+VectorB = c("gene one", "gene three")
+
+vectorA
+
+match(vectorA,VectorB)
+match(VectorB,vectorA)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

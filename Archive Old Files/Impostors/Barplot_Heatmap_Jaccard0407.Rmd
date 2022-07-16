@@ -1,0 +1,131 @@
+---
+title: "Heatmap_Linh0407"
+author: "linh"
+date: '2022-07-03'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r compute the mean score for each pathway}
+
+
+Pathway_MeanScore = apply (PathwayMatrixDeluxePremium, 1, mean)
+
+View (Pathway_MeanScore)
+
+```
+
+
+```{r rank the pathway by meanscore and take the top 20}
+
+#  get top 20 pathways with highest pvalue (most diferentially expressed)
+top20_pathways = head(sort(Pathway_MeanScore,decreasing=TRUE),n=50)
+
+
+#View (top20_pathways)
+
+
+```
+
+
+```{r make a barplot}
+
+barplot (top20_pathways, las=2, cex.names = 0.3, main = "20 most differentially expressed pathways in all cancer types")
+
+
+```
+
+
+```{r make heatmap}
+
+# take 50 randoms patients in these pathways
+
+##1: create df with 50top pathways with all of the patients
+
+### find row number in which the pathways are in in PathwayMatrixDeluxePremium
+
+rownumber = match (names (top20_pathways),row.names(PathwayMatrixDeluxePremium))
+
+### create the df
+
+top20_pathways_df = PathwayMatrixDeluxePremium [rownumber,]
+
+### take 50 random patients
+
+random20_patients = list ()
+
+for (i in 1:20) {
+  random20_patients [[i]] =  sample (top20_pathways_df[i,],20)
+}
+
+names (random20_patients) = rownames (top20_pathways_df)
+
+# didnt work, bc of names different
+
+# take 20st patients
+
+top20_pathways_df = top20_pathways_df [,1:20]
+
+# making heatmap 
+
+
+library (pheatmap)
+
+t_top20_pathways_df = t(top20_pathways_df)
+
+scale_top20_pathways_df = scale(top20_pathways_df) 
+pheatmap (scale_top20_pathways_df, angle_col=45, cellwidth = 5,main = "heatmap top 20 pathways with 20st patients", width = 15, height = 15, fontsize = 8, fontsize_col = 4, fontsize_row = 5)
+
+
+#make heatmap for all pw all patients
+library (pheatmap)
+
+scale_PathwayMatrix = scale(PathwayMatrixDeluxePremium) 
+scale_PathwayMatrix_try = scale_PathwayMatrix [1:100,1:100]
+pheatmap (scale_PathwayMatrix, angle_col=45, cellwidth = 2,main = "heatmap all pathways all patients", width = 15, height = 15, fontsize = 8, fontsize_col = 2, fontsize_row = 2)
+
+
+
+
+```
+
+```{r heatmap Jaccard for hallmark genesets}
+
+# J(A, B) = |A∩B| / |A∪B|
+
+#define Jaccard Similarity function
+
+jaccard <- function(a, b) {
+    intersection = length(intersect(a, b))
+    union = length(a) + length(b) - intersection
+    return (intersection/union)
+}
+
+# try for 2 pathways 
+
+jaccard (hallmarks_genesets$genesets [[1]],hallmarks_genesets$genesets [[2]])
+
+# do for all pathways
+
+jaccard_df = data.frame( )
+for (n in 1:46) {
+  for (m in 1:46) {
+    jaccard_df [n,m] = jaccard(hallmarks_genesets$genesets[[n]],hallmarks_genesets$genesets[[m]])
+  }
+}
+
+colnames (jaccard_df) = names (hallmarks_genesets$genesets)
+rownames (jaccard_df) = names (hallmarks_genesets$genesets)
+
+#View (jaccard_df)
+
+# make heatmap
+
+pheatmap (jaccard_df, angle_col=45, cellwidth = 5,main = "hallmark genesets overlap (Jaccard)", width = 15, height = 15, fontsize = 8, fontsize_col = 4, fontsize_row = 5)
+
+```
+
+

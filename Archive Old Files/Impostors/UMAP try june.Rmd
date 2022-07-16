@@ -1,0 +1,285 @@
+---
+title: "UMAP"
+author: "Junona Sachov"
+date: "6/14/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r try}
+
+library(umap)
+# set up UMAP parameters
+custom.config = umap.defaults
+custom.config$n_neighbors = 20       # number of neighbors
+custom.config$min_dist = 0.1         #  find small connected components, clumps and strings in the data, and emphasises these features in the resulting embedding
+custom.config$n_components = 3        #3-dimensional embedding
+custom.config$metric = 'jaccard'        #This controls how distance is computed in the ambient space of the input data. 
+
+
+udf = t(SkinnyBoy)
+
+umap = umap(udf[, -9741])
+df = data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                Patients = udf[,9741])
+              
+ggplot(df, aes(x, y, colour = Patients)) +
+  geom_point()
+
+
+typeof(udf)
+
+#save plot 
+ggsave(
+  filename = "umap_Skinnyboy.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+saveRDS(umap,"/Users/lunona/Desktop/BRCA/umap.RDS")
+saveRDS(df, "/Users/lunona/Desktop/BRCA/df.RDS")
+```
+
+
+```{r linh code from 1.07}
+
+# example code 
+udf = t(SkinnyBoy)
+
+umap = umap(udf[, -9741])
+df = data.frame(x = umap$layout[,1],
+                 y = umap$layout[,2],
+                Patients = udf[,9741])
+              
+ggplot(df, aes(x, y, colour = Patients)) +
+  geom_point()
+
+# umap for pathways
+New_CompletePathway.df = CompletePathway.df [,-9742]
+
+udf_pathways = t(New_CompletePathway.df)
+umap_PW = umap(udf_pathways[, -92])
+
+umap_df = data.frame(x1 = umap_PW$layout[,1],
+                 y1 = umap_PW$layout[,2],
+                 Patients_PW = udf_pathways[,92] )
+
+ggplot(umap_df, aes(x1, y1, colour = Patients_PW)) +
+  geom_point()
+
+```
+
+```{r umap of only hallmark}
+
+New_hallmark.df = CompletePathway.df [1:46,-9742]
+udf_hallmark = t(New_hallmark.df)
+umap_H = umap(udf_hallmark [,-9741])
+
+umapH_df = data.frame(x1 = umap_H$layout[,1],
+                 y1 = umap_H$layout[,2],
+                 Patients_H = udf[,9741] )
+
+ggplot(umapH_df, aes(x1, y1, colour = Patients_H)) +
+  geom_point()
+```
+
+
+```{r same shit not transposed}
+
+New_CompletePathway.df = CompletePathway.df [,-9742]
+
+umap_PW = umap(New_CompletePathway.df[,-9741])
+
+umap_df = data.frame(x1 = umap_PW$layout[,1],
+                 y1 = umap_PW$layout[,2],
+                 Patients_PW = New_CompletePathway.df[,9741] )
+
+ggplot(umap_df, aes(x1, y1, colour = Patients_PW)) +
+  geom_point()
+
+# NOT WORKYYYYY
+
+```
+
+```{r umap pathwaymatrix deluxe premium not transposed}
+#clustering of genes 
+library(umap)
+umap.pmdp_nt = umap(PathwayMatrixDeluxePremium[, -9741])
+df.pmdp_nt = data.frame(x = umap.pmdp$layout[,1],
+                     y = umap.pmdp$layout[,2],
+                     Genes = PathwayMatrixDeluxePremium[,9741])
+
+library(ggplot2)              
+ggplot(df.pmdp_nt, aes(x = umap.pmdp$layout[,1], y = umap.pmdp$layout[,2], colour = Genes)) + geom_point(alpha = 0.7) + aes(color= Genes) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Genes in new pathwaymatrix") + xlab("1") + ylab("2")
+
+View(umap.pmdp$layout[,2])
+
+
+library(ggplot2)
+ggplot2::ggplot(data = umap_plot, mapping = aes(x = umap_plot[, 1], y = umap_plot[, 2])) + geom_point(alpha = 0.7) + aes(color=umap_plot$`tcga_tumor_annotation$cancer_type_abbreviation`) + scale_colour_viridis_d(option = "plasma color") + ggtitle("Cancer Type all patients") + xlab("1") + ylab("2")
+
+
+#save plot umap pathway matrix new non transposed
+ggsave(
+  filename = "umap_PathwayMatrixDeluxePremium_nt.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+#save umap not transposed 
+saveRDS(umap.pmdp_nt, file ="/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Impostors/umap.pmdp_nt.RDS")
+
+```
+
+```{r umap pathwaymatrix deluxe premium transposed}
+
+updpt.df = t(PathwayMatrixDeluxePremium)
+#View(updpt.df)
+
+umapy.pmdpt = umap(updpt.df[, -1010]) #9741 --> subscript out of bounds
+df.pmdpt = data.frame(x = umapy.pmdpt$layout [,1],
+                      y = umapy.pmdpt$layout[,2],
+                     Patients = updpt.df[,1010])
+
+ggplot(df.pmdpt, aes(x, y, colour = Patients)) +
+  geom_point()
+
+#save plot umap pathway matrix new non transposed
+ggsave(
+  filename = "umap_PathwayMatrixDeluxePremium_t.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+#saving umap
+
+saveRDS(umapy.pmdpt, file="/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Impostors/umapy.pmdpt.RDS")
+
+```
+
+```{r umap of skinny BRCA joint }
+
+uSkinnyBRCA_joint.df = t(SkinnyBRCA_joint_fixed)
+View(uSkinnyBRCA_joint.df)
+
+
+library(umap)
+umap_SkinnyBRCA_joint = umap(uSkinnyBRCA_joint.df[, -18226]) 
+df.umap_SkinnyBRCA_joint = data.frame(x = umap_SkinnyBRCA_joint$layout [,1],
+                                      y = umap_SkinnyBRCA_joint$layout[,2],
+                                       Patients = uSkinnyBRCA_joint.df[,18226])
+library(ggplot2)
+ggplot(df.umap_SkinnyBRCA_joint, aes(x, y, colour = Patients)) +
+  geom_point()
+
+#save plot umap
+ggsave(
+  filename = "umap_SkinnyBRCA_joint.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+#saving umap
+
+saveRDS(df.umap_SkinnyBRCA_joint, file="/Users/lunona/Desktop/df.umap_SkinnyBRCA_joint.RDS")
+
+```
+
+```{r umap on pw aktivity skinny BRCA}
+
+pw_aktivity_SkinnyBRCA.df = t(pw_activity_SkinnyBRCA)
+View(pw_aktivity_SkinnyBRCA.df)
+
+umap_pw_aktivity_SkinnyBRCA = umap(pw_aktivity_SkinnyBRCA.df[, -1114]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnyBRCA = data.frame(x = umap_pw_aktivity_SkinnyBRCA$layout [,1],
+                                       y = umap_pw_aktivity_SkinnyBRCA$layout[,2],
+                                      Patients = pw_aktivity_SkinnyBRCA.df[,1114])
+
+ggplot(df.pw_aktivity_SkinnyBRCA, aes(x, y, colour = Patients)) +
+  geom_point()
+
+#save plot umap 
+ggsave(
+  filename = "umap_pw_aktivity_SkinnyBRCA.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+#saving umap 111
+
+saveRDS(df.pw_aktivity_SkinnyBRCA, file="/Users/lunona/Desktop/df.pw_aktivity_SkinnyBRCA.RDS")
+
+```
+
+```{r umap sadTT}
+pw_aktivity_SkinnySadTT.df = t(pw_activity_SkinnyBRCA[,1:111])
+View(pw_aktivity_SkinnySadTT.df)
+
+umap_pw_aktivity_SkinnySadTT = umap(pw_aktivity_SkinnySadTT.df[, -1114]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnySadTT = data.frame(x = umap_pw_aktivity_SkinnySadTT$layout [,1],
+                                        y = umap_pw_aktivity_SkinnySadTT$layout[,2],
+                                        Patients = pw_aktivity_SkinnySadTT.df[,1114])
+library(ggplot2)
+ggplot(df.pw_aktivity_SkinnySadTT, aes(x, y, colour = Patients)) +
+  geom_point()
+
+#save plot umap 
+ggsave(
+  filename = "umap_pw_aktivity_SkinnyBRCA.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+```
+
+```{r sad tt pathways not transposed }
+
+pw_aktivity_SkinnySadTT_nt.df = (pw_activity_SkinnyBRCA[,1:111])
+View(pw_aktivity_SkinnySadTT_nt.df)
+
+umap_pw_aktivity_SkinnySadTT_nt = umap(pw_aktivity_SkinnySadTT_nt.df[, -111]) #9741 --> subscript out of bounds
+df.pw_aktivity_SkinnySadTT_nt = data.frame(x = umap_pw_aktivity_SkinnySadTT_nt$layout [,1],
+                                        y = umap_pw_aktivity_SkinnySadTT_nt$layout[,2],
+                                        Pathways = pw_aktivity_SkinnySadTT_nt.df[,111])
+
+ggplot(df.pw_aktivity_SkinnySadTT_nt, aes(x, y, colour = Pathways)) +
+  geom_point()
+
+#save plot umap 
+ggsave(
+  filename = "umap_pw_aktivity_SkinnyBRCA.png",
+  plot = last_plot(),
+  device = "png",
+  path = "/Users/lunona/Desktop/BRCA/GitHub/2022-topic-02-team-01/2022-topic-02-team-01/Output/Umaps",
+  scale = 1,
+  bg = NULL,
+)
+
+
+```
+

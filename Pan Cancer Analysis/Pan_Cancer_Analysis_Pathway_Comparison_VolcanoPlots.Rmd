@@ -1,0 +1,620 @@
+---
+title: "BucketMenuChickenWings"
+author: "Ekin Ören"
+date: '2022-07-11'
+output: html_document
+---
+
+
+
+
+# here we check if the brca patients in the SkinnyBoy and the SkinnyBRCA's the same people
+
+What we learned: Sample IDS from skinnySADtt are in SB, but the ones from skinnyHAPPYBRCA are not
+
+```{r, echo=FALSE}
+
+SkinnyBRCA_Samplenames = colnames(pw_activity_SkinnyBRCA)
+
+SkinnyBoy_Samplenames = colnames(SkinnyBoy)
+
+SkinnySadBRCA_Samplenames = colnames(SkinnySadBRCA)
+
+match(SkinnyBRCA_Samplenames, SkinnyBoy_Samplenames)
+
+match(SkinnySadBRCA_Samplenames, SkinnyBoy_Samplenames)
+
+```
+
+_______________________________________________________________________________________________________________________________________________________
+
+Here we make comparisons of pathway between BRCA tum and norm as well as BRCA and SB
+
+
+BRCA tum and norm
+
+```{r , echo=FALSE}
+
+
+BRCApathways = pw_activity_SkinnyBRCA
+
+tummyBRCApathways = BRCApathways[,1:111]
+normieBRCApathways = BRCApathways[,111:222]
+
+
+pea_BRCA_TUMvsNORM_pathways = c()
+ for (i in 1:nrow(tummyBRCApathways)){
+  pea_BRCA_TUMvsNORM_pathways[i] = wilcox.test(unlist(tummyBRCApathways[i,]),unlist(normieBRCApathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCA_TUMvsNORM_pathways = pea_BRCA_TUMvsNORM_pathways*length(tummyBRCApathways[,1])
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_BRCA_TUMvsNORM_pathways = data.frame(rownames(normieBRCApathways), p_BRCA_TUMvsNORM_pathways)
+
+
+
+foldchange_tum_norm = apply(tummyBRCApathways, 1, mean) - apply(normieBRCApathways, 1, mean)
+
+
+
+
+#plotting time
+df_volcanoplotBRCA_TUMvsNORM_pathways = data.frame (foldchange_tum_norm, p_BRCA_TUMvsNORM_pathways)
+df_volcanoplotBRCA_TUMvsNORM_pathways$different = "NO"
+
+df_volcanoplotBRCA_TUMvsNORM_pathways$different[df_volcanoplotBRCA_TUMvsNORM_pathways$foldchange_tum_norm > 0  &     df_volcanoplotBRCA_TUMvsNORM_pathways$p_BRCA_TUMvsNORM_pathways < 1.009123e-34]= "UP"
+
+df_volcanoplotBRCA_TUMvsNORM_pathways$different[df_volcanoplotBRCA_TUMvsNORM_pathways$foldchange_tum_norm < 0 &      df_volcanoplotBRCA_TUMvsNORM_pathways$p_BRCA_TUMvsNORM_pathways < 1.009123e-34]= "DOWN"
+
+df_volcanoplotBRCA_TUMvsNORM_pathways$different[which (row.names (df_volcanoplotBRCA_TUMvsNORM_pathways) == "YAMAZAKI_TCEB3_TARGETS_UP")]= "YAMAZAKI_TCEB3_TARGETS_UP"
+
+Name = row.names(df_volcanoplotBRCA_TUMvsNORM_pathways)
+
+#we plot 
+ggplot (data = df_volcanoplotBRCA_TUMvsNORM_pathways, aes (x=foldchange_tum_norm, y=-log10(p_BRCA_TUMvsNORM_pathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs norm pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue", "red"))+ theme (text=element_text(size = 8) )
+
+#tryyna put pathway names in this shit
+  #geom_point() + geom_text(aes(label=ifelse(-log10(p_BRCA_TUMvsNORM_pathways)>30,as.character(Name),'')),hjust=0,vjust=0,)
+
+JerryTheDataset = df_volcanoplotBRCA_TUMvsNORM_pathways[df_volcanoplotBRCA_TUMvsNORM_pathways$different == "UP" | df_volcanoplotBRCA_TUMvsNORM_pathways$different == "DOWN", ]
+
+View(JerryTheDataset)
+
+View(df_volcanoplotBRCA_TUMvsNORM_pathways)
+
+rownames(JerryTheDataset)
+
+saveRDS(JerryTheDataset,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ DifferingPathwaysin_tumnormBRCA.rds")
+
+
+ ggplot(nba, aes(x= MIN, y= PTS, colour="green", label=Name))+
+  geom_point() +
+  geom_text(aes(label=ifelse(PTS>24,as.character(Name),'')),hjust=0,vjust=0)
+
+
+#saveRDS(df_volcanoplotBRCA_TUMvsNORM_pathways,"C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/ volcanoplotBRCA_TUMvsNORM_pathways.RDS")
+
+```
+
+
+
+
+BRCA and SB
+
+```{r, echo=FALSE}
+
+
+Aliali = match (colnames(pw_activity_SkinnyBRCA) ,  colnames(PathwayMatrixDeluxePremium))
+  
+Veliveli = Aliali[which(!is.na(match (colnames(pw_activity_SkinnyBRCA) ,  colnames(PathwayMatrixDeluxePremium))))]
+
+BRCApathways1 = PathwayMatrixDeluxePremium[,Veliveli]
+
+
+
+MUTUALpathways = PathwayMatrixDeluxePremium[match(rownames(BRCApathways1), rownames(PathwayMatrixDeluxePremium)),]
+
+View(MUTUALpathways)
+
+
+
+
+#now we compute the p scores of the GSVA scores
+
+pea_BRCAvsSBpathways = c()
+ for (i in 1:nrow(BRCApathways1)){
+  pea_BRCAvsSBpathways[i] = wilcox.test(unlist(BRCApathways1[i,]),unlist(MUTUALpathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsSBpathways = pea_BRCAvsSBpathways*length(BRCApathways1[,1])
+
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_pBRCAvsSBpathways = data.frame(rownames(MUTUALpathways), p_BRCAvsSBpathways) 
+
+foldchange666 = apply(BRCApathways1, 1, mean) - apply(MUTUALpathways, 1, mean)
+
+
+
+#plot time
+
+df_volcanoplotBRCAvsSBpathways = data.frame (foldchange666, p_BRCAvsSBpathways)
+df_volcanoplotBRCAvsSBpathways$different = "NO"
+
+df_volcanoplotBRCAvsSBpathways$different[df_volcanoplotBRCAvsSBpathways$foldchange666 > 0  &     df_volcanoplotBRCAvsSBpathways$p_BRCAvsSBpathways < 0.009]= "UP"
+
+df_volcanoplotBRCAvsSBpathways$different[df_volcanoplotBRCAvsSBpathways$foldchange666 < 0 &      df_volcanoplotBRCAvsSBpathways$p_BRCAvsSBpathways < 0.009]= "DOWN"
+
+#df_volcanoplotBRCAvsSBpathways$different[which (row.names (df_volcanoplotBRCAvsSBpathways) == "YAMAZAKI_TCEB3_TARGETS_UP")]= "YAMAZAKI_TCEB3_TARGETS_UP"
+
+#we plot 
+library(ggplot2)
+
+which (row.names (df_volcanoplotBRCAvsSBpathways) == "YAMAZAKI_TCEB3_TARGETS_UP")
+
+
+ggplot (data = df_volcanoplotBRCAvsSBpathways, aes (x=foldchange666, y=-log10(p_BRCAvsSBpathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs SB pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue", "red"))+ theme (text=element_text(size = 8))
+
+
+View(df_volcanoplotBRCAvsSBpathways)
+
+
+
+```
+
+
+
+
+______________________________________________________________________________________________________________________________________
+In the second part of the RMD file we run the volcano plots for tumour comprisons for pathways (BRCA vs KIRC,PRAD,LUAD)
+
+
+
+Loading and slicing the tumory data for further use
+
+```{r, echo=FALSE}
+
+#Loading and slicing the tumory data for further use
+df_BRCA_pvalue = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/df_BRCA_pvalue.RDS")
+VliveVdieVlivagen5 = readRDS("C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/Five_Tumory_Bois.RDS")
+View(VliveVdieVlivagen5)
+View(df_BRCA_pvalue)
+
+BRCAtum = VliveVdieVlivagen5$BRCA$tumor
+BRCAnorm = VliveVdieVlivagen5$BRCA$normal
+
+KIRCtum = VliveVdieVlivagen5$KIRC$tumor
+KIRCnorm = VliveVdieVlivagen5$KIRC$normal
+
+LUADtum = VliveVdieVlivagen5$LUAD$tumor
+LUADnorm = VliveVdieVlivagen5$LUAD$normal
+
+PRADtum = VliveVdieVlivagen5$PRAD$tumor
+PRADnorm = VliveVdieVlivagen5$PRAD$normal
+
+THCAtum = VliveVdieVlivagen5$THCA$tumor
+THCAnorm = VliveVdieVlivagen5$THCA$normal
+
+```
+
+
+BRCA KIRC
+
+```{r, echo=FALSE}
+
+#first we cbind the tum and norm of this tumourtype and clean the names
+
+KIRCtum_norm_gebunden = cbind(KIRCtum, KIRCnorm)
+
+gene_identifier <- strsplit(rownames(KIRCtum_norm_gebunden), split = "|", fixed = TRUE)
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+rownames(KIRCtum_norm_gebunden) = genes_ensembl
+
+
+
+
+#now we do GSVA to get pathway scores for this tumour type
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+pw_activity <- gsva(expr = as.matrix(KIRCtum_norm_gebunden),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+KIRCpathways = pw_activity
+
+KIRCpathways = KIRCpathways[match(rownames(BRCApathways), rownames(KIRCpathways)),]
+
+
+
+#now we compute the p scores of the GSVA scores
+
+BRCApathways = pw_activity_SkinnyBRCA
+
+
+pea_BRCAvsKIRCpathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pea_BRCAvsKIRCpathways[i] = wilcox.test(unlist(BRCApathways[i,]),unlist(KIRCpathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsKIRCpathways = pea_BRCAvsKIRCpathways*length(BRCApathways[,1])
+
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_pBRCAvsKIRCpathways = data.frame(rownames(KIRCpathways), p_BRCAvsKIRCpathways)
+
+View(df_pBRCAvsKIRCpathways)
+
+foldchange11 = apply(BRCApathways, 1, mean) - apply(KIRCpathways, 1, mean)
+
+
+
+
+df_volcanoplotBRCAvsKIRCpathways = data.frame (foldchange11, p_BRCAvsKIRCpathways)
+df_volcanoplotBRCAvsKIRCpathways$different = "NO"
+
+df_volcanoplotBRCAvsKIRCpathways$different[df_volcanoplotBRCAvsKIRCpathways$foldchange1 > 0  &     df_volcanoplotBRCAvsKIRCpathways$p_BRCAvsKIRCpathways < 170]= "UP"
+
+df_volcanoplotBRCAvsKIRCpathways$different[df_volcanoplotBRCAvsKIRCpathways$foldchange1 < 0 &      df_volcanoplotBRCAvsKIRCpathways$p_BRCAvsKIRCpathways < 170]= "DOWN"
+
+df_volcanoplotBRCAvsKIRCpathways$different[which (row.names (df_volcanoplotBRCAvsKIRCpathways) == "YAMAZAKI_TCEB3_TARGETS_UP")]= "YAMAZAKI_TCEB3_TARGETS_UP"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsKIRCpathways, aes (x=foldchange11, y=-log10(p_BRCAvsKIRCpathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue", "red"))+ theme (text=element_text(size = 8) )
+
+View(HarryTheDataset)
+
+HarryTheDataset = df_volcanoplotBRCAvsKIRCpathways[df_volcanoplotBRCAvsKIRCpathways$different == "UP" | df_volcanoplotBRCAvsKIRCpathways$different == "DOWN", ]
+
+match(rownames(JerryTheDataset), rownames(HarryTheDataset))
+
+!is.na(match(rownames(JerryTheDataset), rownames(HarryTheDataset))) # gives 52 and 55
+
+
+
+DifferingPathwaysin_tumnorm_BRCAKIRC = HarryTheDataset[c(52,55),]
+
+
+```
+
+
+BRCA LUAD
+
+```{r, echo=FALSE}
+
+#first we cbind the tum and norm of this tumourtype and clean the names
+
+LUADtum_norm_gebunden = cbind(LUADtum, LUADnorm)
+
+gene_identifier <- strsplit(rownames(LUADtum_norm_gebunden), split = "|", fixed = TRUE)
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+rownames(LUADtum_norm_gebunden) = genes_ensembl
+
+View(AllPathwaysEns_List)
+
+#now we do GSVA to get pathway scores for this tumour type
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+pw_activity <- gsva(expr = as.matrix(LUADtum_norm_gebunden),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+LUADpathways = pw_activity
+
+LUADpathways = LUADpathways[match(rownames(BRCApathways), rownames(LUADpathways)),]
+
+View(LUADpathways)
+
+#now we compute the p scores of the GSVA scores
+
+
+
+BRCApathways = pw_activity_SkinnyBRCA
+
+
+pea_BRCAvsLUADpathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pea_BRCAvsLUADpathways[i] = wilcox.test(unlist(BRCApathways[i,]),unlist(LUADpathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsLUADpathways = pea_BRCAvsLUADpathways*length(BRCApathways[,1])
+
+
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_pBRCAvsLUADpathways = data.frame(rownames(LUADpathways), p_BRCAvsLUADpathways)
+
+View(df_pBRCAvsLUADpathways)
+
+foldchange22 = apply(BRCApathways, 1, mean) - apply(LUADpathways, 1, mean)
+
+
+
+#plot time
+
+df_volcanoplotBRCAvsLUADpathways = data.frame (foldchange22, p_BRCAvsLUADpathways)
+df_volcanoplotBRCAvsLUADpathways$different = "NO"
+
+df_volcanoplotBRCAvsLUADpathways$different[df_volcanoplotBRCAvsLUADpathways$foldchange1 > 0  &     df_volcanoplotBRCAvsLUADpathways$p_BRCAvsLUADpathways < 170]= "UP"
+
+df_volcanoplotBRCAvsLUADpathways$different[df_volcanoplotBRCAvsLUADpathways$foldchange1 < 0 &      df_volcanoplotBRCAvsLUADpathways$p_BRCAvsLUADpathways < 170]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsLUADpathways, aes (x=foldchange22, y=-log10(p_BRCAvsLUADpathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs KIRC tumour pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+View(df_volcanoplotBRCAvsLUADpathways)
+
+
+```
+
+
+
+BRCA VS PRAD
+
+```{r, echo=FALSE}
+
+#first we cbind the tum and norm of this tumourtype and clean the names
+
+PRADtum_norm_gebunden = cbind(PRADtum, PRADnorm)
+
+gene_identifier <- strsplit(rownames(PRADtum_norm_gebunden), split = "|", fixed = TRUE)
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+rownames(PRADtum_norm_gebunden) = genes_ensembl
+
+
+
+#now we do GSVA to get pathway scores for this tumour type
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+pw_activity <- gsva(expr = as.matrix(PRADtum_norm_gebunden),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+PRADpathways = pw_activity
+
+PRADpathways = PRADpathways[match(rownames(BRCApathways), rownames(PRADpathways)),]
+
+View(PRADpathways)
+
+#now we compute the p scores of the GSVA scores
+
+
+
+BRCApathways = pw_activity_SkinnyBRCA
+
+
+pea_BRCAvsPRADpathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pea_BRCAvsPRADpathways[i] = wilcox.test(unlist(BRCApathways[i,]),unlist(PRADpathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsPRADpathways = pea_BRCAvsPRADpathways*length(BRCApathways[,1])
+
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_pBRCAvsPRADpathways = data.frame(rownames(PRADpathways), p_BRCAvsPRADpathways)
+
+View(df_pBRCAvsPRADpathways)
+
+foldchange33 = apply(BRCApathways, 1, mean) - apply(PRADpathways, 1, mean)
+
+
+
+#plot time
+
+df_volcanoplotBRCAvsPRADpathways = data.frame (foldchange33, p_BRCAvsPRADpathways)
+df_volcanoplotBRCAvsPRADpathways$different = "NO"
+
+df_volcanoplotBRCAvsPRADpathways$different[df_volcanoplotBRCAvsPRADpathways$foldchange33 > 0  &     df_volcanoplotBRCAvsPRADpathways$p_BRCAvsPRADpathways < 300]= "UP"
+
+df_volcanoplotBRCAvsPRADpathways$different[df_volcanoplotBRCAvsPRADpathways$foldchange33 < 0 &      df_volcanoplotBRCAvsPRADpathways$p_BRCAvsPRADpathways < 300]= "DOWN"
+
+
+df_volcanoplotBRCAvsPRADpathways$different[which (row.names (df_volcanoplotBRCAvsPRADpathways) == "YAMAZAKI_TCEB3_TARGETS_UP")]= "YAMAZAKI_TCEB3_TARGETS_UP"
+
+
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsPRADpathways, aes (x=foldchange33, y=-log10(p_BRCAvsPRADpathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs PRAD tumour pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue", "red"))+ theme (text=element_text(size = 8) )
+
+View(df_volcanoplotBRCAvsPRADpathways)
+
+MerryTheDataset = df_volcanoplotBRCAvsPRADpathways[df_volcanoplotBRCAvsPRADpathways$different == "UP" | df_volcanoplotBRCAvsPRADpathways$different == "DOWN", ]
+
+match(rownames(JerryTheDataset), rownames(MerryTheDataset))  # gives 
+
+bue = unique(match(rownames(JerryTheDataset), rownames(MerryTheDataset)) )
+
+bue1 = bue [-1]
+
+DifferingPathwaysin_tumnorm_BRCAPRAD = MerryTheDataset[bue1,]
+
+View(DifferingPathwaysin_tumnorm_BRCAPRAD)
+
+```
+
+
+
+BRCA VS THCA
+
+```{r, echo=FALSE}
+
+#first we cbind the tum and norm of this tumourtype and clean the names
+
+THCAtum_norm_gebunden = cbind(THCAtum, THCAnorm)
+
+gene_identifier <- strsplit(rownames(THCAtum_norm_gebunden), split = "|", fixed = TRUE)
+
+genes_ens<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[1]
+  return(ens)
+})
+
+genes_symbol<- sapply(gene_identifier, FUN = function(gene_identifier){
+  ens = gene_identifier[2]
+  return(ens)
+})
+
+genes_ens_vn <- strsplit(genes_ens, split = ".", fixed = TRUE)
+genes_ensembl <- sapply(genes_ens_vn, FUN = function(genes_ens_vn){
+  ens = genes_ens_vn[1]
+  return(ens)
+})
+
+rownames(THCAtum_norm_gebunden) = genes_ensembl
+
+
+
+#now we do GSVA to get pathway scores for this tumour type
+
+library(GSVA)
+library(BiocParallel)
+library(msigdbr)
+library(ggplot2)
+library(uwot)
+
+params <- MulticoreParam(workers = multicoreWorkers())
+
+pw_activity <- gsva(expr = as.matrix(THCAtum_norm_gebunden),
+                    gset.idx.list = AllPathwaysEns_List,
+                    kcdf = "Gaussian",
+                    min.sz = 15,
+                    BPPARAM = params)
+
+THCApathways = pw_activity
+
+BRCApathways = pw_activity_SkinnyBRCA[,1:111]
+
+THCApathways = THCApathways[match(rownames(BRCApathways), rownames(THCApathways)),]
+
+#now we compute the p scores of the GSVA scores
+
+
+
+#try1
+#pea_BRCAvsTHCApathways = c()
+ #for (i in 1:nrow(as.numeric(nrow(BRCApathways)))){
+  #pea_BRCAvsTHCApathways[i] = wilcox.test(as.numeric(unlist(THCApathways[i,])),as.numeric(unlist(BRCApathways[i,])),paired = FALSE )$p.value
+ #}
+#p_BRCAvsTHCApathways = pea_BRCAvsTHCApathways*length(BRCApathways[,1])
+
+
+#try2
+pea_BRCAvsTHCApathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pea_BRCAvsTHCApathways[i] = wilcox.test(as.numeric(THCApathways[i,]),as.numeric(BRCApathways[i,]),paired = TRUE )$p.value
+ }
+p_BRCAvsTHCApathways = pea_BRCAvsTHCApathways*length(BRCApathways[,1])
+
+saveRDS(BRCApathways, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/BRCApathwaysWilcox.rds")
+saveRDS(THCApathways, "C:/Users/EKN/Documents/GitHub/2022-topic-02-team-01/data/THCApathwaysWilcox.rds")
+
+#Original
+
+pea_BRCAvsTHCApathways = c()
+ for (i in 1:nrow(BRCApathways)){
+  pea_BRCAvsTHCApathways[i] = wilcox.test(unlist(THCApathways[i,]),unlist(BRCApathways[i,]),paired = FALSE )$p.value
+ }
+p_BRCAvsTHCApathways = pea_BRCAvsTHCApathways*length(BRCApathways[,1])
+
+
+# in the end we create dataframes iwth gene names and p values for easy matching of the gene to the values in plot
+df_pBRCAvsTHCApathways = data.frame(rownames(THCApathways), p_BRCAvsTHCApathways) 
+
+View(df_pBRCAvsTHCApathways)
+
+foldchange44 = apply(BRCApathways, 1, mean) - apply(THCApathways, 1, mean)
+
+
+
+#plot time
+
+df_volcanoplotBRCAvsTHCApathways = data.frame (foldchange44, p_BRCAvsTHCApathways)
+df_volcanoplotBRCAvsTHCApathways$different = "NO"
+
+df_volcanoplotBRCAvsTHCApathways$different[df_volcanoplotBRCAvsTHCApathways$foldchange44 > 0  &     df_volcanoplotBRCAvsTHCApathways$p_BRCAvsTHCApathways < 300]= "UP"
+
+df_volcanoplotBRCAvsTHCApathways$different[df_volcanoplotBRCAvsTHCApathways$foldchange44 < 0 &      df_volcanoplotBRCAvsTHCApathways$p_BRCAvsTHCApathways < 300]= "DOWN"
+
+#we plot 
+ggplot (data = df_volcanoplotBRCAvsTHCApathways, aes (x=foldchange44, y=-log10(p_BRCAvsTHCApathways), col = different)) + ggtitle("volcanoplot BRCA tumour vs PRAD tumour pathways") + geom_point() + theme_minimal() + scale_color_manual(values = c ("pink","black", "lightblue"))+ theme (text=element_text(size = 8) )
+
+View(df_volcanoplotBRCAvsTHCApathways)
+
+
+```
+
+
+
+
+

@@ -1,0 +1,45 @@
+---
+title: "HeatmapModification"
+author: "linh"
+date: '2022-07-13'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+
+pw_name_heatmap_bycancer = rownames(as.data.frame(tangerine[p$tree_row[["order"]],]))
+
+pw_name_heatmap_bycancer = rownames(tangerine[heatmap$tree_row[["order"]],])
+
+#creating df for annotation row for pheatmap
+pw_cate_cancertype = data.frame ()
+
+rowno = match (CPathwaysNames,pw_name_heatmap_bycancer)
+
+## C2
+
+pw_cate_cancertype [na.omit (rowno),1] = "C2_curated_genes"
+
+## hallmark 
+rowno_hall = match (Hallmark_Names,pw_name_heatmap_bycancer)
+
+pw_cate_cancertype [na.omit (rowno_hall),1] = "Hallmark Genesets"
+
+##Metabolic
+rowno_metabolic = match (MetabolicPathwayNames,pw_name_heatmap_bycancer)
+
+pw_cate_cancertype [na.omit (rowno_metabolic),1] = "Metabolic Genesets"
+
+row.names(pw_cate_cancertype) = pw_name_heatmap_bycancer
+
+colnames(tangerine) = names_vector_33cancers_2 
+p = pheatmap(as.data.frame(tangerine), angle_col=45, cluster_rows = TRUE, cluster_cols = FALSE, cellwidth = 10, main = "heatmap pathways all pathways all patients ordered by tumour type", width = 15, height = 15, fontsize = 10, fontsize_col = 6, fontsize_row = 0.00000000000001, treeheight_row = 0, show_rownames = FALSE, cellheight = 0.6, annotation_row = pw_cate_cancertype)
+
+
+```
+

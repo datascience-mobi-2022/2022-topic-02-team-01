@@ -1,0 +1,114 @@
+---
+title: "checking"
+author: "linh"
+date: '2022-05-26'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load skinny boi}
+tcga_exp = readRDS("path/to/your/directory/tcga_tumor_log2TPM.RDS")
+
+
+```
+
+
+```{r pull gene expression value}
+
+################################################## geneensemble for Skinny Boy
+
+GeneNamesSB <- rownames(SkinnyBoy)
+
+
+gene_identifierSB <- strsplit(GeneNamesSB, split = "|", fixed = TRUE)
+
+length (genes_ensembl_SB)
+genes_ens_SB<- sapply(gene_identifierSB, FUN = function(gene_identifierSB){
+  ens = gene_identifierSB[1]
+  return(ens)
+})
+
+genes_symbol_SB<- sapply(gene_identifierSB, FUN = function(gene_identifierSB){
+  ens = gene_identifierSB[2]
+  return(ens)
+})
+
+
+# remove version number
+
+genes_ens_vn_SB <- strsplit(genes_ens_SB, split = ".", fixed = TRUE)
+genes_ensembl_SB <- sapply(genes_ens_vn_SB, FUN = function(genes_ens_vn_SB){
+  ens = genes_ens_vn_SB[1]
+  return(ens)
+})
+
+######
+
+saveRDS (genes_ensembl_SB, file = "C:/Users/trinh/Documents/GitHub/DATATSETS/genes_ensembl_SB.RDS")
+
+#############################################################################
+
+SkinnyHappyTT <- readRDS("C:/Userstrinh/Documents/GitHub/DATATSETS/SkinnyHappyTT.RDS.rds") 
+
+############### 1st patient 1st pathway
+pathway_geneexp_patient_SB = list ()
+pathway_geneexp_patient_SB [[1]]= SkinnyBoy[match(unlist(x$ID[1]), genes_ensembl_SB), 1]
+ banana6= -match(unlist(x$ID[1]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,1]
+t.test(pathway_geneexp_patient_SB[[1]], non_pathway_geneexp_patient1_vector_SB)$p.value
+
+########
+
+###########  1st patient  all pathway 
+
+df_pathway_patient_SB = data.frame()
+for (i in 1:46){
+  pathway_geneexp_patient_SB [[i]]= SkinnyBoy[match(unlist(x$ID[i]), genes_ensembl_SB), 1]
+  banana6= -match(unlist(x$ID[i]),genes_ensembl_SB)
+  banana7 <- banana6[!is.na(banana6)]
+  non_pathway_geneexp_patient1_vector_SB = SkinnyBoy[banana7,1]
+  df_pathway_patient_SB[i,1] = t.test(pathway_geneexp_patient_SB[[i]], non_pathway_geneexp_patient1_vector_SB)$p.value
+}
+  pathway_geneexp_patient_lalalal = list ()
+df_pathway_patient_SB_new = data.frame()
+View (df_pathway_patient_SB)
+
+
+################### ALL PATIENT ALL PATHWAYS (FIXED)
+for (m in 1:9741){
+  for (n in 1:46){
+      pathway_geneexp_patient_SB[[n]]= SkinnyBoy[match(unlist(x$ID[n]),genes_ensembl_SB),m]
+     banana = -match(unlist(x$ID[n]),genes_ensembl_SB)
+     banana <- banana[!is.na(banana)]
+     non_pathway_geneexp_patient_vector_SB = SkinnyBoy[banana,m]
+     df_pathway_patient_SB[n,m] = t.test(pathway_geneexp_patient_SB[[n]], non_pathway_geneexp_patient_vector_SB)$p.value
+  }
+}
+
+
+
+
+## saving datas 
+
+saveRDS(pathway_geneexp, file = "C:/Users/trinh/Documents/GitHub/2022-topic-02-team-01/Breast cancer/PathwayDataSet/Objects/pathway_geneexp")
+
+pathway_geneexp[1]
+
+
+SkinnyBoy = readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnyBoy.RDS")
+
+
+
+SkinnyHappyTT = readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnyHappyTT.RDS.RDS")
+
+View (SkinnySadTT)
+
+SkinnySadTT =  readRDS("C:/Users/trinh/Documents/GitHub/DATATSETS/SkinnySadTT.RDS.RDS")
+
+```
+
