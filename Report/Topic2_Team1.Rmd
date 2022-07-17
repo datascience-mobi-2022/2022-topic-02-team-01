@@ -134,7 +134,7 @@ Especially in the era of personalized medicine and improved genomic analysis dat
 The Hallmarks describe the distinction between tumor and regular cells, comprising six organic abilities received throughout the multistep development of human tumors. Underlying those hallmarks are the "emerging hallmarks" and the "enabling hallmarks", like genome instability, which generates the genetic variety that expedites their acquisition, and inflammation, which fosters multiple hallmark functions (D. Hanahan, R. A. Weinberg, 2011). 
 
 \section{Methabolic pathways - ascendany of tumerigenesis}
-An additional core point of our project is the focus on metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis. [@@Hanahan:2011uf].
+An additional core point of our project is the focus on metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells. These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis [@Hanahan:2011uf].
 The significant differences in the relative use of different types of energy production in normal cells and tumors, observed by O. Warburg, manifest itself in tumor cells during glycolysis, where pyruvate is mainly converted to lactic acid and energy is produced anaerobically. This phenomenon takes place even if there is sufficient oxygen for supporting the mitochondrial function. Hence, the conversion of pyruvate to lactic acid by fermentation, even in the presence of oxygen, is called aerobic glycolysis or the Warburg effect [@Coller:2014wf].
 
 
@@ -451,7 +451,7 @@ WU\_HBX\_TARGETS\_2\_UP                                                         
 
 
 \begin{table}[H]
-\caption{23 most downregulated pathways in tumor tissue from the comparison of BRCA norm \& BRCA tum}
+\caption{Sub.11:  23 most downregulated pathways in tumor tissue from the comparison of BRCA norm \& BRCA tum}
 \label{tab:23paths}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{|l|}
