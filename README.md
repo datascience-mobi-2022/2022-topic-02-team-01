@@ -15,6 +15,12 @@
 
 In our project we want to explore the genetic origin of tumorigenesis by identifying pathways differentially expressed in cancer patients and specifically breast cancer patients. 
 
+Our report you can find here: 
+- as **pdf** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/3450c27d720a664e19deb4d7c7d0e8ba457b8640/Report/Topic2_Team1.pdf)
+- as **rmd** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/3450c27d720a664e19deb4d7c7d0e8ba457b8640/Report/Topic2_Team1.Rmd)
+
+
+
 ![Fig 0: Focused Analysis Heatmap](/Output%20read%20me/Fig3_rm.png)
 
 ## Folder structure
