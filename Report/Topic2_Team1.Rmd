@@ -91,7 +91,11 @@ bibliography: [bib/references.bib]
 
 \tableofcontents
 
+<<<<<<< Updated upstream
 
+=======
+\chapter 
+>>>>>>> Stashed changes
 \section*{Abbreviations}
 
 \begin{table}[H]
