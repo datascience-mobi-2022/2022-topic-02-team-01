@@ -11,8 +11,9 @@ header-includes:
   - \usepackage[utf8]{inputenc}
   - \usepackage[T1]{fontenc}
   - \usepackage{lmodern}
-  - \usepackage[onehalfspacing]{setspace}
+  - \usepackage[singlespacing]{setspace}
   - \usepackage[left=2.50cm, right=2.50cm, top=2.50cm, bottom=2.50cm, bindingoffset=10mm, includehead, includefoot]{geometry}
+  - \usepackage[fontsize=10pt]{fontsize}
   - \usepackage[automark]{scrlayer-scrpage}
   - \usepackage{url}
   - \usepackage[backend=biber, style=authoryear, giveninits=true, maxbibnames=99, uniquename=init, maxcitenames=2, hyperref=true, date=year]{biblatex}
@@ -67,19 +68,21 @@ bibliography: [bib/references.bib]
 
 		{\Huge Topic 2, Group 1}
 
-		{\Large Supervisor: Carl Hermann}\\
-		{\Large Tutor: Wangjun Hu}
+	\vspace{\stretch{1}}
+  {\LARGE  Our way to a potential Biomarker}\\
 
 	}
 
 	\vspace{\stretch{2}}
-	{\Large Data Science Project SoSe 2022}
-
+	{\Large Data Science Project SoSe 2022}\\
+	\vspace{\stretch{1}}
+  {\Large Supervisor: Carl Hermann}\\
+  {\Large Tutor: Wangjun Hu}
 	\vspace{\stretch{2}}
 
 	{\Large
 		\begin{tabular}{rl}
-			Autores: & Ekin Ören, Yoana Onishtenko, Linh Trinh, Junona Sachov\\
+			Autors: & Ekin Ören, Yoana Onishtenko, Linh Trinh, Junona Sachov\\
 			
 			Deadline: & 18.07.2022\\
 		\end{tabular}
@@ -127,11 +130,11 @@ Especially in the era of personalized medicine and improved genomic analysis usi
 "The hallmarks constitute an organizing principle for rationalizing the complexities of neoplastic disease. They include sustaining proliferative signaling, evading growth suppressors, resisting cell death, enabling replicative immortality, inducing angiogenesis, and activating invasion and metastasis."{\textit{Hallmarks of cancer: the next generation (D. Hanahan, R. A. Weinberg, 2011)}}
 \end{displayquote}
 
-The Hallmarks describe the distinction between tumor and regular cells, comprising six organic abilities received throughout the multistep development of human tumors. Underlying those hallmarks are the "emerging hallmarks' ' and the "enabling hallmarks", like genome instability, which generates the genetic variety that expedites their acquisition, and inflammation, which fosters multiple hallmark functions. 
+The Hallmarks describe the distinction between tumor and regular cells, comprising six organic abilities received throughout the multistep development of human tumors. Underlying those hallmarks are the "emerging hallmarks" and the "enabling hallmarks", like genome instability, which generates the genetic variety that expedites their acquisition, and inflammation, which fosters multiple hallmark functions. 
 
 \section{Methabolic pathways - ascendany of tumerigenesis}
 An additional core point of our project is the focus on metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells.These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis. [@@Hanahan:2011uf].
-The significant differences in the relative use of different types of energy production in normal cells and tumors, observed by O. Warburg manifests itself in tumor cells during the glycolysis, where pyruvate is mainly converted to lactic acid and energy is produced anaerobically. This phenomena takes place even if there is sufficient oxygen for supporting the mitochondrial function. Hence, the conversion of  pyruvate to lactic acid by fermentation, even in the presence of oxygen, is called aerobic glycolysis or the Warburg effect.[@Coller:2014wf]
+The significant differences in the relative use of different types of energy production in normal cells and tumors, observed by O. Warburg manifests itself in tumor cells during the glycolysis, where pyruvate is mainly converted to lactic acid and energy is produced anaerobically. This phenomena takes place even if there is sufficient oxygen for supporting the mitochondrial function. Hence, the conversion of  pyruvate to lactic acid by fermentation, even in the presence of oxygen, is called aerobic glycolysis or the Warburg effect [@Coller:2014wf].
 
 
 \section{Mathematical Tools}
@@ -160,11 +163,11 @@ We used the R version 4.2.0 and the table of used packages are attached as suppl
 \section{Methods}
 \subsection{Data Exploration}
 
-*Cleaning and Filtering*
+\subsubsection{Cleaning and Filtering}
 Data cleaning is the process of deleting inaccurate, corrupted, malformed, duplicated, or incomplete information in a dataset. First, we checked for missing values in our datasets. Secondly, we removed the low variance genes in the “tcga_tumor_log2TPM” dataset and then performed biotype filtering.
 
-*Descriptive analysis*
-Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did  PCA and UMAP to reduce the dimension and explore the structure of the data. 
+\subsubsection{Descriptive analysis}
+Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did PCA and UMAP to reduce the dimension and explore the structure of the data.
 
 \subsection{Selecting and Retrieving Pathways from Database}
 To create our pathway matrix we first collected all the hallmark pathways in our "hallmarks_genesets" list. Additionally, we identified in the literature 46 metabolic pathways that behave differently in the presence of cancer and retrieved them from the MSigDB (Molecular Signature Database). In the last stage, we inserted all the pathways from the “C2: curated gene sets” (6366 gene sets) database. The gene sets in the pathway matrix are carefully selected from a variety of sources, consisting of online pathway databases and biomedical literature. In order to implement this matrix for further analysis, we reduced the number of pathways by filtering out the pathways that have less than 15 overlapping genes in them.
@@ -190,7 +193,7 @@ As previously mentioned our first task was to reduce our “tcga_tumor_log2tpm�
 Additionally we investigated the significant information in the "tcga_tumor_annotation"  data frame via bar plots. In contrast to the “tcga_tumor_log2tpm” data frame here we encountered a lot of missing information as seen in Sup.2.A. Consequently we excluded the annotations with a significant amount of missing values from our plan for further analysis. As shown in Sup.2 we have potential clustering and regression analysis information in the form of histological grades, race, new tumor event, margin status, clinical stages, pathological stages and cancer type.
 
 \section{Dimensional reduction}
-After successfully cleaning our data and analysis of our annotations we continued exploring our data by dimensional reduction. Our first attempt consisted of linear dimensional reduction of the genes in our filtered “tcga_tumor_log2tpm” data via PCA. First, we computed 14 principal components and tested which of them carry the most significant information using the Elbow method [@Liu:2021wx] which brought us to the conclusion that we can plot our data using the first two principal components. For more detailed analysis we also applied cancer type annotations to colour respectively each patient in our plot. As visualized in Fig 1.A. We encountered two clusters, however, the information in the annotation is not distributed in a polarized manner. Aiming to observe more significant clustering we also performed non-linear reduction via UMAP (Fig. 1.B). Subsequently, we were able to see very distinct clusters and polarized distribution in terms of tumor type.  Furthermore, we encountered several clusters consisting of only one tumor type (BRCA, PCPG, TGCT, THCA). UMAP proved to be more successful in terms of keeping the information in the reduced dimensions, so we continued using it for further analysis.
+After successfully cleaning our data and analysis of our annotations we continued exploring our data by dimensional reduction. Our first attempt consisted of linear dimensional reduction of the genes in our filtered “tcga_tumor_log2tpm” data via PCA. First, we computed 14 principal components and tested which of them carry the most significant information using the Elbow method [@Liu:2021wx] which brought us to the conclusion that we can plot our data using the first two principal components. For more detailed analysis we also applied cancer type annotations to colour respectively each patient in our plot. As visualized in Fig 1.A. We encountered two clusters, however, the information in the annotation is not distributed in a polarized manner. Aiming to observe more significant clustering we also performed non-linear reduction via UMAP (Fig. 1.B). Subsequently, we were able to see very distinct clusters and polarized distribution in terms of tumor type. Furthermore, we encountered several clusters consisting of only one tumor type (BRCA, PCPG, TGCT, THCA). UMAP proved to be more successful in terms of keeping the information in the reduced dimensions, so we continued using it for further analysis.
 \begin{figure}[H]
     \centering
     \includegraphics{figures/Fig1.png}
@@ -247,7 +250,7 @@ In the focused analysis we examined breast cancer in greater detail. The correla
 
 
 \section{Regression Analysis}
-The look for a target for regression analysis by colouring the UMAP by interesting annotation was not successful, as shown in Sup.4. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.8), a list of 85 pathways that are up-regulated and down-regulated in breast cancer were provided. Then the list was narrowed down by choosing only upregulated and down-regulated pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Sup.5). This process narrowed the list down to two pathways,  WU_CELL_MIGRATION (WU-CM) and YTT-UP. After literature research, WU-CM is excluded for being  strongly tied to bladder cancer [@Wu:2008ve]. Therefore, YTT-UP is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YTT-UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Fig.9)
+The look for a target for regression analysis by colouring the UMAP by interesting annotation was not successful, as shown in Sup.4. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.8), a list of 85 pathways that are up-regulated and down-regulated in breast cancer were provided. Then the list was narrowed down by choosing only upregulated and down-regulated pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Sup.5). This process narrowed the list down to two pathways,  WU_CELL_MIGRATION (WU-CM) and YTT-UP. After literature research, WU-CM is excluded for being  strongly tied to bladder cancer [@Wu:2008ve]. Therefore, YTT-UP is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YTT-UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Fig.9).
 
 \begin{figure}[H]
 \centering
@@ -263,9 +266,10 @@ The look for a target for regression analysis by colouring the UMAP by interesti
   \end{minipage}
 \end{figure}
 
-The data was split into two groups, one is the training set and the other is the testing set. Originally, the model performed successfully on the training set but poorly on the testing set, indicating an overfitting problem. In order to solve that, variables that are used to predict the target pathway that has a p-value larger than 0.5 were excluded, and the process was performed five times with random patients for the training set and testing set each time. We ended up with 25 pathways with the highest significance. The final result is shown in Tab.2 and Sup.7. 
+The data was split into two groups, one is the training set and the other is the testing set. Originally, the model performed successfully on the training set but poorly on the testing set, indicating an overfitting problem. In order to solve that, variables that are used to predict the target pathway that has a p-value larger than 0.5 were excluded, and the process was performed five times with random patients for the training set and testing set each time. We ended up with 25 pathways with the highest significance. The final result is shown in Tab.2 and Sup.7.
 
 \begin{table}[!h]
+\addtolength{\tabcolsep}{-1pt}
 \caption{Results for regression.}
 \label{tab:regression_table}
 \resizebox{\textwidth}{!}{
@@ -293,6 +297,7 @@ Afterwards, the analysis was carried out in three stages, namely, the pan-cancer
 In the pan-cancer analysis stage of our project, we investigated the distribution of several annotations within these clusters to see if clustering was correlated with tumor type, menopause state etc. While tumor types were separated distinctively, we saw that annotations other than tumor type were not separated in a conclusive manner, suggesting that our data was most relevant for the tumor type. The lack of conclusive annotative distribution suggests that annotations were not strongly tied to our pathway information and therefore would be insufficient targets for regression analysis. The pathways with higher variance than %75 of other pathways were also identified and clustered with a heatmap into smaller gene groups in the context of tumor type. These 101 pathways were used to separate our cancer types into five distinct families. In Fig. 6C we can see that tumor types can be separated into five major groups in terms of behaviour also shown in Tab.3. In further research these families and the top pathway can be used to understand similarities and differences between tumor types and predict the success of treatment in previously untested tumor types.
 
 \begin{table}[!h]
+\addtolength{\tabcolsep}{-1pt}
 \caption{Cancer type clustering.}
 \label{tab:cancer_type_clusterig_table}
 \resizebox{\textwidth}{!}{
@@ -308,7 +313,7 @@ In the pan-cancer analysis stage of our project, we investigated the distributio
 }
 \end{table}
 
-We also identified the top 20 most active pathways as potential biomarkers in all tumour types. As expected many known oncogenes like GATA transcription factors [@Zheng:2010ub], and cancer-related elements like genes in cancer gene neighbourhoods (CRISP2 in WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN [@Weber:2007vj] pathways were found in these genesets. Furthermore, drivers of innate immunology were also significantly activated. In one gene set we tied 14 interferons tied to covid, to cancer (https://www.wikipathways.org/instance/WP4912_r115852, 16.09.2022, 12:11). We have confirmed the driving forces of tumorigenesis in terms of pathways, and thus became even more confident that our pathway matrix was accurate. 
+We also identified the top 20 most active pathways as potential biomarkers in all tumour types. As expected many known oncogenes like GATA transcription factors [@Zheng:2010ub], and cancer-related elements like genes in cancer gene neighbourhoods (CRISP2 in WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN [@Weber:2007vj] pathways were found in these genesets. Furthermore, drivers of innate immunology were also significantly activated. In one gene set we tied 14 interferons tied to covid, to cancer (https://www.wikipathways.org/instance/WP4912_r115852, 16.09.2022, 12:11). We have confirmed the driving forces of tumorigenesis in terms of pathways, and thus became even more confident that our pathway matrix was accurate.
 
 In focused analysis first, we computed the correlation values between the mean pathway scores for BRCA patients. The reason for a strong correlation between pathway groups was further investigated by computing the overlapping number of Ensemble IDs in each pathway, normalized by the Jaccard index. the comparison of these data (Sup.6B) suggests that the reason for the high correlation is because they are upregulated or downregulated in a similar manner.
 
