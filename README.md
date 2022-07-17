@@ -44,10 +44,10 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
 
 ## Best Figures
 
-![Fig 1: Focused Analysis Heatmap](Fig1_rm.png)
+![Fig 1: Focused Analysis Heatmap]([Fig1_rm.png](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/ed7af0fbbfcfd764791046f1388de6df08698c5f/Output%20read%20me/Fig1_rm.png))
 
 
-![Fig 2: Focused Analysis Volcano Plot](Fig2_rm.png)
+![Fig 2: Focused Analysis Volcano Plot]([Fig2_rm.png](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/ed7af0fbbfcfd764791046f1388de6df08698c5f/Output%20read%20me/Fig2_rm.png))
 
 
 ## Pathways 
