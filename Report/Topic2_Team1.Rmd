@@ -69,7 +69,7 @@ bibliography: [bib/references.bib]
 		{\Huge Topic 2, Group 1}
 
 	\vspace{\stretch{1}}
-  {\LARGE  Our way to a potential Biomarker}\\
+  {\LARGE  Our way to a potential biomarker}\\
 
 	}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  17 JUL 2022 19:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  18 JUL 2022 01:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1300,7 +1300,7 @@ Package logreq Info: Writing requests to 'Topic2_Team1.run.xml'.
 Here is how much of TeX's memory you used:
  30195 strings out of 478268
  569784 string characters out of 5846348
- 1586365 words of memory out of 5000000
+ 1586373 words of memory out of 5000000
  47708 multiletter control sequences out of 15000+600000
  546005 words of font info for 158 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1315,7 +1315,7 @@ c/lm/lmri10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss1
 r/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2022/
 texmf-dist/fonts/type1/public/lm/lmssbx10.pfb>
-Output written on Topic2_Team1.pdf (21 pages, 12481012 bytes).
+Output written on Topic2_Team1.pdf (21 pages, 12479911 bytes).
 PDF statistics:
  381 PDF objects out of 1000 (max. 8388607)
  302 compressed objects within 4 object streams
