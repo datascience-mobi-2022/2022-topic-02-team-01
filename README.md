@@ -6,7 +6,7 @@
 
 - [About our project](#About-our-project)
 - [Folder structure](#Folder-structure)
-- [Best Plots](#Best Figures)
+- [Best Plots](#Best-Figures)
 - [Literature](#Literature)
 - [Pathways](#Pathways)
 
