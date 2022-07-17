@@ -21,23 +21,25 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
 ## Folder structure
 
 
-- **Archive Old Files** contains old outdated files we have archived in case they are needed as a referance.
+- **Archive Old Files:** contains old outdated files we have archived in case they are needed as a referance.
 
 - **Data_Cleaning:** contains the markdown files used to perform the data cleaning on the given data sets, where we filtered out low-varience genes as well as unwanted (non-protein-coding) biotypes. 
 
 - **Data Exploration:** contains the markdown files used for our descriptive analysis, as well as mastercodes for generating different types of plots. 
 
-- **Generation of Pathway Matrix** contains the markdown files used to generate our pathway matrix. This includes Pathway gathering, pathway  selection, merging, scoring and diagnostic code. 
+- **Generation of Pathway Matrix:** contains the markdown files used to generate our pathway matrix. This includes pathway gathering, pathway selection, merging, scoring and diagnostic code. 
 
-- **Pan Cancer Analysis:** contains the markdown files used for our pan cancer analysis, where we aimed to identify differences and simmilarities of all cacer types in our dataset. This code includes Volcano plots, Heatmaps and overlap comparisons of BRCA and non BRCA expression data, As well as diagnostic code.
+- **Pan Cancer Analysis:** contains the markdown files used for our pan cancer analysis, where we aimed to identify differences and simmilarities of all cacer types in our dataset. This code includes volcano plots, heatmaps and overlap comparisons of BRCA and non BRCA expression data, as well as diagnostic code.
 
-- **Focused Analysis** contains the markdown files used for our focused analysis, where we investigated gene expression scores from the BRCA tumour and normal tissue to identify trends in their differentiation. This code contains volcano plots, overlap comparisons and heatmaps as well as diagnostic code.
+- **Focused Analysis:** contains the markdown files used for our focused analysis, where we investigated gene expression scores from the BRCA tumour and normal tissue to identify trends in their differentiation. This code contains volcano plots, overlap comparisons and heatmaps as well as diagnostic code.
 
-- **Regression Analysis** contains the markdown files used in our Regression analysis, where we generated a regression model to predict a selected pathway. This file includes the pathway selection code as well as the regression algorithm. a list of pathways used in the regression analisis can be found at the end of this read me document.
+- **Regression Analysis:** contains the markdown files used in our regression analysis, where we generated a regression model to predict a selected pathway. This folder includes the pathway selection code as well as the regression algorithm. A list of pathways used in the regression analisis can be found at the end of this read me document.
 
-- **Report** contains the final report markdown and all related files  
+- **Report:** contains the final report markdown and all related files  
 
-- **Output** contains the graphical outputs and plots 
+- **Output:** contains the graphical outputs and plots 
+
+-**Output_read_me:** contains the plots that are shown in this read me. 
 
 
 ## Best Figures
@@ -47,24 +49,6 @@ Fig 1: Focused Analysis Heatmap
 
 
 Fig 2: Focused Analysis Volcano Plot
-
-
-## Literature
-
-#### Reviews on general cancer biology and cancer metabolism
-
-- **Cancer biology -** Hanahan, Douglas, and Robert A. Weinberg. "Hallmarks of cancer: the next generation." cell 144, no. 5 (2011): 646-674. https://doi.org/10.1016/j.cell.2011.02.013
-- **Cancer metabolism -** De Berardinis, R. J., & Chandel, N. S. (2016). Fundamentals of cancer metabolism. Science      Advances, 2(5). https://doi.org/10.1126/sciadv.1600200
-- **Cancer metabolism -** Pavlova, Natalya N., and Craig B. Thompson. "The emerging hallmarks of cancer metabolism." Cell metabolism 23, no. 1 (2016): 27-47.https://doi.org/10.1016/j.cmet.2015.12.006
-
-#### Analysis of cancer hallmarks across multiple cancer types using integrative approches
-
-- **Cancer immunology -** Thorsson, Vésteinn, David L. Gibbs, Scott D. Brown, Denise Wolf, Dante S. Bortone, Tai-Hsien Ou Yang, Eduard Porta-Pardo et al. "The immune landscape of cancer." Immunity 48, no. 4 (2018): 812-830. https://doi.org/10.1016/j.immuni.2018.03.023
-- **Cancer metabolism -** Peng, Xinxin, Zhongyuan Chen, Farshad Farshidfar, Xiaoyan Xu, Philip L. Lorenzi, Yumeng Wang, Feixiong Cheng et al. "Molecular characterization and clinical relevance of metabolic expression subtypes in human cancers." Cell reports 23, no. 1 (2018): 255-269. https://doi.org/10.1016/j.celrep.2018.03.077
-- **Cancer stemness/de-differenciation** Malta, Tathiane M., Artem Sokolov, Andrew J. Gentles, Tomasz Burzykowski, Laila Poisson, John N. Weinstein, Bożena Kamińska et al. "Machine learning identifies stemness features associated with oncogenic dedifferentiation." Cell 173, no. 2 (2018): 338-354. https://doi.org/10.1016/j.cell.2018.03.034
-- **DNA damage in cancer -** Knijnenburg, Theo A., Linghua Wang, Michael T. Zimmermann, Nyasha Chambwe, Galen F. Gao, Andrew D. Cherniack, Huihui Fan et al. "Genomic and molecular landscape of DNA damage repair deficiency across The Cancer Genome Atlas." Cell reports 23, no. 1 (2018): 239-254. https://doi.org/10.1016/j.celrep.2018.03.076
-- **RAS signalling Cancer -** Way, Gregory P., Francisco Sanchez-Vega, Konnor La, Joshua Armenia, Walid K. Chatila, Augustin Luna, Chris Sander et al. "Machine learning detects pan-cancer ras pathway activation in the cancer genome atlas." Cell reports 23, no. 1 (2018): 172-180. https://doi.org/10.1016/j.celrep.2018.03.046
-
 
 
 
@@ -193,6 +177,20 @@ Fig 2: Focused Analysis Volcano Plot
 [24] WEINMANN_ADAPTATION_TO_HYPOXIA_UP
 
 
+## Literature
 
+#### Reviews on general cancer biology and cancer metabolism
+
+- **Cancer biology -** Hanahan, Douglas, and Robert A. Weinberg. "Hallmarks of cancer: the next generation." cell 144, no. 5 (2011): 646-674. https://doi.org/10.1016/j.cell.2011.02.013
+- **Cancer metabolism -** De Berardinis, R. J., & Chandel, N. S. (2016). Fundamentals of cancer metabolism. Science      Advances, 2(5). https://doi.org/10.1126/sciadv.1600200
+- **Cancer metabolism -** Pavlova, Natalya N., and Craig B. Thompson. "The emerging hallmarks of cancer metabolism." Cell metabolism 23, no. 1 (2016): 27-47.https://doi.org/10.1016/j.cmet.2015.12.006
+
+#### Analysis of cancer hallmarks across multiple cancer types using integrative approches
+
+- **Cancer immunology -** Thorsson, Vésteinn, David L. Gibbs, Scott D. Brown, Denise Wolf, Dante S. Bortone, Tai-Hsien Ou Yang, Eduard Porta-Pardo et al. "The immune landscape of cancer." Immunity 48, no. 4 (2018): 812-830. https://doi.org/10.1016/j.immuni.2018.03.023
+- **Cancer metabolism -** Peng, Xinxin, Zhongyuan Chen, Farshad Farshidfar, Xiaoyan Xu, Philip L. Lorenzi, Yumeng Wang, Feixiong Cheng et al. "Molecular characterization and clinical relevance of metabolic expression subtypes in human cancers." Cell reports 23, no. 1 (2018): 255-269. https://doi.org/10.1016/j.celrep.2018.03.077
+- **Cancer stemness/de-differenciation** Malta, Tathiane M., Artem Sokolov, Andrew J. Gentles, Tomasz Burzykowski, Laila Poisson, John N. Weinstein, Bożena Kamińska et al. "Machine learning identifies stemness features associated with oncogenic dedifferentiation." Cell 173, no. 2 (2018): 338-354. https://doi.org/10.1016/j.cell.2018.03.034
+- **DNA damage in cancer -** Knijnenburg, Theo A., Linghua Wang, Michael T. Zimmermann, Nyasha Chambwe, Galen F. Gao, Andrew D. Cherniack, Huihui Fan et al. "Genomic and molecular landscape of DNA damage repair deficiency across The Cancer Genome Atlas." Cell reports 23, no. 1 (2018): 239-254. https://doi.org/10.1016/j.celrep.2018.03.076
+- **RAS signalling Cancer -** Way, Gregory P., Francisco Sanchez-Vega, Konnor La, Joshua Armenia, Walid K. Chatila, Augustin Luna, Chris Sander et al. "Machine learning detects pan-cancer ras pathway activation in the cancer genome atlas." Cell reports 23, no. 1 (2018): 172-180. https://doi.org/10.1016/j.celrep.2018.03.046
 
 
