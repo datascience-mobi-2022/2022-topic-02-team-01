@@ -7,8 +7,8 @@
 - [About our project](#About-our-project)
 - [Folder structure](#Folder-structure)
 - [Best Plots](#Best-Figures)
-- [Literature](#Literature)
 - [Pathways](#Pathways)
+- [Literature](#Literature)
 
 
 ## About our project
@@ -39,23 +39,20 @@ In our project we want to explore the genetic origin of tumorigenesis by identif
 
 - **Output:** contains the graphical outputs and plots 
 
--**Output_read_me:** contains the plots that are shown in this read me. 
+- **Output read me:** contains the plots that are shown in this read me. 
 
 
 ## Best Figures
 
-
-Fig 1: Focused Analysis Heatmap
-
-
-Fig 2: Focused Analysis Volcano Plot
+![Fig 1: Focused Analysis Heatmap](Fig1_rm.png)
 
 
+![Fig 2: Focused Analysis Volcano Plot](Fig2_rm.png)
 
-#### Pathways 
 
+## Pathways 
 
-#90 Most important Biomarker gene groups for BRCA (Most differentially active in between BRCA and other cancer types:
+#### 90 Most important Biomarker gene groups for BRCA (Most differentially active in between BRCA and other cancer types:
 
  [1]"Prol_EGFR"                                                                                
  [2] "ABE_VEGFA_TARGETS_2HR"                                                                    
@@ -149,8 +146,7 @@ Fig 2: Focused Analysis Volcano Plot
 [90] "ZWANG_TRANSIENTLY_UP_BY_2ND_EGF_PULSE_ONLY"  
 
 
-
-#25 pathways used in Regression Analisis
+#### 25 pathways used in Regression Analisis
 
 [1] ZHOU_TNF_SIGNALING_30MIN 
 [2] YOSHIMURA_MAPK8_TARGETS_DN 
