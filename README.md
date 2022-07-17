@@ -48,7 +48,7 @@ We aimed to gradually concentrate the descriptive capacity of our data by data c
 ![Fig 1: Focused Analysis Heatmap](/Output%20read%20me/Fig1_rm.png)
 
 
-![Fig 2: Focused Analysis Volcano Plot](/Output%20read%20me/Fig2_rm.png)
+![Fig 2: Focused Analysis Volcano Plot](/Output%20read%20me/Fig.2_Rm.png)
 
 
 ## Pathways 
