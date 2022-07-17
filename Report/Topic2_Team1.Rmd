@@ -264,7 +264,7 @@ The look for a target for regression analysis by colouring the UMAP by interesti
 
 \begin{figure}[H]
 \centering
-  \begin{minipage}[b]{0.7\textwidth}
+  \begin{minipage}[b]{0.8\textwidth}
     \includegraphics[width=\textwidth]{figures/Fig7.png}
   \end{minipage}
 \end{figure}
