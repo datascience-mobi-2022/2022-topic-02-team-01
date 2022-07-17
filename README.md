@@ -15,7 +15,8 @@
 
 In our project we want to explore the genetic origin of tumorigenesis by identifying pathways differentially expressed in cancer patients and specifically breast cancer patients. 
 
-<!-- add more text later  -->
+<!-- Aiming to investigate the possibility of identifying breast cancer-relevant biomarkers, during the course of this project, we explored the gene expression data of a broad selection of patients in a step-by-step manner summarized in our project outline (supplements). 
+We aimed to gradually concentrate the descriptive capacity of our data by data cleaning and dimensional reduction methods, including PCA and UMAP, eventually grouping and collectively scoring genes in the context of pathways by the GSVA method. Afterwards, we compared the respective differential activation scores of several tumor types. Furthermore, we plotted the pathways in the context of p-value and fold change, thus identifying the pathways most relevant to BRCA and tumor progression and possible trends connecting these pathways. With this information, we selected one pathway we hypothesize could be scientifically and clinically relevant as a biomarker. Hence, we built a regression model predicting the behaviour of this pathway by selecting other highly relevant pathways. In conclusion, we propose that further use and optimization of this regression model could lead to the identification of previously unknown interconnections between these pathways, as well as the identification of biomarkers for targeted therapy and diagnostic tools employed in the treatment of breast cancer. -->
 
 
 ## Folder structure
