@@ -91,12 +91,8 @@ bibliography: [bib/references.bib]
 
 \tableofcontents
 
-<<<<<<< Updated upstream
 
-=======
-\chapter 
->>>>>>> Stashed changes
-\section*{Abbreviations}
+\chapter*{Abbreviations}
 
 \begin{table}[H]
 \caption{Abbreviations}
@@ -119,51 +115,50 @@ YTT-UP        & YAMAZAKI\_TCEB3\_TARGETS\_UP.                                   
 }
 \end{table}
 
-\section{Introduction}
-\subsection{Cancer and BRCA}
+\chapter{Introduction}
+\section{Cancer and BRCA}
 Up until this day cancer remains a crucial research topic in the scientific fields. The focus of this project lies specifically on breast cancer. It is the most common malignant tumor and the second capital reason for cancer death among women worldwide (L. Wang, S. Zhang and X. Wang, 2021).
 Breast cancer can be identified during screening with mammography and clinically classified into four stages depending on the tumor size, if it has formed metastasis or spread to other types of tissues [@Giuliano:2017ut]. 
 Whereas conventional therapies, such as surgery, radiotherapy, and chemotherapy, are the most common options they usually have limited success. More promising therapy approaches are personalized therapies like immunotherapy, i.e., HER2-targeted therapies [@Clifton:2021vw] or epigenetic therapies. These therapies are a promising tool for overcoming clinical resistance to traditional treatments for breast cancer but are still in the pre-clinical setting and show most promise in use in combinations with other treatments [@Brown:2022vw]. 
 Especially in the era of personalized medicine and improved genomic analysis using methods of data analysis, i.e., to identify biomarkers for epigenetic therapies, underline the importance of the combined force of computational mathematical analyses via the creation of computer-generated models or simulations and the foundational experimental laboratory. 
 
-\subsection{Hallmarks}
+\section{Hallmarks}
 \begin{displayquote}
 "The hallmarks constitute an organizing principle for rationalizing the complexities of neoplastic disease. They include sustaining proliferative signaling, evading growth suppressors, resisting cell death, enabling replicative immortality, inducing angiogenesis, and activating invasion and metastasis."{\textit{Hallmarks of cancer: the next generation (D. Hanahan, R. A. Weinberg, 2011)}}
 \end{displayquote}
 
 The Hallmarks describe the distinction between tumor and regular cells, comprising six organic abilities received throughout the multistep development of human tumors. Underlying those hallmarks are the "emerging hallmarks' ' and the "enabling hallmarks", like genome instability, which generates the genetic variety that expedites their acquisition, and inflammation, which fosters multiple hallmark functions. 
 
-\subsection{Methabolic pathways - ascendany of tumerigenesis}
+\section{Methabolic pathways - ascendany of tumerigenesis}
 An additional core point of our project is the focus on metabolic pathways since metabolic activities are altered in cancer cells relative to normal cells.These reprogrammed activities improve cellular fitness to provide a selective advantage during tumorigenesis. [@@Hanahan:2011uf].
 The significant differences in the relative use of different types of energy production in normal cells and tumors, observed by O. Warburg manifests itself in tumor cells during the glycolysis, where pyruvate is mainly converted to lactic acid and energy is produced anaerobically. This phenomena takes place even if there is sufficient oxygen for supporting the mitochondrial function. Hence, the conversion of  pyruvate to lactic acid by fermentation, even in the presence of oxygen, is called aerobic glycolysis or the Warburg effect.[@Coller:2014wf]
 
 
-
-\subsection{Mathematical Tools}
+\section{Mathematical Tools}
 
 In order to perform a significant examination of our data we implemented different mathematical tools such as dimensional reduction, Wilcoxon test, Jaccard index, Bonferroni correction and fold change. First, we started with computing the variance, defining how far our samples are from the average value and continued with dimensionality reduction via Principal Component Analysis (PCA) and Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP). The goal of PCA is to extract important information from a data frame and represent it as a new set of orthogonal variables called principal components [@Abdi:2010wx]. In comparison to PCA, the UMAP method reduces dimensions of the data nonlinearly, indicating the highest reproducibility and the most meaningful organization of cell clusters [@Becht:2019we]. 
 For the comparison of BRCA and other tumor types, we computed p-values via Wilcoxon paired test. Wilcoxon paired test is a nonparametric statistical hypothesis used to compare the position of two populations using two matched samples [@Conover:1999]. The p-value helps us to estimate the probability of getting a test statistic as large or larger assuming both distributions are the same [Hung:1997wx]. Since in some cases p-value correction was necessary, we used the Bonferroni method to reduce the chances of obtaining false-positive results (type I errors) when multiple pairwise tests are performed on a single set of data [@Ranstam:2016vu].
 Furthermore, we also used Jaccard index to compare members for two sets to see which members are shared and which are distinct [@Fletcher:2018wf].  For measuring how much quantity changes between the original and subsequent measurements we computed fold change, which is defined as the ratio of the two quantities [@Feng:2012tq].
 
 
-\subsection{Project Outline}
+\section{Project Outline}
 Aiming to investigate the possibility of identifying breast cancer-relevant biomarkers, during the course of this project, we explored the gene expression data of a broad selection of patients in a step-by-step manner summarized in our project outline (supplements). 
 We aimed to gradually concentrate the descriptive capacity of our data by data cleaning and dimensional reduction methods, including PCA and UMAP, eventually grouping and collectively scoring genes in the context of pathways by the GSVA method. Afterwards, we compared the respective differential activation scores of several tumor types. Furthermore, we plotted the pathways in the context of p-value and fold change, thus identifying the pathways most relevant to BRCA and tumor progression and possible trends connecting these pathways. With this information, we selected one pathway we hypothesize could be scientifically and clinically relevant as a biomarker. Hence, we built a regression model predicting the behaviour of this pathway by selecting other highly relevant pathways. In conclusion, we propose that further use and optimization of this regression model could lead to the identification of previously unknown interconnections between these pathways, as well as the identification of biomarkers for targeted therapy and diagnostic tools employed in the treatment of breast cancer.
 
-\section{Material and Methods}
-\subsection{Material}
-\subsubsection{Data Sets}
+\chapter{Material and Methods}
+\section{Material}
+\subsection{Data Sets}
 For this project we were provided with four data sets. The first one being the "tcga_tumor_log2TPM" a data frame containing about 60000 rows, representing
 the gene expression data from RNA-seq for almost 10,000 TCGA  (The Cancer Genome Atlas) cancer patients, representing 33 different tumor types in the columns in the data frame.
 The second data set "tcga_tumor_annotation" is also a data frame which contains all of the patients from the previous datasets with 37 clinical annotations (for example gender, race, tissue type etc.)
 The third provided data set is a R object "tcga_tumor_normal_datascience_proj_2022" containing expression data of matched tumor and normal tissue for five tumor types (BRCA, KIRC, LUAD, PRAD, THCA), each of them are specific for one tumor type, each of them have three smaller dataframe showing gene expression of tumor samples and normal samples from the same patients, and clinical annotations for these patients.
 Last given data set is a list "hallmarks_genesets" containing 46 Hallmark genesets, each of them containing various amounts of genes associated with this set.
 
-\subsubsection{Used Packages}
+\subsection{Used Packages}
 We used the R version 4.2.0 and the table of used packages are attached as supplementary (see Sup.8).
 
-\subsection{Methods}
-\subsubsection{Data Exploration}
+\section{Methods}
+\subsection{Data Exploration}
 
 *Cleaning and Filtering*
 Data cleaning is the process of deleting inaccurate, corrupted, malformed, duplicated, or incomplete information in a dataset. First, we checked for missing values in our datasets. Secondly, we removed the low variance genes in the “tcga_tumor_log2TPM” dataset and then performed biotype filtering.
@@ -171,30 +166,30 @@ Data cleaning is the process of deleting inaccurate, corrupted, malformed, dupli
 *Descriptive analysis*
 Descriptive analysis is a type of data analysis that helps you describe, visualize, or summarize data points in a constructive way to explore datasets and observe possible patterns. Firstly, we computed the histogram that consists of numbers of missing values for each variable in the "tcga_tumor_annotation". Furthermore, we visualized the variety of multiple annotations in the same dataset via histograms. For our “tcga_tumor_log2TPM” dataset we did  PCA and UMAP to reduce the dimension and explore the structure of the data. 
 
-\subsubsection{Selecting and Retrieving Pathways from Database}
+\subsection{Selecting and Retrieving Pathways from Database}
 To create our pathway matrix we first collected all the hallmark pathways in our "hallmarks_genesets" list. Additionally, we identified in the literature 46 metabolic pathways that behave differently in the presence of cancer and retrieved them from the MSigDB (Molecular Signature Database). In the last stage, we inserted all the pathways from the “C2: curated gene sets” (6366 gene sets) database. The gene sets in the pathway matrix are carefully selected from a variety of sources, consisting of online pathway databases and biomedical literature. In order to implement this matrix for further analysis, we reduced the number of pathways by filtering out the pathways that have less than 15 overlapping genes in them.
 
 
-\subsubsection{Gene Set Scoring (GSVA)}
+\subsection{Gene Set Scoring (GSVA)}
 Gene Set Variation Analysis (GSVA) is a GSA method considered to contribute to the current need for GSE methods for RNA-seq data. It is applied for the estimation of variation of pathway activity over a sample population in an unsupervised manner and provides higher power compared to other methods for detecting subtle changes in pathway activity over samples [@Hanzelmann:2013ta]. This method was applied on genesets constructed by matching the cleaned “tcga_tumor_log2tpm” data frame genes to their respective pathways by matching Ensembl-IDs through the MSigDB database. Thus, an activity score was assigned and each pathway per patient. A second pathway matrix was constructed from only the BRCA patients where normal tissue and tumor tissue were both included. Lastly, we checked via a Venn diagram the percentage of overlap of the genes from the original data set (“tcga_tumor_log2tpm”) and different stages of our pathway matrix.  
  
 
-\subsubsection{Pan Cancer Analysis}
+\subsection{Pan Cancer Analysis}
 Pan cancer analysis includes the assessment of frequently mutated genes and other genomic observations that are common to many different types of cancer, regardless of the origin of the tumor. First of all, we computed UMAP for the cleaned  “tcga_tumor_log2TPM'' dataset and for the pathway activity score data frame.  By using the annotation information for cancer type and pathological stage we coloured both plots to assess the distribution of annotations within clusters. Moreover, we created a heatmap for the activity scores in our pathway matrix and categorized the pathways into Metabolic, Hallmark or C2: curated genes.In order to identify pathways with large fold changes that are also statistically and biologically significant, we plotted the BRCA pathway matrix in comparison to other tumor types and the final pathway matrix, on volcano plots where each dot was representative of a pathway. Pathways were separated by vertical and horizontal thresholds and annotated accordingly.  Lastly, correlation analysis was carried out in order to identify overlapping genes between pathways using the Jaccard index.
 
-\subsubsection{Focused Analysis}
+\subsection{Focused Analysis}
 In Focused Analysis we investigated BRCA tumor and normal tissue via UMAP plots  annotated by menopause, pathological stage and sample type in order to test for significant clustering of these parameters. A Volcano plot between the tumor and non-tumor samples of the BRCA pathway matrix was carried out and subsequently split by vertical and horizontal thresholds. Additionally, we computed a heatmap out of activity score in BRCA for tumor and normal samples for all pathways and the top 200 differentially active pathways.
 
 
-\subsubsection{Regression Analysis}
+\subsection{Regression Analysis}
 Focused analysis provided us with a list of potentially significant pathways for regression analysis. A comparison of these pathways with previously identified significant pathways in pan-cancer analysis further narrowed the selection of our potential regression analysis pathways. Literature was considered to identify the potential clinical significance of the overlapping pathways, which lead to the selection of one pathway as a prediction target. The rest of the significant pathways were used as variables to predict the chosen pathway. The patients were split into a training and a testing group to train the algorithm and compute the accuracy of the prediction consecutively. Afterwards, parameter reduction by the exclusion of low significance parameters and k-fold cross validation was carried out to solve overfitting issues and increase precision. 
 
-\section{Results}
-\subsection{Data cleaning and exploration}
+\chapter{Results}
+\section{Data cleaning and exploration}
 As previously mentioned our first task was to reduce our “tcga_tumor_log2tpm” to a more manageable one, in order to perform significant analysis. Starting with a data frame consisting of 60498 genes and 9741 patients we reduced the number of the genes to 14674.  The starting point was to explore the distribution of the data by calculating the variance and the mean from all available patients and plotting them against each other as in Sup.1.A-C. After checking our data for missing values, we didn’t encounter any, hence, filtering for missing values was not necessary. Aiming to concentrate our analysis only on relevant genes, we performed biotype filtering removing all the non-protein coding genes from our data. In order to determine the biotypes of all the genes, we used the biomaRt package (Sup.8) and the ensembles IDs we were given in our  “tcga_tumor_log2tpm”  data. As a second step, we also cleared all the low variance genes since they are considered not crucial for the distribution (Sup. 8C). Considering that we removed more than 70% of the genes in the original data it was necessary to guarantee that the behaviour of our data remained the same. This we confirmed by plotting the variance against the mean after each step of cleaning (Sup.1)
 Additionally we investigated the significant information in the "tcga_tumor_annotation"  data frame via bar plots. In contrast to the “tcga_tumor_log2tpm” data frame here we encountered a lot of missing information as seen in Sup.2.A. Consequently we excluded the annotations with a significant amount of missing values from our plan for further analysis. As shown in Sup.2 we have potential clustering and regression analysis information in the form of histological grades, race, new tumor event, margin status, clinical stages, pathological stages and cancer type.
 
-\subsection{Dimensional reduction}
+\section{Dimensional reduction}
 After successfully cleaning our data and analysis of our annotations we continued exploring our data by dimensional reduction. Our first attempt consisted of linear dimensional reduction of the genes in our filtered “tcga_tumor_log2tpm” data via PCA. First, we computed 14 principal components and tested which of them carry the most significant information using the Elbow method [@Liu:2021wx] which brought us to the conclusion that we can plot our data using the first two principal components. For more detailed analysis we also applied cancer type annotations to colour respectively each patient in our plot. As visualized in Fig 1.A. We encountered two clusters, however, the information in the annotation is not distributed in a polarized manner. Aiming to observe more significant clustering we also performed non-linear reduction via UMAP (Fig. 1.B). Subsequently, we were able to see very distinct clusters and polarized distribution in terms of tumor type.  Furthermore, we encountered several clusters consisting of only one tumor type (BRCA, PCPG, TGCT, THCA). UMAP proved to be more successful in terms of keeping the information in the reduced dimensions, so we continued using it for further analysis.
 \begin{figure}[H]
     \centering
@@ -202,7 +197,7 @@ After successfully cleaning our data and analysis of our annotations we continue
     \label{Figure 1}
 \end{figure}
 
-\subsection{Gene set scoring}
+\section{Gene set scoring}
 After creating our pathway list and selecting the gene sets accordingly we matched our filtered “tcga_tumor_log2tpm” data with the corresponding pathways. An activity score was assigned and the final pathway matrix computed, consisting of patients as columns and pathway names as rows. The same was performed with only BRCA patients. In order to visualize and quantify how many of the genes are kept within the pathway matrix in each stage of the pathway matrix creation we created venn diagrams for each stage of our pathway matrix creation (Fig 2). This allows us to see the percentage comparisons of overlapping genes between our cleaned tcga_tumor_log2tpm dataframe. In Figure 2.A and 2.B we see the overlap of all available pathways we had collected, both separately and grouped. The number of pathways was further reduced to ease computational load, address concerns about the inclusion of geneset scores of very few (lower than 15 genes) pathways leading to an overrepresentation of certain genes, as well as concerns regarding misrepresentation of pathways that had very little matching genes with our cleaned  tcga_tumor_log2tpm data frame. Pathways which had less than 15 matching genes with our cleaned tcga_tumor_log2tpm dataframe were excluded, and the remaining 1010 pathways were subjected to GSVA scoring to generate a final pathway matrix of 1010 pathways and 9741 patients. The overlap of all genes in the final pathway, the previous selection of all available pathways, and our cleaned tcga_tumor_log2tpm data frame can be seen in fig 2.C, and a more direct comparison of the final pathways and our cleaned tcga_tumor_log2tpm dataframe in fig 2.D.The initial 54 % overlap was reduced to 9 % after the exclusion of pathways carrying less than 15 overlapping genes.
 In order to test the significance of our pathway matrix, we plotted UMAP annotated by cancer type and compared it to our cleaned“tcga_tumor_log2tpm” data (Sup.3). We could observe similar clustering of both which verified the biological significance of the pathway matrix. Additional confirmation we encountered in the comparison between UMAP plots for our data cleaned  "tcga_tumor_normal_datascience_proj_2022" for BRCA patients and on the corresponding pathway activity matrix (Fig 3). The plot represents every dot as a patient and gives us output for two very distinguished clusters. By applying annotation information for tumor and normal tissue we proved that the clustering in both  gene expression data and pathway matrix activity data corresponds to similarities within tumor and normal tissue annotations. 
 \begin{figure}[H]
@@ -215,7 +210,7 @@ In order to test the significance of our pathway matrix, we plotted UMAP annotat
   \end{minipage}
 \end{figure}
 
-\subsection{Pan cancer analysis}
+\section{Pan cancer analysis}
 
 In the pan-cancer analysis we investigated common genetic abnormalities in many different cancers. Initially, we coloured the UMAP of the final pathway matrix with a focus on interesting annotations in order to identify a potential annotative target for regression analysis. In Sup.4.A clear clusters of different cancer types including BRCA can be seen. The UMAP of the pathway matrix was then coloured by pathological stages for all tumor types in Sup.4.B. Lastly, only BRCA patients are coloured by gender and menopause status in Sup.4.C and Sup.4.D. Unfortunately, there was no clear cluster to be seen, thus no conclusive information was delivered.
 
@@ -239,7 +234,7 @@ Afterwards, the four other major cancer types present in our database were compa
 \end{figure}
 
 
-\subsection{Focused analysis}
+\section{Focused analysis}
 
 In the focused analysis we examined breast cancer in greater detail. The correlation values of all of the pathways for BRCA patients were computed and plotted in a heatmap in Sup.6.A. Then the overlapping number of genes in each geneset was computed. These scores were normalized by the Jaccard index and plotted in a heatmap in Sup.6.B, which displays that the genes in these genesets do not overlap greatly. However, Sup.6.A shows that these pathways are strongly correlated with each other. In the next step, pathway activity scores for all pathways in normal tissue and tumor tissue from BRCA patients were plotted in a heatmap in Fig.7.B. These pathways are categorized into C2_curated_genes, Hallmark Genesets as well as Metabolic Genesets. We identified five distinct  clusters of genesets and retrieved the names of the pathways in these clusters in order to further investigate them. Finally, we compared BRCA pathway activity scores between tumor and normal tissue and plotted them in a volcano plot, as shown in Fig.8.A. By choosing the threshold so high, we were able to visually see the most upregulated and most downregulated pathways in BRCA patients. Afterwards, we compared the pathway activity score between BRCA and all tumor types. The result can be seen in Fig.8.B.  After the selection of YAMAZAKI_TCEB3_TARGETS_UP (YTT-UP) as our regression analysis target, we coloured the YTT-UP showing that it is one of the most upregulated gene sets in BRCA tumor and normal tissue comparison. By colouring the same pathway in the volcano plot of BRCA pathway activity in tumor tissue and the final pathway matrix for tcga_tumor_log2tpm we again identified it as upregulated. 
 
@@ -251,7 +246,7 @@ In the focused analysis we examined breast cancer in greater detail. The correla
 \end{figure}
 
 
-\subsection{Regression Analysis}
+\section{Regression Analysis}
 The look for a target for regression analysis by colouring the UMAP by interesting annotation was not successful, as shown in Sup.4. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.8), a list of 85 pathways that are up-regulated and down-regulated in breast cancer were provided. Then the list was narrowed down by choosing only upregulated and down-regulated pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Sup.5). This process narrowed the list down to two pathways,  WU_CELL_MIGRATION (WU-CM) and YTT-UP. After literature research, WU-CM is excluded for being  strongly tied to bladder cancer [@Wu:2008ve]. Therefore, YTT-UP is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YTT-UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Fig.9)
 
 \begin{figure}[H]
@@ -288,7 +283,7 @@ The data was split into two groups, one is the training set and the other is the
 
 
 
-\section{Discussion}
+\chapter{Discussion}
 
 In this project we aimed to explore the genetic expression patterns tied to tumorigenesis, by identifying differentially expressed genes and pathways in cancer patients. First, the data was cleaned of low-variance (below 75 percent) genes and non-protein coding biotypes, then dimensionally reduced until a matrix of pathway scores per patient was generated. 
 In our analysis, we used the Molecular Signature Database (MSigDB) as the source of the gene set to group gene expression data under the pathway. This is to provide a very comprehensive and annotated collection of gene sets [@10.1093/bioinformatics/btr260].
@@ -326,11 +321,11 @@ We found out that the YTT-UP pathway was a group of genes that are overexpressed
 In regression analysis, we generated a successful regression model that predicts the geneset activation score of YTT-UP from 25 pathways with the highest significance. We investigated these pathways further and found parallels in the thyroid cancer and melanoma-related genesets. The highest correlation value between YTT-UP and other pathways  (0.7368), was with the ALONSO_METASTASIS_EMT_UP geneset which is an EMT-related gene set. The second highest correlation (0.5424cor) is with AMIT_EGF_RESPONSE_480_HELA which is the genes upregulated in response to epithelial growth factor. The ties between growth signalling and the growth-promoting transcription signature of YTT-UP  transcription factors are as expected. The strong ties between this transcription signature and cell differentiation in EMT remain to be investigated, and potentially a target for anti-metastatic therapy.
 
 
-\section{References}
+\chapter{References}
 
 <div id="refs"></div>
 
-\section{Supplements}
+\chapter{Supplements}
 
 
 \begin{figure}[H]
