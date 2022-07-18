@@ -16,8 +16,8 @@
 In our project we want to explore the genetic origin of tumorigenesis by identifying pathways differentially expressed in cancer patients and specifically breast cancer patients. 
 
 Our report you can find here: 
-- as **pdf** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/162fff3f36850e168e1b814046a866ae0b1fa4e9/Report/Topic2_Team1.pdf)
-- as **rmd** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/162fff3f36850e168e1b814046a866ae0b1fa4e9/Report/Topic2_Team1.Rmd)
+- as **pdf** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/7151ee484b944487468d49b9f7d4bd05c46c55e9/Report/Topic2_Team1.pdf)
+- as **rmd** file: [Report Topic2_Team1](https://github.com/datascience-mobi-2022/2022-topic-02-team-01/blob/7151ee484b944487468d49b9f7d4bd05c46c55e9/Report/Topic2_Team1.Rmd)
 
 
 
@@ -40,9 +40,9 @@ Our report you can find here:
 
 - **Regression Analysis:** contains the markdown files used in our regression analysis, where we generated a regression model to predict a selected pathway. This folder includes the pathway selection code as well as the regression algorithm. A list of pathways used in the regression analisis can be found at the end of this read me document.
 
-- **Report:** contains the final report markdown and all related files  
+- **Report:** contains the final report markdown and all related files.  
 
-- **Output:** contains the graphical outputs and plots 
+- **Output:** contains the graphical outputs and plots.
 
 - **Output read me:** contains the plots that are shown in this read me. 
 
