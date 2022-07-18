@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  18 JUL 2022 01:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  18 JUL 2022 08:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1024,15 +1024,14 @@ LaTeX Info: Redefining \nameref on input line 130.
 * paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
-* bindingoffset: 28.45274pt
 * modes: includehead includefoot 
-* h-part:(L,W,R)=(42.67912pt, 483.69695pt, 42.67912pt)
+* h-part:(L,W,R)=(42.67912pt, 512.14969pt, 42.67912pt)
 * v-part:(T,H,B)=(42.67912pt, 759.68869pt, 42.67912pt)
 * \paperwidth=597.50793pt
 * \paperheight=845.04694pt
-* \textwidth=483.69695pt
+* \textwidth=512.14969pt
 * \textheight=674.68867pt
-* \oddsidemargin=-1.13812pt
+* \oddsidemargin=-29.59087pt
 * \evensidemargin=-29.59087pt
 * \topmargin=-29.59087pt
 * \headheight=17.0pt
@@ -1144,165 +1143,167 @@ Package microtype Info: Character `029' is missing
 
 ] [3
 
+] [4
+
 
 pdfTeX warning (ext4): destination with the same identifier (name{table.0.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.195 \chapter
+l.213 \chapter
               {Introduction}]
 chapter 1.
-[4
+[5
 
-] [5]
+] [6]
 chapter 2.
-[6
+[7
 
-] [7]
+] [8]
 chapter 3.
-<figures/Fig1.png, id=100, 581.5326pt x 205.9695pt>
+<figures/Fig1.png, id=105, 581.5326pt x 205.9695pt>
 File: figures/Fig1.png Graphic file (type png)
 <use figures/Fig1.png>
-Package pdftex.def Info: figures/Fig1.png  used on input line 473.
-(pdftex.def)             Requested size: 338.60242pt x 119.92752pt.
-[8
+Package pdftex.def Info: figures/Fig1.png  used on input line 491.
+(pdftex.def)             Requested size: 358.51447pt x 126.98004pt.
+[9
 
  <./figures/Fig1.png>]
-<figures/Fig2.png, id=107, 573.342pt x 437.9562pt>
+<figures/Fig2.png, id=112, 573.342pt x 437.9562pt>
 File: figures/Fig2.png Graphic file (type png)
 <use figures/Fig2.png>
-Package pdftex.def Info: figures/Fig2.png  used on input line 522.
-(pdftex.def)             Requested size: 241.8518pt x 184.74226pt.
-<figures/Fig3.png, id=108, 571.8966pt x 216.81pt>
+Package pdftex.def Info: figures/Fig2.png  used on input line 540.
+(pdftex.def)             Requested size: 256.08559pt x 195.61496pt.
+<figures/Fig3.png, id=113, 571.8966pt x 216.81pt>
 File: figures/Fig3.png Graphic file (type png)
 <use figures/Fig3.png>
-Package pdftex.def Info: figures/Fig3.png  used on input line 525.
-(pdftex.def)             Requested size: 241.84422pt x 91.68483pt.
-[9 <./figures/Fig2.png> <./figures/Fig3.png>]
-<figures/Fig4.png, id=115, 364.4817pt x 323.2878pt>
+Package pdftex.def Info: figures/Fig3.png  used on input line 543.
+(pdftex.def)             Requested size: 256.07703pt x 97.08058pt.
+[10 <./figures/Fig2.png> <./figures/Fig3.png>]
+<figures/Fig4.png, id=120, 364.4817pt x 323.2878pt>
 File: figures/Fig4.png Graphic file (type png)
 <use figures/Fig4.png>
-Package pdftex.def Info: figures/Fig4.png  used on input line 579.
-(pdftex.def)             Requested size: 193.48026pt x 171.61302pt.
-<figures/Fig5.png, id=116, 553.1064pt x 501.5538pt>
+Package pdftex.def Info: figures/Fig4.png  used on input line 597.
+(pdftex.def)             Requested size: 204.85916pt x 181.70587pt.
+<figures/Fig5.png, id=121, 553.1064pt x 501.5538pt>
 File: figures/Fig5.png Graphic file (type png)
 <use figures/Fig5.png>
-Package pdftex.def Info: figures/Fig5.png  used on input line 582.
-(pdftex.def)             Requested size: 193.47197pt x 175.43932pt.
-[10 <./figures/Fig4.png> <./figures/Fig5.png>]
-<figures/Fig6.png, id=123, 573.5829pt x 343.7643pt>
+Package pdftex.def Info: figures/Fig5.png  used on input line 600.
+(pdftex.def)             Requested size: 204.85715pt x 185.76332pt.
+[11 <./figures/Fig4.png> <./figures/Fig5.png>]
+<figures/Fig6.png, id=128, 573.5829pt x 343.7643pt>
 File: figures/Fig6.png Graphic file (type png)
 <use figures/Fig6.png>
-Package pdftex.def Info: figures/Fig6.png  used on input line 618.
-(pdftex.def)             Requested size: 290.23035pt x 173.94316pt.
-<figures/Fig7.png, id=124, 567.8013pt x 256.7994pt>
+Package pdftex.def Info: figures/Fig6.png  used on input line 636.
+(pdftex.def)             Requested size: 307.29704pt x 184.17172pt.
+<figures/Fig7.png, id=129, 567.8013pt x 256.7994pt>
 File: figures/Fig7.png Graphic file (type png)
 <use figures/Fig7.png>
-Package pdftex.def Info: figures/Fig7.png  used on input line 642.
-(pdftex.def)             Requested size: 386.96617pt x 175.01312pt.
-[11 <./figures/Fig6.png>] [12
+Package pdftex.def Info: figures/Fig7.png  used on input line 660.
+(pdftex.def)             Requested size: 409.72633pt x 185.30685pt.
+[12 <./figures/Fig6.png>] [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.672 \chapter
+l.690 \chapter
               {Discussion} <./figures/Fig7.png>]
 chapter 4.
-[13
+[14
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.760 F
-       urthermore, the GSVA result of normal and tumor tissue from BRCA] [14]
+l.807 
+      ] [15]
 chapter 5.
-[15
+[16
 
-] [16]
+] [17]
 chapter 6.
-<supplementary/Sup.1.png, id=191, 592.8549pt x 201.8742pt>
+<supplementary/Sup.1.png, id=196, 592.8549pt x 201.8742pt>
 File: supplementary/Sup.1.png Graphic file (type png)
 <use supplementary/Sup.1.png>
-Package pdftex.def Info: supplementary/Sup.1.png  used on input line 1007.
-(pdftex.def)             Requested size: 290.22101pt x 98.82373pt.
-<supplementary/Sup.2.png, id=192, 584.9052pt x 639.5895pt>
+Package pdftex.def Info: supplementary/Sup.1.png  used on input line 1025.
+(pdftex.def)             Requested size: 307.29123pt x 104.63634pt.
+<supplementary/Sup.2.png, id=197, 584.9052pt x 639.5895pt>
 File: supplementary/Sup.2.png Graphic file (type png)
 <use supplementary/Sup.2.png>
-Package pdftex.def Info: supplementary/Sup.2.png  used on input line 1014.
-(pdftex.def)             Requested size: 193.47447pt x 211.5629pt.
-<supplementary/Sup.3.png, id=193, 593.0958pt x 294.1389pt>
+Package pdftex.def Info: supplementary/Sup.2.png  used on input line 1032.
+(pdftex.def)             Requested size: 204.85376pt x 224.00606pt.
+<supplementary/Sup.3.png, id=198, 593.0958pt x 294.1389pt>
 File: supplementary/Sup.3.png Graphic file (type png)
 <use supplementary/Sup.3.png>
-Package pdftex.def Info: supplementary/Sup.3.png  used on input line 1021.
-(pdftex.def)             Requested size: 193.46878pt x 95.94856pt.
-<supplementary/Sup.4.png, id=194, 594.7821pt x 429.2838pt>
+Package pdftex.def Info: supplementary/Sup.3.png  used on input line 1039.
+(pdftex.def)             Requested size: 204.85356pt x 101.59471pt.
+<supplementary/Sup.4.png, id=199, 594.7821pt x 429.2838pt>
 File: supplementary/Sup.4.png Graphic file (type png)
 <use supplementary/Sup.4.png>
-Package pdftex.def Info: supplementary/Sup.4.png  used on input line 1028.
-(pdftex.def)             Requested size: 290.22964pt x 209.47314pt.
-[17
+Package pdftex.def Info: supplementary/Sup.4.png  used on input line 1046.
+(pdftex.def)             Requested size: 307.3009pt x 221.79433pt.
+[18
 
  <./supplementary/Sup.1.png> <./supplementary/Sup.2.png> <./supplementary/Sup.3
 .png>]
-<supplementary/Sup.5.png, id=202, 577.9191pt x 246.9225pt>
+<supplementary/Sup.5.png, id=207, 577.9191pt x 246.9225pt>
 File: supplementary/Sup.5.png Graphic file (type png)
 <use supplementary/Sup.5.png>
-Package pdftex.def Info: supplementary/Sup.5.png  used on input line 1035.
-(pdftex.def)             Requested size: 290.21985pt x 123.99971pt.
-<supplementary/Sup.6.png, id=203, 575.0283pt x 436.2699pt>
+Package pdftex.def Info: supplementary/Sup.5.png  used on input line 1053.
+(pdftex.def)             Requested size: 307.29213pt x 131.29404pt.
+<supplementary/Sup.6.png, id=208, 575.0283pt x 436.2699pt>
 File: supplementary/Sup.6.png Graphic file (type png)
 <use supplementary/Sup.6.png>
-Package pdftex.def Info: supplementary/Sup.6.png  used on input line 1042.
-(pdftex.def)             Requested size: 290.23344pt x 220.19804pt.
-<supplementary/Sup.7.png, id=204, 570.933pt x 253.6677pt>
+Package pdftex.def Info: supplementary/Sup.6.png  used on input line 1060.
+(pdftex.def)             Requested size: 307.2993pt x 233.14578pt.
+<supplementary/Sup.7.png, id=209, 570.933pt x 253.6677pt>
 File: supplementary/Sup.7.png Graphic file (type png)
 <use supplementary/Sup.7.png>
-Package pdftex.def Info: supplementary/Sup.7.png  used on input line 1049.
-(pdftex.def)             Requested size: 290.23111pt x 128.95078pt.
-[18 <./supplementary/Sup.4.png> <./supplementary/Sup.5.png> <./supplementary/Su
+Package pdftex.def Info: supplementary/Sup.7.png  used on input line 1067.
+(pdftex.def)             Requested size: 307.30609pt x 136.53725pt.
+[19 <./supplementary/Sup.4.png> <./supplementary/Sup.5.png> <./supplementary/Su
 p.6.png>]
-<supplementary/Sup.8.png, id=212, 529.4982pt x 257.763pt>
+<supplementary/Sup.8.png, id=218, 529.4982pt x 257.763pt>
 File: supplementary/Sup.8.png Graphic file (type png)
 <use supplementary/Sup.8.png>
-Package pdftex.def Info: supplementary/Sup.8.png  used on input line 1056.
-(pdftex.def)             Requested size: 290.23112pt x 141.28632pt.
-<supplementary/Sup.9.png, id=213, 389.5353pt x 383.031pt>
+Package pdftex.def Info: supplementary/Sup.8.png  used on input line 1074.
+(pdftex.def)             Requested size: 307.30307pt x 149.59703pt.
+<supplementary/Sup.9.png, id=219, 389.5353pt x 383.031pt>
 File: supplementary/Sup.9.png Graphic file (type png)
 <use supplementary/Sup.9.png>
-Package pdftex.def Info: supplementary/Sup.9.png  used on input line 1063.
-(pdftex.def)             Requested size: 193.4714pt x 190.2409pt.
-[19 <./supplementary/Sup.7.png> <./supplementary/Sup.8.png> <./supplementary/Su
-p.9.png>] [20
+Package pdftex.def Info: supplementary/Sup.9.png  used on input line 1081.
+(pdftex.def)             Requested size: 204.85382pt x 201.43327pt.
+[20 <./supplementary/Sup.7.png> <./supplementary/Sup.8.png> <./supplementary/Su
+p.9.png>] [21
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1159 
+l.1177 
        
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1159 
-       ] [21
+l.1177 
+       ] [22
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1160 \end{document}
+l.1178 \end{document}
                      ] (./Topic2_Team1.aux)
 Package logreq Info: Writing requests to 'Topic2_Team1.run.xml'.
 \openout1 = `Topic2_Team1.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 30195 strings out of 478268
- 569784 string characters out of 5846348
- 1586373 words of memory out of 5000000
+ 30209 strings out of 478268
+ 569935 string characters out of 5846348
+ 1587317 words of memory out of 5000000
  47708 multiletter control sequences out of 15000+600000
- 546005 words of font info for 158 fonts, out of 8000000 for 9000
+ 546738 words of font info for 164 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,20n,106p,10616b,2043s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/
@@ -1315,10 +1316,10 @@ c/lm/lmri10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss1
 r/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2022/
 texmf-dist/fonts/type1/public/lm/lmssbx10.pfb>
-Output written on Topic2_Team1.pdf (21 pages, 12479911 bytes).
+Output written on Topic2_Team1.pdf (22 pages, 12481286 bytes).
 PDF statistics:
- 381 PDF objects out of 1000 (max. 8388607)
- 302 compressed objects within 4 object streams
- 90 named destinations out of 1000 (max. 500000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 307 compressed objects within 4 object streams
+ 92 named destinations out of 1000 (max. 500000)
  41257 words of extra memory for PDF output out of 42996 (max. 10000000)
 

@@ -12,7 +12,7 @@ header-includes:
   - \usepackage[T1]{fontenc}
   - \usepackage{lmodern}
   - \usepackage[singlespacing]{setspace}
-  - \usepackage[left=1.50cm, right=1.50cm, top=1.50cm, bottom=1.50cm, bindingoffset=10mm, includehead, includefoot]{geometry}
+  - \usepackage[left=1.50cm, right=1.50cm, top=1.50cm, bottom=1.50cm, includehead, includefoot]{geometry}
   - \usepackage[fontsize=10pt]{fontsize}
   - \usepackage[automark]{scrlayer-scrpage}
   - \usepackage{url}
@@ -94,6 +94,11 @@ bibliography: [bib/references.bib]
 
 \tableofcontents
 
+\chapter*{Abstract}
+
+Although the world made significant progress in understanding the complex genetic alterations that underlie human cancer, identifying which molecularly targeted therapeutics will benefit which patients has proven to be challenging. Therefore, there are still pressing demands to uncover biomarkers to indicate the development, progression, and therapeutic targets. A database consisting of 9741 patients was studied with different bioinformatic tools. Multiple analysis steps were carried out, such as pan-cancer analysis and focus analysis (on breast cancer (BRCA)), as well as regression analysis, showing trends among the pathways that require additional research. Further, possible investigation and a potential target for therapy were identified in the context of transcriptive signature tied to the activation of YAMAZAKI_TCEB3_TARGETS_UP transcription factors. We suggest that this plays a role in cell differentiation during epithelial-mesenchymal transition (EMT).
+
+
 
 \chapter*{Abbreviations}
 
@@ -118,6 +123,7 @@ YTT-UP        & YAMAZAKI\_TCEB3\_TARGETS\_UP.                                   
 \end{tabular}
 }
 \end{table}
+
 
 \chapter{Introduction}
 \section{Cancer and BRCA}
