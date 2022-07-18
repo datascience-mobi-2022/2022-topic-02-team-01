@@ -40,9 +40,9 @@ Our report you can find here:
 
 - **Regression Analysis:** contains the markdown files used in our regression analysis, where we generated a regression model to predict a selected pathway. This folder includes the pathway selection code as well as the regression algorithm. A list of pathways used in the regression analisis can be found at the end of this read me document.
 
-- **Report:** contains the final report markdown and all related files  
+- **Report:** contains the final report markdown and all related files.  
 
-- **Output:** contains the graphical outputs and plots 
+- **Output:** contains the graphical outputs and plots.
 
 - **Output read me:** contains the plots that are shown in this read me. 
 
