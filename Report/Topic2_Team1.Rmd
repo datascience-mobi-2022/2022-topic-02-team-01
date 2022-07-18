@@ -57,9 +57,9 @@ bibliography: [bib/references.bib]
 
 \begin{titlepage}
 \centering
-	{\Large Ruprecht-Karls-Universität Heidelberg\\
-		Fakultät für Biowissenschaften\\
-		Bachelorstudiengang Molekulare Biotechnologie\\}
+	{\Large Ruprecht-Karls-University of Heidelberg\\
+		      Faculty of Engineering Sciences\\
+		      B.Sc. Molecular Biotechnology\\}
 
 	{\vspace{\stretch{2}}}
 	{\usekomafont{title}
