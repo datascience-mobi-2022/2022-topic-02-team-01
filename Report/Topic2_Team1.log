@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  18 JUL 2022 08:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.3)  21 JUL 2022 12:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1169,11 +1169,11 @@ Package pdftex.def Info: figures/Fig1.png  used on input line 490.
 [9
 
  <./figures/Fig1.png>]
-<figures/Fig2.png, id=112, 573.342pt x 437.9562pt>
+<figures/Fig2.png, id=112, 575.5101pt x 437.9562pt>
 File: figures/Fig2.png Graphic file (type png)
 <use figures/Fig2.png>
 Package pdftex.def Info: figures/Fig2.png  used on input line 539.
-(pdftex.def)             Requested size: 256.08559pt x 195.61496pt.
+(pdftex.def)             Requested size: 256.07045pt x 194.8665pt.
 <figures/Fig3.png, id=113, 571.8966pt x 216.81pt>
 File: figures/Fig3.png Graphic file (type png)
 <use figures/Fig3.png>
@@ -1191,23 +1191,23 @@ File: figures/Fig5.png Graphic file (type png)
 Package pdftex.def Info: figures/Fig5.png  used on input line 599.
 (pdftex.def)             Requested size: 204.85715pt x 185.76332pt.
 [11 <./figures/Fig4.png> <./figures/Fig5.png>]
-<figures/Fig6.png, id=128, 573.5829pt x 343.7643pt>
+<figures/Fig6.png, id=128, 574.5465pt x 344.2461pt>
 File: figures/Fig6.png Graphic file (type png)
 <use figures/Fig6.png>
 Package pdftex.def Info: figures/Fig6.png  used on input line 635.
-(pdftex.def)             Requested size: 307.29704pt x 184.17172pt.
+(pdftex.def)             Requested size: 307.29605pt x 184.11993pt.
 <figures/Fig7.png, id=129, 567.8013pt x 256.7994pt>
 File: figures/Fig7.png Graphic file (type png)
 <use figures/Fig7.png>
-Package pdftex.def Info: figures/Fig7.png  used on input line 659.
+Package pdftex.def Info: figures/Fig7.png  used on input line 642.
 (pdftex.def)             Requested size: 409.72633pt x 185.30685pt.
-[12 <./figures/Fig6.png>] [13
+[12 <./figures/Fig6.png> <./figures/Fig7.png>] [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.689 \chapter
-              {Discussion} <./figures/Fig7.png>]
+l.690 \chapter
+              {Discussion}]
 chapter 4.
 [14
 
@@ -1223,22 +1223,22 @@ chapter 5.
 
 ] [17]
 chapter 6.
-<supplementary/Sup.1.png, id=196, 592.8549pt x 201.8742pt>
+<supplementary/Sup.1.png, id=194, 592.8549pt x 201.8742pt>
 File: supplementary/Sup.1.png Graphic file (type png)
 <use supplementary/Sup.1.png>
 Package pdftex.def Info: supplementary/Sup.1.png  used on input line 1024.
 (pdftex.def)             Requested size: 307.29123pt x 104.63634pt.
-<supplementary/Sup.2.png, id=197, 584.9052pt x 639.5895pt>
+<supplementary/Sup.2.png, id=195, 584.9052pt x 639.5895pt>
 File: supplementary/Sup.2.png Graphic file (type png)
 <use supplementary/Sup.2.png>
 Package pdftex.def Info: supplementary/Sup.2.png  used on input line 1031.
 (pdftex.def)             Requested size: 204.85376pt x 224.00606pt.
-<supplementary/Sup.3.png, id=198, 593.0958pt x 294.1389pt>
+<supplementary/Sup.3.png, id=196, 593.0958pt x 294.1389pt>
 File: supplementary/Sup.3.png Graphic file (type png)
 <use supplementary/Sup.3.png>
 Package pdftex.def Info: supplementary/Sup.3.png  used on input line 1038.
 (pdftex.def)             Requested size: 204.85356pt x 101.59471pt.
-<supplementary/Sup.4.png, id=199, 594.7821pt x 429.2838pt>
+<supplementary/Sup.4.png, id=197, 594.7821pt x 429.2838pt>
 File: supplementary/Sup.4.png Graphic file (type png)
 <use supplementary/Sup.4.png>
 Package pdftex.def Info: supplementary/Sup.4.png  used on input line 1045.
@@ -1247,52 +1247,52 @@ Package pdftex.def Info: supplementary/Sup.4.png  used on input line 1045.
 
  <./supplementary/Sup.1.png> <./supplementary/Sup.2.png> <./supplementary/Sup.3
 .png>]
-<supplementary/Sup.5.png, id=207, 577.9191pt x 246.9225pt>
+<supplementary/Sup.5.png, id=205, 577.9191pt x 246.9225pt>
 File: supplementary/Sup.5.png Graphic file (type png)
 <use supplementary/Sup.5.png>
 Package pdftex.def Info: supplementary/Sup.5.png  used on input line 1052.
 (pdftex.def)             Requested size: 307.29213pt x 131.29404pt.
-<supplementary/Sup.6.png, id=208, 575.0283pt x 436.2699pt>
+<supplementary/Sup.6.png, id=206, 575.0283pt x 436.2699pt>
 File: supplementary/Sup.6.png Graphic file (type png)
 <use supplementary/Sup.6.png>
 Package pdftex.def Info: supplementary/Sup.6.png  used on input line 1059.
 (pdftex.def)             Requested size: 307.2993pt x 233.14578pt.
-<supplementary/Sup.7.png, id=209, 570.933pt x 253.6677pt>
+<supplementary/Sup.7.png, id=207, 570.933pt x 253.6677pt>
 File: supplementary/Sup.7.png Graphic file (type png)
 <use supplementary/Sup.7.png>
 Package pdftex.def Info: supplementary/Sup.7.png  used on input line 1066.
 (pdftex.def)             Requested size: 307.30609pt x 136.53725pt.
 [19 <./supplementary/Sup.4.png> <./supplementary/Sup.5.png> <./supplementary/Su
 p.6.png>]
-<supplementary/Sup.8.png, id=218, 529.4982pt x 257.763pt>
+<supplementary/Sup.8.png, id=216, 529.4982pt x 257.763pt>
 File: supplementary/Sup.8.png Graphic file (type png)
 <use supplementary/Sup.8.png>
 Package pdftex.def Info: supplementary/Sup.8.png  used on input line 1073.
 (pdftex.def)             Requested size: 307.30307pt x 149.59703pt.
-<supplementary/Sup.9.png, id=219, 389.5353pt x 383.031pt>
+<supplementary/Sup.9.png, id=217, 385.1991pt x 388.0899pt>
 File: supplementary/Sup.9.png Graphic file (type png)
 <use supplementary/Sup.9.png>
 Package pdftex.def Info: supplementary/Sup.9.png  used on input line 1080.
-(pdftex.def)             Requested size: 204.85382pt x 201.43327pt.
+(pdftex.def)             Requested size: 204.85986pt x 206.39728pt.
 [20 <./supplementary/Sup.7.png> <./supplementary/Sup.8.png> <./supplementary/Su
 p.9.png>] [21
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1176 
-       
+l.1167 
+       ] [22
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1176 
-       ] [22
+l.1194 \end{document}
+                     
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1177 \end{document}
+l.1194 \end{document}
                      ] (./Topic2_Team1.aux)
 Package logreq Info: Writing requests to 'Topic2_Team1.run.xml'.
 \openout1 = `Topic2_Team1.run.xml'.
@@ -1300,8 +1300,8 @@ Package logreq Info: Writing requests to 'Topic2_Team1.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  30209 strings out of 478268
- 569935 string characters out of 5846348
- 1587317 words of memory out of 5000000
+ 569934 string characters out of 5846348
+ 1584317 words of memory out of 5000000
  47708 multiletter control sequences out of 15000+600000
  546738 words of font info for 164 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1316,10 +1316,10 @@ c/lm/lmri10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss1
 r/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2022/
 texmf-dist/fonts/type1/public/lm/lmssbx10.pfb>
-Output written on Topic2_Team1.pdf (22 pages, 12480955 bytes).
+Output written on Topic2_Team1.pdf (22 pages, 12479105 bytes).
 PDF statistics:
- 387 PDF objects out of 1000 (max. 8388607)
- 307 compressed objects within 4 object streams
+ 385 PDF objects out of 1000 (max. 8388607)
+ 305 compressed objects within 4 object streams
  92 named destinations out of 1000 (max. 500000)
  41257 words of extra memory for PDF output out of 42996 (max. 10000000)
 

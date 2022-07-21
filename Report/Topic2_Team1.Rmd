@@ -263,11 +263,6 @@ In the focused analysis we examined breast cancer in greater detail. The correla
   \end{minipage}
 \end{figure}
 
-
-\section{Regression Analysis}
-The look for a target for regression analysis by colouring the UMAP by interesting annotations was not successful, as shown in Sup.4. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.7), a list of 85 pathways that are up-regulated and down-regulated in breast cancer were provided. Then the list was narrowed down by choosing only the differentially active pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Sup.5). This process narrowed the list down to two pathways,  WU_CELL_MIGRATION (WU-CM) and YTT-UP. After literature research, WU-CM is excluded for being  strongly tied to bladder cancer [@Wu:2008ve]. Therefore, YTT-UP (Fig.7) is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YTT-UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Sup.7).
-
-
 \begin{figure}[H]
 \centering
   \begin{minipage}[b]{0.8\textwidth}
@@ -275,7 +270,10 @@ The look for a target for regression analysis by colouring the UMAP by interesti
   \end{minipage}
 \end{figure}
 
-The data was split into a training set and a testing set. Originally, the model performed successfully on the training set but poorly on the testing set, indicating an overfitting problem. In order to solve that, variables that are used to predict the target pathway that has a p-value larger than 0.5 were excluded. We ended up with 25 pathways with the highest significance. The process was performed five times with random patients for the training set and testing set each time. The final result is shown in Tab.2 and Sup.8.
+\section{Regression Analysis}
+The look for a target for regression analysis by colouring the UMAP by interesting annotations was not successful, as shown in Sup.4. After comparing the BRCA pathway matrix for tumor and normal tissue in volcanos (Fig.7), a list of 85 pathways that are up-regulated and down-regulated in breast cancer were provided. Then the list was narrowed down by choosing only the differentially active pathways in comparison between BRCA tumor patients and PRAD and KIRC tumor patients (Sup.5). This process narrowed the list down to two pathways,  WU_CELL_MIGRATION (WU-CM) and YTT-UP. After literature research, WU-CM is excluded for being  strongly tied to bladder cancer [@Wu:2008ve]. Therefore, YTT-UP (Fig.7) is chosen as the target for regression analysis, and 85 significant pathways in BRCA that were identified before are used to predict YTT-UP. The correlation among these pathways was investigated by plotting the correlation heatmap (Sup.7).
+
+The data was split into a training set and a testing set. Originally, the model performed successfully on the training set but poorly on the testing set, indicating an overfitting problem. In order to solve that, variables that are used to predict the target pathway that has a p-value larger than 0.5 were excluded. We ended up with 42 pathways with the highest significance (the list of these 42 pathways can be seen in Sub.10). The process was performed five times with random patients for the training set and testing set each time. The final result is shown in Tab.2 and Sup.8.
 
 
 \begin{table}[!h]
@@ -289,7 +287,7 @@ The data was split into a training set and a testing set. Originally, the model 
 \#1 & 0.8727                             & 0.0410006                        & 0.07613583                       \\ \hline
 \#2 & 0.8696                             & 0.043647                         & 0.07622888                       \\ \hline
 \#3 & 0.8417                             & 0.04716991                       & 0.07467378                       \\ \hline
-\#4 & 0.8458                             & 0.4701736                        & 0.06281068                       \\ \hline
+\#4 & 0.8458                             & 0.04701736                        & 0.06281068                       \\ \hline
 \#5 & 0.8275                             & 0.04413988                       & 0.07238331                       \\ \hline
 \end{tabular}
 }
@@ -327,7 +325,7 @@ In the pan-cancer analysis stage of our project, we investigated the distributio
 }
 \end{table}
 
-We also identified the top 20 most active pathways as potential biomarkers in all tumor types. As expected many known oncogenes like GATA transcription factors [@Zheng:2010ub], and cancer-related elements like genes in cancer gene neighbourhoods (CRISP2 in WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN [@Weber:2007vj] pathways were found in these genesets. Furthermore, drivers of innate immunology were also significantly activated. In one gene set, we tied 14 interferons tied to covid, to cancer (https://www.wikipathways.org/instance/WP4912_r115852, 16.09.2022, 12:11). We have confirmed the driving forces of tumorigenesis in terms of pathways, and thus, became even more confident that our pathway matrix was accurate.
+We also identified the top 20 most active pathways as potential biomarkers in all tumor types. As expected many known oncogenes like GATA transcription factors [@Zheng:2010ub], and cancer-related elements like genes in cancer gene neighbourhoods (CRISP2 in WEBER_METHYLATED_HCP_IN_FIBROBLAST_DN [@Weber:2007vj] pathways were found in these genesets. Furthermore, drivers of innate immunology were also significantly activated. In one gene set, we tied 14 interferons tied to covid, to cancer (wikipaths, 11:22, 16.07.2022). We have confirmed the driving forces of tumorigenesis in terms of pathways, and thus, became even more confident that our pathway matrix was accurate.
 
 In focused analysis first, we computed the correlation values between the mean pathway scores for BRCA patients. The reason for a strong correlation between pathway groups was further investigated by computing the overlapping number of Ensemble IDs in each pathway, normalized by the Jaccard index. The comparison of these data (Sup.7B) suggests that the reason for the high correlation is that they are upregulated or downregulated in a similar manner.
 
@@ -337,8 +335,8 @@ Another pathway we encountered is the tamoxifen metabolism pathway. Tamoxifen is
 
 As for regression analysis, we decided to investigate the YTT-UP pathway since it is strongly upregulated in BRCA and differentially active in KIRC and PRAD in comparison to BRCA, as we explained in the result.  To our knowledge, no one had researched the involvement of this pathway in cancer before. We found out that the YTT-UP pathway was a group of genes that are overexpressed under the lack of Elongin-A [@Yamazaki:2003uj]. Further investigation in the pathway revealed an interesting 20 gene transcription factors group which had no overlap with known hallmark genes. The 20 gene transcription factor group is largely involved in cellular differentiation, and pre-mRNA splicing [@NCBI-Resource:2016us; @Safran:2021wr]. We believe their joined regulatory function compensates for the lack of Elongin-A in RNA metabolism, which may lead to the heightened growth rate. This means the upregulation of YTT-UP transcription factors without the lack of Elongin-A in cancer cells might contribute to intensified growth and proliferation rate of aggressive cancers. Additionally, we theorize that the differing transcriptive signature tied to the activation of YTT-UP-transcription factors plays a role in cell differentiation during epithelial-mesenchymal transition (EMT).
 
-In regression analysis, we generated a successful regression model that predicts the geneset activation score of YTT-UP from 25 pathways with the highest significance. We investigated these pathways further and found parallels in the thyroid cancer and melanoma-related genesets. The highest correlation value between YTT-UP and other pathways (0.7368), was with the ALONSO_METASTASIS_EMT_UP geneset which is an EMT-related gene set. The second highest correlation (0.5424cor) is with AMIT_EGF_RESPONSE_480_HELA which is the gene upregulated in response to epithelial growth factor. The ties between growth signalling and the growth-promoting transcription signature of YTT-UP transcription factors are as expected.
-Further analysis could be performed in YTT-UP, ALONSO_METASTASIS_EMT_UP and AMIT_EGF_RESPONSE_480_HELA genesets to estimate whether they share similar genes or whether they have different genes but these genes regulate the same pathways. Furthermore, out of the 20 genes, the transcription factor group 13 of them are microRNA targets. Therefore, we could look deeper into the relationship between a transcription factor and microRNA metabolism. Another possibility is to compute PCA for the regression analysis to solve the problem of correlated variables, thus, receiving a better prediction for YTT-UP. 
+In regression analysis, we generated a successful regression model that predicts the geneset activation score of YTT-UP from 42 pathways with the highest significance. We investigated these pathways further and found parallels in the thyroid cancer and melanoma-related genesets. The highest correlation value between YTT-UP and other pathways (0.7368), was with the ALONSO_METASTASIS_EMT_UP geneset which is an EMT-related gene set. The second highest correlation (0.5424cor) is with AMIT_EGF_RESPONSE_480_HELA which is the gene upregulated in response to epithelial growth factor. The ties between growth signalling and the growth-promoting transcription signature of YTT-UP transcription factors are as expected.
+Further analysis could be performed in YTT-UP, ALONSO_METASTASIS_EMT_UP and AMIT_EGF_RESPONSE_480_HELA genesets to estimate whether they share similar genes or whether they have different genes but these genes regulate the same pathways. Furthermore, out of the 20 genes, the transcription factor group, 13 of them are microRNA targets. Therefore, we could look deeper into the relationship between these transcription factors and microRNA metabolism. Another possibility is to compute PCA for the regression analysis to solve the problem of correlated variables, thus, receiving a better prediction for YTT-UP. 
 
 In conclusion, as we examined different activation trends among pathways in the context of many different tumor types, we found trends among pathways that required further research. The strong ties between this transcription signature and cell differentiation in EMT remain to be investigated, and potentially a target for anti-metastatic therapy.
 
@@ -421,36 +419,56 @@ In conclusion, as we examined different activation trends among pathways in the 
 \end{figure}
 
 
+
+
+
 \begin{table}[H]
-\caption{Sub.10: 25 pathways used in Regression Analisis}
-\label{tab:25paths}
+\caption{Sub.10: 42 pathways used in regression analysis}
+\label{tab:42path}
 \resizebox{\textwidth}{!}{
-\begin{tabular}{|l|}
-\hline
-ZHOU\_TNF\_SIGNALING\_30MIN                                                      \\ \hline
-YOSHIMURA\_MAPK8\_TARGETS\_DN                                                    \\ \hline
-ZAMORA\_NOS2\_TARGETS\_DN                                                        \\ \hline
-ZHAN\_MULTIPLE\_MYELOMA\_CD1\_AND\_CD2\_DN {]}                                   \\ \hline
-ZHANG\_PROLIFERATING\_VS\_QUIESCENT                                              \\ \hline
-ZHONG\_SECRETOME\_OF\_LUNG\_CANCER\_AND\_ENDOTHELIUM                             \\ \hline
-YAO\_TEMPORAL\_RESPONSE\_TO\_PROGESTERONE\_CLUSTER\_9                            \\ \hline
-YAGI\_AML\_WITH\_T\_8\_21\_TRANSLOCATION                                         \\ \hline
-YAGI\_AML\_FAB\_MARKERS                                                          \\ \hline
-WP\_VEGFAVEGFR2\_SIGNALING\_PATHWAY                                              \\ \hline
-WU\_CELL\_MIGRATION                                                              \\ \hline
-WP\_PRIMARY\_FOCAL\_SEGMENTAL\_GLOMERULOSCLEROSIS\_FSGS                          \\ \hline
-WP\_NUCLEAR\_RECEPTORS\_IN\_LIPID\_METABOLISM\_AND\_TOXICITY                     \\ \hline
-WP\_EXTRACELLULAR\_VESICLES\_IN\_THE\_CROSSTALK\_OF\_CARDIAC\_CELLS              \\ \hline
-WP\_CYTOPLASMIC\_RIBOSOMAL\_PROTEINS                                             \\ \hline
-WP\_CLEAR\_CELL\_RENAL\_CELL\_CARCINOMA\_PATHWAYS                                \\ \hline
-WOO\_LIVER\_CANCER\_RECURRENCE\_UP                                               \\ \hline
-WANG\_TUMOR\_INVASIVENESS\_UP                                                    \\ \hline
-WATANABE\_RECTAL\_CANCER\_RADIOTHERAPY\_RESPONSIVE\_DN                           \\ \hline
-WEBER\_METHYLATED\_HCP\_IN\_FIBROBLAST\_DN WEBER\_METHYLATED\_HCP\_IN\_SPERM\_DN \\ \hline
-WEBER\_METHYLATED\_HCP\_IN\_SPERM\_UP                                            \\ \hline
-WEIGEL\_OXIDATIVE\_STRESS\_BY\_HNE\_AND\_H2O2                                    \\ \hline
-WEINMANN\_ADAPTATION\_TO\_HYPOXIA\_UP                                            \\ \hline
-WU\_HBX\_TARGETS\_2\_UP                                                          \\ \hline
+\begin{tabular}{lll}
+ZHOU\_TNF\_SIGNALING\_30MIN                                         & correlation value  & p-value         \\
+YOSHIMURA\_MAPK8\_TARGETS\_DN                                       &                    &                 \\
+ZAMORA\_NOS2\_TARGETS\_DN                                           &                    &                 \\
+\textbf{ZHAN\_MULTIPLE\_MYELOMA\_CD1\_AND\_CD2\_DN}                 & \textbf{0.3836979} & \textbf{0.0348} \\
+ZHANG\_PROLIFERATING\_VS\_QUIESCENT                                 &                    &                 \\
+ZHONG\_SECRETOME\_OF\_LUNG\_CANCER\_AND\_ENDOTHELIUM                &                    &                 \\
+YAO\_TEMPORAL\_RESPONSE\_TO\_PROGESTERONE\_CLUSTER\_9               &                    &                 \\
+YAGI\_AML\_WITH\_T\_8\_21\_TRANSLOCATION                            &                    &                 \\
+YAGI\_AML\_FAB\_MARKERS                                             &                    &                 \\
+WP\_VEGFAVEGFR2\_SIGNALING\_PATHWAY                                 &                    &                 \\
+WU\_CELL\_MIGRATION                                                 &                    &                 \\
+WU\_HBX\_TARGETS\_2\_UP                                             &                    &                 \\
+WP\_PRIMARY\_FOCAL\_SEGMENTAL\_GLOMERULOSCLEROSIS\_FSGS             &                    &                 \\
+WP\_NUCLEAR\_RECEPTORS\_IN\_LIPID\_METABOLISM\_AND\_TOXICITY        &                    &                 \\
+WP\_EXTRACELLULAR\_VESICLES\_IN\_THE\_CROSSTALK\_OF\_CARDIAC\_CELLS &                    &                 \\
+WP\_CYTOPLASMIC\_RIBOSOMAL\_PROTEINS                                &                    &                 \\
+WP\_CLEAR\_CELL\_RENAL\_CELL\_CARCINOMA\_PATHWAYS                   &                    &                 \\
+WOO\_LIVER\_CANCER\_RECURRENCE\_UP                                  &                    &                 \\
+WANG\_TUMOR\_INVASIVENESS\_UP                                       &                    &                 \\
+WATANABE\_RECTAL\_CANCER\_RADIOTHERAPY\_RESPONSIVE\_DN              &                    &                 \\
+WEBER\_METHYLATED\_HCP\_IN\_FIBROBLAST\_DN                          &                    &                 \\
+\textbf{WEBER\_METHYLATED\_HCP\_IN\_SPERM\_DN}                      & \textbf{-0.321125} & \textbf{0.0853} \\
+WEBER\_METHYLATED\_HCP\_IN\_SPERM\_UP                               &                    &                 \\
+WEIGEL\_OXIDATIVE\_STRESS\_BY\_HNE\_AND\_H2O2                       &                    &                 \\
+WEINMANN\_ADAPTATION\_TO\_HYPOXIA\_UP                               &                    &                 \\
+WANG\_CISPLATIN\_RESPONSE\_AND\_XPC\_DN                             &                    &                 \\
+WANG\_ESOPHAGUS\_CANCER\_VS\_NORMAL\_UP                             &                    &                 \\
+WANG\_HCP\_PROSTATE\_CANCER                                         &                    &                 \\
+VERNELL\_RETINOBLASTOMA\_PATHWAY\_DN                                &                    &                 \\
+BENPORATH\_OCT4\_TARGETS                                            &                    &                 \\
+\textbf{BARIS\_THYROID\_CANCER\_DN}                                 & \textbf{0.5312356} & \textbf{0.0198} \\
+BASAKI\_YBX1\_TARGETS\_DN                                           &                    &                 \\
+\textbf{ALONSO\_METASTASIS\_EMT\_UP}                                & \textbf{0.7367687} & \textbf{0.0965} \\
+ALONSO\_METASTASIS\_UP                                              &                    &                 \\
+AMIT\_EGF\_RESPONSE\_240\_HELA                                      &                    &                 \\
+\textbf{AMIT\_EGF\_RESPONSE\_480\_HELA}                             & \textbf{0.5423554} & \textbf{0.0381} \\
+ANDERSEN\_LIVER\_CANCER\_KRT19\_UP                                  &                    &                 \\
+APPEL\_IMATINIB\_RESPONSE                                           &                    &                 \\
+APPIERTO\_RESPONSE\_TO\_FENRETINIDE\_DN                             &                    &                 \\
+Apop\_ALL                                                           &                    &                 \\
+Meta\_Chol                                                          &                    &                 \\
+HALLMARK\_CHOLESTEROL\_HOMEOSTASIS                                  &                    &                
 \end{tabular}
 }
 \end{table}
